@@ -1,0 +1,8 @@
+@import './src/scss/_exports';
+
+:host {
+  input {
+    height: 50px;
+    border-radius: 8px;
+  }
+}

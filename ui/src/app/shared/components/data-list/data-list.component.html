@@ -1,0 +1,10 @@
+<div class="row no-gutters data-list">
+  <ul class="col">
+    <virtual-scroller [items]="items" [bufferAmount]="5" (vsUpdate)="viewPortItems = $event"  [ngStyle]="{height: virtualScrollHeight + 'px', 'overflow-y': items?.length < 5 ? 'visible' : 'auto'}">
+      <li *ngFor="let row of viewPortItems; let i = index; trackBy:trackByFn">
+        <ng-template [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{$implicit: row}">
+        </ng-template>
+      </li>
+    </virtual-scroller>
+  </ul>
+</div>

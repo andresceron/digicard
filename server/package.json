@@ -1,0 +1,16 @@
+{
+  "name": "vidjot-node",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:server": "nodemon server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

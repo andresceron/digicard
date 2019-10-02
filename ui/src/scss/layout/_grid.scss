@@ -1,0 +1,26 @@
+//
+// Grid & layouts
+// ----------------------------------------------------------------------------
+
+html {
+  height: 100%;
+}
+
+body {
+  .sc-root {
+    height: 100%;
+    min-height: 100vh;
+    position: relative;  
+    height: calc(100% - #{$header-height-mobile});    
+    min-height: calc(100vh - #{$header-height-mobile});
+    display: flex;
+    flex-direction: column;
+  
+    @include breakpoint(lg) {
+      height: calc(100% - #{$header-height-desktop});    
+      min-height: calc(100vh - #{$header-height-desktop});      
+    }
+    
+  }
+
+}

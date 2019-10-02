@@ -1,0 +1,109 @@
+$assetPath: '/../../assets/images';
+
+//
+// Variables
+// -------------------------//
+
+// 
+// Color system
+//
+
+$blue-light: #8abcee;
+$blue:       #0d405c;
+$red:        #ed8c73;
+$yellow:     #ffc970;
+$green:      #009999;
+
+$colors: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$colors: map-merge(
+  (
+    "blue-light": $blue-light,
+    "blue":       $blue,
+    "red":        $red,
+    "yellow":     $yellow,
+    "green":      $green,
+  ),
+  $colors
+);
+
+$primary:       setColor(primary,base);
+$success:       setColor(green);
+$info:          setColor(blue);
+$warning:       setColor(yellow);
+$danger:        setColor(red,dark);
+
+$theme-colors: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger
+  ),
+  $theme-colors
+);
+
+// Body
+// Settings for the `<body>` element.
+
+$body-bg:                   setColor(white, base);
+$body-color:                setColor(gray, darker);
+
+// Links
+// Style anchor elements.
+
+$link-color:                setColor(primary,base);
+$link-decoration:           none !default;
+$link-hover-color:          lighten($link-color, 15%);
+$link-hover-decoration:     none;
+
+
+// Grid columns
+// Set the number of columns and specify the width of the gutters.
+
+$grid-columns:                12 !default;
+$grid-gutter-width:           20px;
+
+$border-radius:               .125rem;
+$border-radius-lg:            .25rem;
+$border-radius-sm:            .1875rem;
+
+// Fonts
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif:      $main-font;
+$font-family-serif:           Georgia, "Times New Roman", Times, serif;
+$font-family-base:            $font-family-sans-serif !default;
+
+
+//== Media queries breakpoints
+// So media queries don't overlap when required, provide a maximum
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+$screen-xs:              map-get($grid-breakpoints, xs);
+$screen-sm:              map-get($grid-breakpoints, sm);
+$screen-md:              map-get($grid-breakpoints, md);
+$screen-lg:              map-get($grid-breakpoints, lg);
+$screen-xl:              map-get($grid-breakpoints, xl);
+
+$screen-xs-max:              ($screen-sm - 1);
+$screen-sm-max:              ($screen-md - 1);
+$screen-md-max:              ($screen-lg - 1);
+$screen-lg-max:              ($screen-xl - 1);
+
+// Modals
+$modal-xl:                    900px;
+$modal-lg:                    800px !default;
+$modal-md:                    500px !default;
+$modal-sm:                    300px !default;
