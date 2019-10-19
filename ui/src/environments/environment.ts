@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'zero.web.com:5000/api/'
+  serverUrl: 'http://zero.web.com:3000/api/'
 };
 
 /*

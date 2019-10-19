@@ -1,7 +1,5 @@
 {
-  "name": "vidjot-node",
-  "version": "0.0.0",
-  "description": "",
+  "name": "node-server-ng",
   "main": "app.js",
   "private": true,
   "scripts": {
@@ -11,6 +9,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "1.19.0",
+    "cors": "2.8.5",
     "express": "4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.19.4"
   }
 }

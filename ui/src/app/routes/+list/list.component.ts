@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
 import { ApiService } from '@services/api.service';
 import { first, tap } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { Ipost } from '@interfaces/post.interface';
 import { ISorting } from '@interfaces/sorting.interface';
 import { Subscription, Observable } from 'rxjs';
 import { AppConstants } from '@constants/app-constants.constant';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'sc-list',
@@ -18,10 +19,10 @@ import { AppConstants } from '@constants/app-constants.constant';
 })
 
 export class ListComponent implements OnInit, OnDestroy {
-  posts: Iposts = [];
-  savedPosts: Iposts = [];
-  private dataPosts: Iposts = [];
-  private dataSavedPosts: Iposts = [];
+  posts: Iposts;
+  savedPosts: Iposts[] = [];
+  private dataPosts: Iposts[] = [];
+  private dataSavedPosts: Iposts[] = [];
   dataSavedIDs: any = [];
   public postSub: Subscription;
 
@@ -62,14 +63,28 @@ export class ListComponent implements OnInit, OnDestroy {
   ];
 
   closeResult: string;
+  postForm: FormGroup;
+  isPostSubmitted = false;
 
   constructor(
     public apiService: ApiService,
-    public cs: ClientStorage
+    public cs: ClientStorage,
+    public cdr: ChangeDetectorRef,
+    private formBuilder: FormBuilder
   ) { }
 
   async ngOnInit() {
     this.posts = await this.apiService.get('posts');
+    this.cdr.markForCheck();
+
+    this.postForm  =  this.formBuilder.group({
+      title: ['', Validators.required],
+      content: ['', Validators.required]
+    });
+  }
+
+  addPost() {
+    console.log(this.postForm.value);
   }
 
   // searchItems(query: string) {

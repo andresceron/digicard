@@ -16,7 +16,7 @@
   text-align: center;
   appearance: none;
   transition: all .2s linear;
-  cursor: pointer;  
+  cursor: pointer;
   position: relative;
   overflow: hidden;
   vertical-align: bottom;
@@ -26,7 +26,7 @@
   &:hover,
   &:active,
   &:focus {
-    text-decoration: none; 
+    text-decoration: none;
   }
 
 
@@ -42,10 +42,25 @@
     white-space: nowrap;
   }
 
+  &--center { // for full width in container
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: nowrap;
+  }
+
   // Main button (brand background)
   // --------------------------------------------------------------------------
   &--brand {
     @include ghost-button(setColor(gray, base), setColor(gray, base), setColor(gray, base), setColor(gray, base), setColor(white, base));
+  }
+
+  // Alt button (brand background)
+  // --------------------------------------------------------------------------
+  &--alt {
+    @include solid-button(setColor(white, base), setColor(blue, base), setColor(blue, base), setColor(white, base));
   }
 
   // Buttons with icon

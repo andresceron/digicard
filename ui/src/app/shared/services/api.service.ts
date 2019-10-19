@@ -32,4 +32,20 @@ export class ApiService {
     return this.http.get<T>(this.config.host + url, this.getRequestOptions(params, headers, responseType)).toPromise();
   }
 
+  async post<T>(url: string, data: any, params?: { [key: string]: any }): Promise<T> {
+    return this.http.post<T>(this.config.host + url, {data: data}, this.getRequestOptions(params)).toPromise();
+  }
+
+  public put<T>(url: string, data: any, params?: { [key: string]: any }): Promise<T> {
+    return this.http.put<T>(this.config.host + url, {data: data}, this.getRequestOptions(params)).toPromise();
+  }
+
+  public delete<T>(url: string, params?: { [key: string]: any }): Promise<T> {
+    return this.http.delete<T>(this.config.host + url, this.getRequestOptions(params)).toPromise();
+  }
+
+  public patch<T>(url: string, data: any, params?: { [key: string]: any }): Promise<T> {
+    return this.http.patch<T>(this.config.host + url, {data: data}, this.getRequestOptions(params)).toPromise();
+  }
+
 }
