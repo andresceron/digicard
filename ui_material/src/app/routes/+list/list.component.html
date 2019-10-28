@@ -1,0 +1,213 @@
+<!-- <div class="container searchbox">
+  <div class="row">
+    <div class="col">
+      <sc-searchbar class="searchbar__wrapper" (searchValue)="searchItems($event)"></sc-searchbar>
+    </div>
+  </div>
+</div> -->
+<!--
+<div class="container buttons">
+  <div class="row">
+    <div class="col offset-md-6 saveditems">
+      <a href="javascript:void(0)" modalOpen modalId="authModal" class="btn btn--brand btn--has-icon btn--full">
+        <sc-svg name="icon-save-disk"></sc-svg>
+        <span>starred</span>
+      </a>
+    </div>
+    <div class="col">
+      <sc-sortby [items]="sortByItemsDef" (tabEvent)="sortingEvent($event)">
+        <ng-template #titleRef let-item>{{item.title}}</ng-template>
+      </sc-sortby>
+    </div>
+  </div>
+</div> -->
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 p-t-10">
+          <button mat-raised-button (click)="openAddPostDialog()">Add +</button>
+        <!-- <button class="btn btn--brand" modalOpen modalId="addPostModal">Add +</button> -->
+      </div>
+    </div>
+    <div class="row search-results" *ngIf="posts?.length">
+      <div class="col-md-12">
+        <sc-data-list [listToModify]="savedPosts" [items]="posts" [virtualScrollHeight]="560">
+          <ng-template #row let-item>
+            <div class="col ellipsis">
+              <!-- desktop view -->
+              <div class="d-md-flex row no-gutters align-items-center data-item">
+                <div class="col-md-11">
+                  <p class="m-b-10"><b>{{item.title}}</b></p>
+                  <p class="m-b-0">{{item.content}}</p>
+                </div>
+                <div class="col-md-1 text-right">
+                  <button class="btn btn--alt btn--full" (click)="onEdit(item)">Edit</button>
+                  <button class="btn btn--alt btn--full" (click)="onDelete(item)">Delete</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </sc-data-list>
+      </div>
+    </div>
+    <div class="row" *ngIf="!posts?.length">
+      <div class="col-md-12">
+        <div class="text-center">
+          <h3>There was no result found...</h3>
+          <span>Please try again by typing in the searchbar above you</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #addPostDialog>
+  <h2 matDialogTitle>Add Post</h2>
+  <mat-dialog-content>
+    <mat-vertical-stepper [linear]="false" #stepper>
+      <mat-step [stepControl]="postFormTitle">
+        <form #f="ngForm" [formGroup]="postFormTitle">
+          <ng-template matStepLabel>Fill the title of the post</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="My new post" formControlName="title" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="postFormContent">
+        <form #f="ngForm" [formGroup]="postFormContent">
+          <ng-template matStepLabel>Fill out the content for the post</ng-template>
+          <mat-form-field>
+            <textarea rows="5" wrap="off" matInput placeholder="My content..." formControlName="content" required></textarea>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext (click)="addPost()">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done.
+        <div>
+          <button mat-button (click)="stepper.reset()">Add new post</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose color="primary">Dismiss</button>
+  </mat-dialog-actions>
+
+  <!-- <div class="container">
+    <div class="row">
+      <form #f="ngForm" [formGroup]="postForm" class="col-md-12" (ngSubmit)="addPost()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text"
+                  class="form-control"
+                  id="title"
+                  placeholder="Your title here"
+                  formControlName="title">
+        </div>
+        <div class="form-group">
+          <label for="addPostContent">Content</label>
+          <textarea class="form-control"
+                    id="addPostContent"
+                    rows="5"
+                    formControlName="content"></textarea>
+        </div>
+        <button class="btn btn--alt btn--center">Submit Post</button>
+      </form>
+    </div>
+  </div> -->
+</ng-template>
+
+<!-- <sc-modal #modal modalId="addPostModal" position="center" size="xl" title="Add Post">
+  <div class="container">
+    <div class="row">
+      <form #f="ngForm" [formGroup]="postForm" class="col-md-12" (ngSubmit)="addPost()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text"
+                 class="form-control"
+                 id="title"
+                 placeholder="Your title here"
+                 formControlName="title">
+        </div>
+        <div class="form-group">
+          <label for="addPostContent">Content</label>
+          <textarea class="form-control"
+                    id="addPostContent"
+                    rows="5"
+                    formControlName="content"></textarea>
+        </div>
+        <button class="btn btn--alt btn--center">Submit Post</button>
+      </form>
+    </div>
+  </div>
+</sc-modal> -->
+
+<!-- <sc-modal #modal modalId="authModal" position="center" size="xl" title="Starred Items">
+  <div *ngIf="savedPosts.length">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-sm-9">
+          <sc-searchbar class="searchbar__wrapper" (searchValue)="searchSavedPosts($event)"></sc-searchbar>
+          <span class="stars" ng-class="classes">
+          </span>
+        </div>
+        <div class="col-12 col-sm-3">
+          <sc-sortby [items]="sortByItemsSaved" (tabEvent)="sortingEvent($event)">
+            <ng-template #titleRef let-item>{{post.title}}</ng-template>
+          </sc-sortby>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12" *ngIf="savedposts.length !== 0">
+          <sc-data-list [listToModify]="savedPosts" [items]="savedPosts" (itemEvent)="modifyFav($event)" [virtualScrollHeight]="560">
+            <ng-template #row let-row>
+              <div class="col ellipsis">
+
+                <div class="d-none d-md-flex row no-gutters align-items-center data-item">
+                  <div class="col-2 p-r-15 data-item--image">
+                    <img [src]="'assets/images/'+row['brand-image']" alt="{{row.name}}">
+                  </div>
+                  <div class="col-5 p-r-15 ellipsis">
+                    <p class="m-b-0"><b>{{row.name}}</b></p>
+                  </div>
+                  <div class="col-4 p-r-15 ellipsis">
+                    <p class="m-b-0">{{row.brand}}</p>
+                    <p class="m-b-0">{{row.kind}}</p>
+                  </div>
+                  <div class="col-1">
+                    <a href="javascript:void(0)" class="starred-icon" (click)="modifyFav(row, i)" *ngIf="row.isStarred">
+                      <sc-svg name="icon-star-full"></sc-svg>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </ng-template>
+          </sc-data-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid" *ngIf="savedPosts.length === 0">
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center m-b-40">
+          <h3>No favorites saved yet</h3>
+          <span>Remeber that you can save from this list and look at them here ;)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</sc-modal> -->

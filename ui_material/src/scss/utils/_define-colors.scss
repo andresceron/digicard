@@ -1,0 +1,68 @@
+// Colors & shades of gray (less than 50)
+// ----------------------------------------------------------------------------
+$gray-base : #000;
+$blue-base: #47859F;
+
+$colors: (
+  white: (
+    base:         #FFFFFF
+  ),
+  primary: (
+    base:         #0E415B
+  ),
+  secondary: (
+    base:         #001060
+  ),
+  gray : (
+    base:         $gray-base,
+    lightest:     #f3f3f3,
+    lighter:      #ededed,
+    light:        #d6d6d6,
+    dark:         #b0b0b0,
+    darker:       #343a40,
+    darkest:      #090D0D,
+  ),
+  blue: (
+    base:   #0E415B,
+    dark:   #0E415B,
+    light:  #8ABCEE 
+  ),
+  green: (
+    base:   #009999,
+    dark:   #009999,
+    light:  #009999
+  ),
+  red: (
+    base:   #ED8C73,
+    dark:   #F9423A,
+    light:  #ED8C73 
+  ),
+  yellow: (
+    base:   #ffec00,
+    dark:   #ffec00,
+    light:  #ffec00,
+    star:   #ffec00
+  ),
+  alerts: (
+    success-font  : #0B765D,
+    success-bg    : #C4F4EC,
+    info-font     : #298FC2,
+    info-bg       : #CEF4FF,
+    warning-font  : #C98300,
+    warning-bg    : #FFF5C8,
+    danger-font   : #F9423A,
+    danger-bg     : #FFEAE6
+  ),
+  social : (
+    fb: #3b5998,
+    tw: #0084b4,
+    ig: #8a3ab9,
+    in: #0077B5,
+    yt: #C4302C,
+    gp: #dd4b39
+  ),
+  favorite: (
+    base: #F9423A,
+    active: #C4302C
+  )
+);

@@ -1,0 +1,52 @@
+<!-- <header class="header navbar-light">
+
+  <nav class="navbar navbar-expand-lg">
+    <button class="navbar-toggler" type="button" aria-controls="navbar-items" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="d-flex header-title">
+      <p class="m-b-0"><span>Angular</span>Node</p>
+    </div>
+  </nav>
+
+</header> -->
+
+<header class="header">
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Angular<b>Node</b></span>
+    <span class="header__spacer"></span>
+    <button routerLink="list" routerLinkActive="active" mat-icon-button>
+      <mat-icon class="header__icon">description</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon class="header__icon">account_circle</mat-icon>
+    </button>
+    <button class="header__icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>favorite</mat-icon>
+        <span>Favorite</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+</header>

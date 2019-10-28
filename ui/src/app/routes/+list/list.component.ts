@@ -1,90 +1,85 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
 import { ApiService } from '@services/api.service';
-import { first, tap } from 'rxjs/operators';
-import { Iitem } from '@interfaces/item.interface';
-import { Iitems } from '@interfaces/items.interface';
+import { first, map } from 'rxjs/operators';
 import { Iposts } from '@interfaces/posts.interface';
 import { Ipost } from '@interfaces/post.interface';
-import { ISorting } from '@interfaces/sorting.interface';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppConstants } from '@constants/app-constants.constant';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { ModalService } from '@components/modal/shared/modal.service';
+import { ICustomResponse } from '@interfaces/custom-response.interface';
 @Component({
   selector: 'sc-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./list.component.scss']
 })
 
 export class ListComponent implements OnInit, OnDestroy {
-  posts: Iposts;
-  savedPosts: Iposts[] = [];
-  private dataPosts: Iposts[] = [];
-  private dataSavedPosts: Iposts[] = [];
-  dataSavedIDs: any = [];
-  public postSub: Subscription;
-
-  public sortByItemsDef = [
-    {
-      title: 'Company',
-      type: 'brand',
-      order: 'asc',
-      isActive: true
-    },
-    {
-      title: 'Kind',
-      type: 'kind',
-      order: 'asc',
-      isActive: false
-    },
-    {
-      title: 'Price',
-      type: 'price',
-      order: 'asc',
-      isActive: false
-    }
-  ];
-
-  public sortByItemsSaved = [
-    {
-      title: 'Company',
-      type: 'brand',
-      order: 'asc',
-      isActive: true
-    },
-    {
-      title: 'Kind',
-      type: 'kind',
-      order: 'asc',
-      isActive: false
-    }
-  ];
-
-  closeResult: string;
-  postForm: FormGroup;
+  posts: Ipost[];
+  postSub: Subscription;
   isPostSubmitted = false;
+
+  public postForm: FormGroup = this.fb.group({
+    title: ['', Validators.required],
+    content: ['', Validators.required]
+  });
 
   constructor(
     public apiService: ApiService,
     public cs: ClientStorage,
     public cdr: ChangeDetectorRef,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder,
+    private modalService: ModalService
   ) { }
 
-  async ngOnInit() {
-    this.posts = await this.apiService.get('posts');
-    this.cdr.markForCheck();
-
-    this.postForm  =  this.formBuilder.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required]
-    });
+  ngOnInit() {
+    this.postSub = this.apiService.get<Iposts>('posts')
+    .pipe(
+      first()
+    )
+    .subscribe((res: Iposts) => {
+      console.log(res);
+      this.posts = res.data;
+    },
+    err => {
+      console.log(err);
+    }
+    );
   }
 
   addPost() {
-    console.log(this.postForm.value);
+    if (this.postForm.valid) {
+
+      try {
+        const obj = {
+          title: this.postForm.value.title,
+          content: this.postForm.value.content
+        };
+
+        this.apiService.post('posts', obj)
+          .pipe(first())
+          .subscribe((res: ICustomResponse) => {
+            if (!!res) {
+            this.modalService.close('addPostModal');
+            this.postForm.reset();
+
+            console.log(res.data);
+            console.log(this.posts);
+            this.posts = [...this.posts, res.data];
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  onDelete(post: Ipost) {
+    this.apiService.delete(`posts/${post._id}`).pipe(first()).subscribe((data) => {
+      const updatedPosts = this.posts.filter(postItem => postItem._id !== post._id);
+      this.posts = [...updatedPosts];
+    });
   }
 
   // searchItems(query: string) {

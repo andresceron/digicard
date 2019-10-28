@@ -1,0 +1,48 @@
+// @import './src/scss/_exports';
+
+:host {
+  .searchbox {
+    padding-top: 20px;
+
+  }
+  .saveditems {
+    span {
+      padding-left: 5px;
+      vertical-align: middle;
+    }
+  }
+
+  sc-data-list {
+    .data-item {
+      align-items: center;
+      height: 100px;
+      > p {
+        margin-bottom: 0;
+      }
+      .starred-icon {
+        font-size: 25px;
+        svg {
+          fill: setColor(grey, darker);
+        }
+      }
+      &--image {
+        width: 65px;
+        img {
+          height: auto;
+          // @include breakpoint(sm) {
+          //   height: 75px;
+          // }
+        }
+      }
+    }
+  }
+
+  .buttons {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .saveditems {
+    text-align: right;
+  }
+}

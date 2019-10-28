@@ -29,30 +29,28 @@
         <button class="btn btn--brand" modalOpen modalId="addPostModal">Add +</button>
       </div>
     </div>
-    <div class="row search-results" *ngIf="posts?.data?.length">
+    <div class="row search-results" *ngIf="posts?.length">
       <div class="col-md-12">
-        <sc-data-list [listToModify]="savedPosts" [items]="posts.data" [virtualScrollHeight]="560">
-          <ng-template #row let-row>
+        <sc-data-list [listToModify]="savedPosts" [items]="posts" [virtualScrollHeight]="560">
+          <ng-template #row let-item>
             <div class="col ellipsis">
               <!-- desktop view -->
               <div class="d-md-flex row no-gutters align-items-center data-item">
-                <div class="col-2 p-r-15 data-item--image">
-                  <img [src]="'assets/images/'+row['brand-image']" alt="{{row.name}}">
+                <div class="col-md-11">
+                  <p class="m-b-10"><b>{{item.title}}</b></p>
+                  <p class="m-b-0">{{item.content}}</p>
                 </div>
-                <div class="col-3 p-r-15 ellipsis">
-                  <p class="m-b-0"><b>{{row.title}}</b></p>
-                </div>
-                <div class="col-7 p-r-15 ellipsis">
-                  <p class="m-b-0">{{row.content}}</p>
+                <div class="col-md-1 text-right">
+                  <button class="btn btn--alt btn--full" (click)="onEdit(item)">Edit</button>
+                  <button class="btn btn--alt btn--full" (click)="onDelete(item)">Delete</button>
                 </div>
               </div>
-
             </div>
           </ng-template>
         </sc-data-list>
       </div>
     </div>
-    <div class="row" *ngIf="!posts?.data.length">
+    <div class="row" *ngIf="!posts?.length">
       <div class="col-md-12">
         <div class="text-center">
           <h3>There was no result found...</h3>
@@ -66,17 +64,21 @@
 <sc-modal #modal modalId="addPostModal" position="center" size="xl" title="Add Post">
   <div class="container">
     <div class="row">
-      <form [formGroup]="postForm" class="col-md-12" (ngSubmit)="addPost()">
+      <form #f="ngForm" [formGroup]="postForm" class="col-md-12" (ngSubmit)="addPost()">
         <div class="form-group">
-          <label for="addPostTitle">Title</label>
-          <input type="email"
+          <label for="title">Title</label>
+          <input type="text"
                  class="form-control"
-                 id="addPostTitle"
-                 placeholder="Your title here">
+                 id="title"
+                 placeholder="Your title here"
+                 formControlName="title">
         </div>
         <div class="form-group">
           <label for="addPostContent">Content</label>
-          <textarea class="form-control" id="addPostContent" rows="5"></textarea>
+          <textarea class="form-control"
+                    id="addPostContent"
+                    rows="5"
+                    formControlName="content"></textarea>
         </div>
         <button class="btn btn--alt btn--center">Submit Post</button>
       </form>
@@ -85,7 +87,7 @@
 </sc-modal>
 
 <!-- <sc-modal #modal modalId="authModal" position="center" size="xl" title="Starred Items">
-  <div *ngIf="savedPosts.data.length">
+  <div *ngIf="savedPosts.length">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-sm-9">
@@ -102,7 +104,7 @@
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12" *ngIf="savedposts.data.length !== 0">
+        <div class="col-12" *ngIf="savedposts.length !== 0">
           <sc-data-list [listToModify]="savedPosts" [items]="savedPosts" (itemEvent)="modifyFav($event)" [virtualScrollHeight]="560">
             <ng-template #row let-row>
               <div class="col ellipsis">
@@ -132,7 +134,7 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid" *ngIf="savedPosts.data.length === 0">
+  <div class="container-fluid" *ngIf="savedPosts.length === 0">
     <div class="row">
       <div class="col-12">
         <div class="text-center m-b-40">
