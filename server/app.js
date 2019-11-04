@@ -7,7 +7,8 @@ const Post = require('./models/post')
 
 const app = express();
 
-mongoose.connect("mongodb+srv://dbReadWrite:t0Xy7b4FePw573BD@cluster0-fdnhd.mongodb.net/node-angular?retryWrites=true&w=majority",{
+// mongoose.connect("mongodb+srv://dbReadWrite:t0Xy7b4FePw573BD@cluster0-fdnhd.mongodb.net/node-angular?retryWrites=true&w=majority",{
+mongoose.connect("mongodb://localhost:27017/nodelist",{
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => {
@@ -59,6 +60,21 @@ app.delete('/api/posts/:id', (req, res, next) => {
     .catch(e => {
       console.error('error deleting post: ', e);
     });
+});
+
+app.put('/api/posts/:id', (req, res, next) => {
+  console.log(req.params.id);
+  console.log(req.body.data);
+  // Post.findOneAndUpdate({
+  //   _id: req.params.id
+  // }, req.body.data).then(data => {
+  //   res.status(200).json( {
+  //     message: 'Post deleted'
+  //   });
+  // })
+  // .catch(e => {
+  //   console.error('error deleting post: ', e);
+  // });
 });
 
 module.exports = app;

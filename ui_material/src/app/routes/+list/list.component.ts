@@ -20,6 +20,13 @@ export class ListComponent implements OnInit, OnDestroy {
   posts: Ipost[];
   postSub: Subscription;
   isPostSubmitted = false;
+  isNewPost = false;
+  editPost: Ipost;
+  dialogConfig: MatDialogConfig = {
+    disableClose: false,
+    autoFocus: true,
+    minWidth: 480
+  };
 
   public postFormTitle: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -57,22 +64,20 @@ export class ListComponent implements OnInit, OnDestroy {
     );
   }
 
-  addPost() {
+  submitPost(editPost) {
     if (this.postFormTitle.valid && this.postFormContent.valid) {
       try {
         const obj = {
           title: this.postFormTitle.value.title,
-          content: this.postFormContent.value.content
+          content: this.postFormContent.value.content,
         };
 
-        this.apiService.post('posts', obj)
+        this.apiService.post(!editPost ? 'posts' : 'put', obj)
           .pipe(first())
           .subscribe((res: ICustomResponse) => {
             if (!!res) {
-            this.modalService.close('addPostModal');
             this.postFormTitle.reset();
             this.postFormContent.reset();
-
             this.posts = [...this.posts, res.data];
           }
         });
@@ -89,16 +94,17 @@ export class ListComponent implements OnInit, OnDestroy {
     });
   }
 
+  onEdit(post: Ipost) {
+    this.editPost = post;
+
+    this.dialog.open(this.addPostDialog, this.dialogConfig);
+  }
+
   openAddPostDialog() {
-
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      disableClose: false,
-      autoFocus: true,
-      minWidth: 480
-    };
-
-    this.dialog.open(this.addPostDialog, dialogConfig);
+    this.editPost = null;
+    console.log(this.postFormContent);
+    this.isNewPost = true;
+    this.dialog.open(this.addPostDialog, this.dialogConfig);
 }
 
   ngOnDestroy() {

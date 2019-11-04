@@ -39,6 +39,7 @@ export class DataListComponent {
   // }
 
   @ContentChild('row') rowTemplate: TemplateRef<NgTemplateOutlet>;
+  @ContentChild('footer') footerTemplate: TemplateRef<NgTemplateOutlet>;
 
   constructor() {
   }

@@ -57,6 +57,7 @@ export class ApiService {
   }
 
   public put<T>(url: string, data: any, params?: { [key: string]: any }): Observable<T> {
+    console.log(url, data);
     return this.http.put<T>(this.config.host + url, {data: data}, this.getRequestOptions(params));
   }
 

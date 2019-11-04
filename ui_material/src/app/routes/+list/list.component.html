@@ -33,9 +33,8 @@
     <div class="row search-results" *ngIf="posts?.length">
       <div class="col-md-12">
         <sc-data-list [listToModify]="savedPosts" [items]="posts" [virtualScrollHeight]="560">
-          <ng-template #row let-item>
+          <!-- <ng-template #row let-item>
             <div class="col ellipsis">
-              <!-- desktop view -->
               <div class="d-md-flex row no-gutters align-items-center data-item">
                 <div class="col-md-11">
                   <p class="m-b-10"><b>{{item.title}}</b></p>
@@ -43,10 +42,14 @@
                 </div>
                 <div class="col-md-1 text-right">
                   <button class="btn btn--alt btn--full" (click)="onEdit(item)">Edit</button>
-                  <button class="btn btn--alt btn--full" (click)="onDelete(item)">Delete</button>
+                  <button class="btn btn--alt btn--full" >Delete</button>
                 </div>
               </div>
             </div>
+          </ng-template> -->
+          <ng-template #footer let-item>
+            <button mat-button (click)="onEdit(item)">EDIT</button>
+            <button mat-button (click)="onDelete(item)">DELETE</button>
           </ng-template>
         </sc-data-list>
       </div>
@@ -63,14 +66,14 @@
 </div>
 
 <ng-template #addPostDialog>
-  <h2 matDialogTitle>Add Post</h2>
+  <h2 matDialogTitle>{{editPost ? 'Add Post' : 'Edit Post'}}</h2>
   <mat-dialog-content>
-    <mat-vertical-stepper [linear]="false" #stepper>
+    <mat-vertical-stepper [linear]="!editPost" #stepper>
       <mat-step [stepControl]="postFormTitle">
         <form #f="ngForm" [formGroup]="postFormTitle">
           <ng-template matStepLabel>Fill the title of the post</ng-template>
           <mat-form-field>
-            <input matInput placeholder="My new post" formControlName="title" required>
+            <input matInput placeholder="My new post" formControlName="title" value="{{!editPost ? null : editPost.title}}" required>
           </mat-form-field>
           <div>
             <button mat-button matStepperNext>Next</button>
@@ -81,11 +84,11 @@
         <form #f="ngForm" [formGroup]="postFormContent">
           <ng-template matStepLabel>Fill out the content for the post</ng-template>
           <mat-form-field>
-            <textarea rows="5" wrap="off" matInput placeholder="My content..." formControlName="content" required></textarea>
+            <textarea rows="5" wrap="off" matInput placeholder="My content..." formControlName="content" value="{{!editPost ? null : editPost.content}}" required></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext (click)="addPost()">Next</button>
+            <button mat-button matStepperNext (click)="submitPost(editPost)">Next</button>
           </div>
         </form>
       </mat-step>
