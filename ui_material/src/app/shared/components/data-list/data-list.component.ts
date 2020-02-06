@@ -19,7 +19,7 @@ import { NgTemplateOutlet } from '@angular/common';
 })
 
 export class DataListComponent {
-  private _items: any[] = [];
+  _items: any[] = [];
 
   @Input() noResultsText = 'No results found';
   @Input() virtualScrollHeight = 560;

@@ -1,4 +1,4 @@
-// @import './src/scss/_exports';
+@import './src/scss/exports';
 ::ng-deep {
   .data-list {
     ul {
@@ -19,7 +19,7 @@
 
 
   .example-card {
-    max-width: 400px;
+    max-width: 100%;
   }
 
   .mat-card-image {

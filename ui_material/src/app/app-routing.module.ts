@@ -9,12 +9,15 @@ export const routes: Routes = [
   },
   {
     path: 'list',
-    pathMatch: 'full',
     loadChildren: './routes/+list/list.module#ListModule'
   },
   {
+    path: 'post',
+    loadChildren: './routes/+post/post.module#PostModule'
+  },
+  {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'list'
   }
 ];
 

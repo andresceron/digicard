@@ -24,29 +24,15 @@
 
 <div class="section">
   <div class="container">
-    <div class="row">
+    <div class="row m-b-10">
       <div class="col-md-12 p-t-10">
-          <button mat-raised-button (click)="openAddPostDialog()">Add +</button>
+          <a mat-raised-button [routerLink]="['/post/new']" routerLinkActive="router-link-active"> Add + </a>
         <!-- <button class="btn btn--brand" modalOpen modalId="addPostModal">Add +</button> -->
       </div>
     </div>
     <div class="row search-results" *ngIf="posts?.length">
       <div class="col-md-12">
         <sc-data-list [listToModify]="savedPosts" [items]="posts" [virtualScrollHeight]="560">
-          <!-- <ng-template #row let-item>
-            <div class="col ellipsis">
-              <div class="d-md-flex row no-gutters align-items-center data-item">
-                <div class="col-md-11">
-                  <p class="m-b-10"><b>{{item.title}}</b></p>
-                  <p class="m-b-0">{{item.content}}</p>
-                </div>
-                <div class="col-md-1 text-right">
-                  <button class="btn btn--alt btn--full" (click)="onEdit(item)">Edit</button>
-                  <button class="btn btn--alt btn--full" >Delete</button>
-                </div>
-              </div>
-            </div>
-          </ng-template> -->
           <ng-template #footer let-item>
             <button mat-button (click)="onEdit(item)">EDIT</button>
             <button mat-button (click)="onDelete(item)">DELETE</button>
@@ -57,8 +43,7 @@
     <div class="row" *ngIf="!posts?.length">
       <div class="col-md-12">
         <div class="text-center">
-          <h3>There was no result found...</h3>
-          <span>Please try again by typing in the searchbar above you</span>
+          <p class="mat-body-1">No posts added yet...</p>
         </div>
       </div>
     </div>
@@ -73,7 +58,7 @@
         <form #f="ngForm" [formGroup]="postFormTitle">
           <ng-template matStepLabel>Fill the title of the post</ng-template>
           <mat-form-field>
-            <input matInput placeholder="My new post" formControlName="title" value="{{!editPost ? null : editPost.title}}" required>
+            <input matInput placeholder="My new post" formControlName="title" required>
           </mat-form-field>
           <div>
             <button mat-button matStepperNext>Next</button>
@@ -84,7 +69,7 @@
         <form #f="ngForm" [formGroup]="postFormContent">
           <ng-template matStepLabel>Fill out the content for the post</ng-template>
           <mat-form-field>
-            <textarea rows="5" wrap="off" matInput placeholder="My content..." formControlName="content" value="{{!editPost ? null : editPost.content}}" required></textarea>
+            <textarea rows="5" wrap="off" matInput placeholder="My content..." formControlName="content" required></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>

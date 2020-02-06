@@ -6,3 +6,10 @@ export const AppConstants: IAppConstants = {
   appState: `${AppPrefix}.appState`,
   savedItems: `${AppPrefix}.savedItems`
 };
+
+export const NOTIFICATIONS_MESSAGES = {
+  NEW: 'New post created succesfully',
+  UPDATED: 'Post updated successfully',
+  ERROR: 'Unknown Error, please try again later',
+  DISMISS: 'Dismiss'
+};

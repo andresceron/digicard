@@ -1,7 +1,7 @@
 import { Ipost } from './post.interface';
 
-export class Iposts {
-  data: Ipost[];
+export class IpostSingle {
+  data: Ipost;
   message: string;
   metadata: any;
 }

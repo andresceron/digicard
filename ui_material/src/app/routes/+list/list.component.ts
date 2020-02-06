@@ -5,11 +5,11 @@ import { first, map } from 'rxjs/operators';
 import { Iposts } from '@interfaces/posts.interface';
 import { Ipost } from '@interfaces/post.interface';
 import { Subscription } from 'rxjs';
-import { AppConstants } from '@constants/app-constants.constant';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@components/modal/shared/modal.service';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 @Component({
   selector: 'sc-list',
   templateUrl: './list.component.html',
@@ -27,6 +27,7 @@ export class ListComponent implements OnInit, OnDestroy {
     autoFocus: true,
     minWidth: 480
   };
+  savedPosts = undefined;
 
   public postFormTitle: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -41,10 +42,11 @@ export class ListComponent implements OnInit, OnDestroy {
     public cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private modalService: ModalService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
-  @ViewChild('addPostDialog') addPostDialog: TemplateRef<any>;
+  // @ViewChild('addPostDialog') addPostDialog: TemplateRef<any>;
   // openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
   //   this.dialog.open(templateRef);
   // }
@@ -62,6 +64,7 @@ export class ListComponent implements OnInit, OnDestroy {
       console.log(err);
     }
     );
+
   }
 
   submitPost(editPost) {
@@ -72,15 +75,34 @@ export class ListComponent implements OnInit, OnDestroy {
           content: this.postFormContent.value.content,
         };
 
-        this.apiService.post(!editPost ? 'posts' : 'put', obj)
+        if (editPost) {
+          this.apiService.put('posts/' + editPost._id, obj)
           .pipe(first())
           .subscribe((res: ICustomResponse) => {
+            console.log('res:: ', res);
             if (!!res) {
-            this.postFormTitle.reset();
-            this.postFormContent.reset();
-            this.posts = [...this.posts, res.data];
-          }
-        });
+              this.postFormTitle.reset();
+              this.postFormContent.reset();
+
+              const arrIdx = this.posts.findIndex((post) => post._id === res.data._id);
+              this.posts[arrIdx] = {...res.data};
+              this.posts = [...this.posts];
+            }
+          });
+
+        } else {
+          this.apiService.post('posts', obj)
+          .pipe(first())
+          .subscribe((res: ICustomResponse) => {
+            console.log('res:: ', res);
+            if (!!res) {
+              this.postFormTitle.reset();
+              this.postFormContent.reset();
+              this.posts = [...this.posts, res.data];
+            }
+          });
+        }
+
       } catch (err) {
         console.log(err);
       }
@@ -95,17 +117,16 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(post: Ipost) {
-    this.editPost = post;
-
-    this.dialog.open(this.addPostDialog, this.dialogConfig);
+    console.log(post._id);
+    this.router.navigate([ '/post/' + post._id + '/edit']);
   }
 
-  openAddPostDialog() {
-    this.editPost = null;
-    console.log(this.postFormContent);
-    this.isNewPost = true;
-    this.dialog.open(this.addPostDialog, this.dialogConfig);
-}
+  // openAddPostDialog() {
+  //   this.editPost = null;
+  //   console.log(this.postFormContent);
+  //   this.isNewPost = true;
+  //   this.dialog.open(this.addPostDialog, this.dialogConfig);
+  // }
 
   ngOnDestroy() {
     if (this.postSub) {
