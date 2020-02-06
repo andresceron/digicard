@@ -11,5 +11,6 @@ export const NOTIFICATIONS_MESSAGES = {
   NEW: 'New post created succesfully',
   UPDATED: 'Post updated successfully',
   ERROR: 'Unknown Error, please try again later',
+  DELETED: 'Post deleted successfully',
   DISMISS: 'Dismiss'
 };

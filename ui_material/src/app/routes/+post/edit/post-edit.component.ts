@@ -129,10 +129,12 @@ export class PostEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDelete(post: Ipost) {
-    this.apiService.delete(`post/${post._id}`).pipe(first()).subscribe((data) => {
-      // show deleted message
-      // redirect to list
+  onDelete(postId: string) {
+    this.apiService.delete(`posts/${postId}`).pipe(first()).subscribe((res) => {
+      if (!!res) {
+        this.showMessage(NOTIFICATIONS_MESSAGES.DELETED);
+        this.router.navigate(['/list']);
+      }
     });
   }
 

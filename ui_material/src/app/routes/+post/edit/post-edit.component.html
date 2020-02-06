@@ -3,7 +3,7 @@
     <div class="row m-b-10">
       <div class="col-md-12 p-t-10">
           <a mat-raised-button [routerLink]="['/list']" routerLinkActive="router-link-active" class="m-r-10"> < Back</a>
-          <a mat-raised-button color="warn" [routerLink]="['/list']" routerLinkActive="router-link-active">Delete</a>
+          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="onDelete(postId)">Delete</a>
       </div>
     </div>
     <div class="row">
