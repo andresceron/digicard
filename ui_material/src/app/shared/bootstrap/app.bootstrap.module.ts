@@ -42,6 +42,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatFormFieldModule} from '@angular/material/form-field';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -90,6 +91,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    MatFormFieldModule,
     PortalModule,
     ScrollingModule
   ]

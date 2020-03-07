@@ -14,3 +14,10 @@ export const NOTIFICATIONS_MESSAGES = {
   DELETED: 'Post deleted successfully',
   DISMISS: 'Dismiss'
 };
+
+export const MIME_TYPES = [
+  'jpg',
+  'jpeg',
+  'image/jpg',
+  'image/jpeg'
+];

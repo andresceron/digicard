@@ -6,6 +6,8 @@ import { DataListModule } from '@components/data-list/data-list.module';
 import { SortbyModule } from '@components/sortby/sortby.module';
 import { SvgModule } from '@components/svg/svg.module';
 import { SvgDefsModule } from '@components/svg-defs/svg-defs.module';
+import { FileUploaderModule } from './file-uploader/file-uploader.module';
+import { ProgressModule } from './progress/progress.module';
 
 export const COMPONENTS: any[] = [
   HeaderModule,
@@ -15,5 +17,7 @@ export const COMPONENTS: any[] = [
   DataListModule,
   SortbyModule,
   SvgModule,
-  SvgDefsModule
+  SvgDefsModule,
+  FileUploaderModule,
+  ProgressModule
 ];
