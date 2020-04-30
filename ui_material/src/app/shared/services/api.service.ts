@@ -14,12 +14,14 @@ export class ApiService {
     private http: HttpClient) {}
 
   private getRequestOptions(params?: any, customHeaders?: HttpHeaders, responseType = 'json') {
-    let defaultHeaders: HttpHeaders = new HttpHeaders();
-    defaultHeaders = defaultHeaders.set('Content-Type', 'application/json');
 
     if (responseType === void 0) {
       responseType = 'json';
     }
+
+    let defaultHeaders: HttpHeaders = new HttpHeaders();
+    defaultHeaders = defaultHeaders.set('content-type', 'application/json');
+    defaultHeaders = defaultHeaders.set('accept', 'application/json');
 
     return {
       headers: customHeaders || defaultHeaders,
@@ -56,9 +58,8 @@ export class ApiService {
     return this.http.post<T>(this.config.host + url, {data: data}, this.getRequestOptions(params));
   }
 
-  public put<T>(url: string, data: any, params?: { [key: string]: any }): Observable<T> {
-    console.log(url, data);
-    return this.http.put<T>(this.config.host + url, {data: data}, this.getRequestOptions(params));
+  public put<T>(url: string, data: any, params?: { [key: string]: any }, headers?: HttpHeaders): Observable<T> {
+    return this.http.put<T>(this.config.host + url, data, this.getRequestOptions(params, headers));
   }
 
   public delete<T>(url: string, params?: { [key: string]: any }): Observable<T> {

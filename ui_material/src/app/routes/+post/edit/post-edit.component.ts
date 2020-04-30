@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
 import { ApiService } from '@services/api.service';
-import { Ipost } from '@interfaces/post.interface';
 import { IpostSingle } from '@interfaces/post-single.interface';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { first, tap } from 'rxjs/operators';
@@ -10,10 +9,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NOTIFICATIONS_MESSAGES, MIME_TYPES } from '@constants/app-constants.constant';
+import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { requiredFileType } from '@shared/validators/file-type.validator';
-import { UploadService } from '@services/upload.service';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -35,13 +34,12 @@ export class PostEditComponent implements OnInit, OnDestroy {
   postSub: Subscription;
   routeParamsSub: Subscription;
 
-  imagePreview: any;
-  breakpoint: number;
+  imagePreview: SafeResourceUrl;
 
   public postFormGroup: FormGroup = this.fb.group({
     title: ['', Validators.required],
     content: ['', Validators.required],
-    image: [null, Validators.compose([requiredFileType()])]
+    image: [null]  // Validators.compose([requiredFileType()])]
   });
 
   constructor(
@@ -59,13 +57,15 @@ export class PostEditComponent implements OnInit, OnDestroy {
     this.postId = this.route.snapshot.params.postId;
     this.routeParamsSub = this.route.params.subscribe(params => {
       console.log('subParams', params.postId);
-   });
+    });
 
     if (this.postId) {
       console.log(this.postId);
       this.postSub = this.apiService.get<IpostSingle>('posts/' + this.postId)
       .pipe(first())
       .subscribe((post: IpostSingle) => {
+        this.imagePreview = post.data.image;
+
         this.postFormGroup.setValue({
           title: post.data.title,
           content: post.data.content,
@@ -80,6 +80,19 @@ export class PostEditComponent implements OnInit, OnDestroy {
 
   }
 
+  imageFileEvent(event) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreview = e.target.result;
+    };
+
+    reader.readAsDataURL(event);
+
+    this.postFormGroup.patchValue({image: event}, {onlySelf: true, emitEvent: true});
+    // this.postFormGroup.controls['image'].updateValueAndValidity();
+    this.postFormGroup.updateValueAndValidity();
+  }
+
   submitPost() {
     console.log('postFormGroup:: ', this.postFormGroup);
     if (this.postFormGroup.valid) {
@@ -90,8 +103,16 @@ export class PostEditComponent implements OnInit, OnDestroy {
           image: this.postFormGroup.value.image
         };
 
+        const formData = new FormData();
+        formData.append('data[title]', this.postFormGroup.get('title').value);
+        formData.append('data[content]', this.postFormGroup.get('content').value);
+        formData.append('data[image]', this.postFormGroup.get('image').value);
+
+        let customHeaders: HttpHeaders = new HttpHeaders();
+        customHeaders = customHeaders.set('accept', 'application/json');
+
         if (this.postId) {
-          this.apiService.put('posts/' + this.postId, obj)
+          this.apiService.put('posts/' + this.postId, formData, null, customHeaders)
           .pipe(first())
           .subscribe((res: ICustomResponse) => {
             console.log('res:: ', res);
@@ -175,38 +196,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(file);
     }
 
-
-    // this.postFormGroup.get('avatar').setValue({
-    //   filename: file.name,
-    //   filetype: file.type,
-    //   value: reader.result.split(',')[1]
-    // });
-    // value: reader.result.split(',')[1]
-
-    // const file = (image.target as HTMLInputElement).files[0];
-    // this.postFormGroup.get('image').patchValue({image: file});
-    // const reader = new FileReader();
-    // reader.onload = () => {
-    //   this.imagePreview = reader.result;
-    // };
-
-    // reader.readAsDataURL(file);
   }
-
-  // onFileChange(event) {
-  //   const reader = new FileReader();
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       this.form.get('avatar').setValue({
-  //         filename: file.name,
-  //         filetype: file.type,
-  //         value: reader.result.split(',')[1]
-  //       });
-  //     };
-  //   }
-  // }
 
   ngOnDestroy() {
     if (this.postSub) {

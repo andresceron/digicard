@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-12">
           <h2 matDialogTitle>New post</h2>
-          <form #f="ngForm" [formGroup]="postFormGroup" (ngSubmit)="submitPost(f)"  class="form-container">
+          <form #f="ngForm" enctype="multipart/form-data" [formGroup]="postFormGroup" (ngSubmit)="submitPost(f)"  class="form-container">
             <mat-form-field>
               <input matInput placeholder="My new post" formControlName="title" required>
             </mat-form-field>
@@ -18,15 +18,19 @@
               <textarea matInput rows="5" wrap="off" placeholder="My content..." formControlName="content" required></textarea>
             </mat-form-field>
 
-            <button mat-raised-button type="button" (click)="filePicker.click()" class="m-b-20">Select image</button>
-            <input type="file" #filePicker (change)="onImagePicked($event)">
+            <!-- <button mat-raised-button type="button" (click)="filePicker.click()" class="m-b-20">Select image</button> -->
+            <!-- <input type="file" #filePicker (change)="onImagePicked($event)"> -->
 
             <div class="form-group">
-              <sc-file-uploader formControlName="image" [progress]="progress"></sc-file-uploader>
+              <sc-file-uploader [progress]="progress" (fileEvent)="imageFileEvent($event)"></sc-file-uploader>
               <div class="invalid-feedback" style="display: block">
                 <ng-container *ngIf="hasError('image', 'required')">This field is required</ng-container>
                 <ng-container *ngIf="hasError('image', 'requiredFileType')">Invalid file type</ng-container>
               </div>
+            </div>
+
+            <div *ngIf="imagePreview">
+              <img src="{{imagePreview}}" alt="">
             </div>
 
             <button mat-raised-button color="primary">Submit post</button>

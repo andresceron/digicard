@@ -13,7 +13,8 @@ module.exports = {
   updatePost: {
     data: {
       title: Joi.string().required(),
-      content: Joi.string().required()
+      content: Joi.string().required(),
+      image: Joi.any().optional()
     }
   },
 

@@ -30,10 +30,12 @@ export class FileUploaderComponent implements ControlValueAccessor {
   onChange: Function;
   file: File | null = null;
 
-  @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
+  @HostListener('change', ['$event.target.files'])
+  emitFiles( event: FileList ) {
     const file = event && event.item(0);
-    this.onChange(file);
+    // this.onChange(file);
     this.file = file;
+    this.handleInputChange(file);
   }
 
   constructor( private host: ElementRef<HTMLInputElement> ) {
@@ -51,5 +53,27 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   registerOnTouched( fn: Function ) {
   }
+
+  handleInputChange(files) {
+    const file = files;
+    const pattern = /image-*/;
+    const reader = new FileReader();
+
+    // if (!file.type.match(pattern)) {
+    //   alert('invalid format');
+    //   return;
+    // }
+
+    // reader.onloadend = this._handleReaderLoaded.bind(this);
+    // reader.readAsDataURL(file);
+    this.fileEvent.emit(file);
+  }
+
+  // _handleReaderLoaded(e) {
+  //   const reader = e.target;
+  //   this.fileEvent.emit(
+  //     this.file
+  //   );
+  // }
 
 }

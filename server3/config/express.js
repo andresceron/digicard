@@ -13,7 +13,6 @@ const winstonInstance = require('./winston');
 const routes = require('../index.route');
 const config = require('./config');
 const APIError = require('../server/helpers/APIError');
-const DataForm = require('../server/helpers/DataForm');
 
 const app = express();
 
@@ -85,9 +84,5 @@ app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
     stack: config.env === 'development' ? err.stack : {}
   })
 );
-
-app.use((req, res, next) => {
-  console.log('RETURN DATA');
-})
 
 module.exports = app;
