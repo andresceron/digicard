@@ -8,6 +8,10 @@ export const routes: Routes = [
     loadChildren: './routes/+home/home.module#HomeModule'
   },
   {
+    path: 'login',
+    loadChildren: './routes/+login/login.module#LoginModule'
+  },
+  {
     path: 'list',
     loadChildren: './routes/+list/list.module#ListModule'
   },
