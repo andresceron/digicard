@@ -12,6 +12,7 @@ const helmet = require('helmet');
 const winstonInstance = require('./winston');
 const routes = require('../index.route');
 const config = require('./config');
+const passport  =  require('passport');
 const APIError = require('../server/helpers/APIError');
 
 const app = express();
@@ -45,6 +46,11 @@ if (config.env === 'development') {
     colorStatus: true // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
   }));
 }
+
+// Passport config
+app.use(passport.initialize());
+app.use(passport.session());
+require('./passport');
 
 // mount all routes on /api path
 app.use('/api', routes);

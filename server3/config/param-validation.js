@@ -20,8 +20,16 @@ module.exports = {
 
   // POST /api/auth/login
   login: {
-    body: {
-      username: Joi.string().required(),
+    data: {
+      email: Joi.string().required(),
+      password: Joi.string().required()
+    }
+  },
+
+  // POST /api/auth/login
+  register: {
+    data: {
+      email: Joi.string().required(),
       password: Joi.string().required()
     }
   }

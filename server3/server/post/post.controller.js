@@ -34,6 +34,7 @@ function get(req, res) {
  */
 
 function create(req, res, next) {
+  console.log('CREATE!!: ', req.body.data);
   const post = new Post({
     title: req.body.data.title,
     content: req.body.data.content,
