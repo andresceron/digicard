@@ -58,7 +58,7 @@ export class PostNewComponent implements OnInit, OnDestroy {
   }
 
   submitPost() {
-    if (this.postFormGroup.valid && this.postFormGroup.valid) {
+    if (this.postFormGroup.valid) {
       try {
         const obj = {
           title: this.postFormGroup.value.title,
@@ -71,8 +71,6 @@ export class PostNewComponent implements OnInit, OnDestroy {
           console.log('res:: ', res);
           if (!!res) {
             this.postFormGroup.reset();
-            this.postFormGroup.reset();
-
             this.router.navigate(['/list']);
           }
         });
