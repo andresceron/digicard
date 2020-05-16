@@ -40,11 +40,16 @@
         </sc-data-list>
       </div>
     </div>
-    <div class="row" *ngIf="!posts?.length">
+    <div class="row" *ngIf="!posts && !isLoading">
       <div class="col-md-12">
         <div class="text-center">
           <p class="mat-body-1">No posts added yet...</p>
         </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isLoading">
+      <div class="col-md-12">
+        <mat-spinner ></mat-spinner>
       </div>
     </div>
   </div>

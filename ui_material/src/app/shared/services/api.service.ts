@@ -36,7 +36,6 @@ export class ApiService {
     for (const key in json) {
 
       if (json.hasOwnProperty(key) && (json[key] || json[key] === false || json[key] === 0)) {
-        console.log(key);
 
         if (json[key].constructor === Array && !json[key].length) {
           continue;

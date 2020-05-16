@@ -15,7 +15,7 @@
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input matInput formControlName="email" required>
-              <mat-error *ngIf="loginFormGroup.controls.email.errors">{{formErrorMessage}}</mat-error>
+              <mat-error *ngIf="loginFormGroup.controls.email.errors">{{formErrorEmail}}</mat-error>
             </mat-form-field>
           </div>
 
@@ -29,7 +29,11 @@
             </mat-form-field>
           </div>
 
-          <button mat-raised-button color="primary" [disabled]="!loginFormGroup.valid">Login</button>
+          <div class="form-group">
+            <mat-error class="m-b-15" *ngIf="loginError">'The email address or password entered was invalid.</mat-error>
+            <button mat-raised-button color="primary" [disabled]="!loginFormGroup.valid">Login</button>
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+          </div>
         </form>
       </div>
     </div>

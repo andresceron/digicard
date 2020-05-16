@@ -10,6 +10,7 @@ import { ModalService } from '@components/modal/shared/modal.service';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 @Component({
   selector: 'sc-list',
   templateUrl: './list.component.html',
@@ -28,6 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
     minWidth: 480
   };
   savedPosts = undefined;
+  isLoading = false;
 
   public postFormTitle: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -43,7 +45,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private modalService: ModalService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   // @ViewChild('addPostDialog') addPostDialog: TemplateRef<any>;
@@ -52,16 +55,22 @@ export class ListComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit() {
+    this.loadPosts();
+  }
+
+  loadPosts() {
+    this.isLoading = true;
     this.postSub = this.apiService.get<Iposts>('posts')
     .pipe(
       first()
     )
     .subscribe((res: Iposts) => {
-      console.log(res);
       this.posts = res.data;
+      this.isLoading = false;
     },
     err => {
       console.log(err);
+      this.isLoading = false;
     }
     );
 

@@ -32,5 +32,12 @@ module.exports = {
       email: Joi.string().required(),
       password: Joi.string().required()
     }
+  },
+
+  // POST /api/auth/me
+  me: {
+    data: {
+      email: Joi.string().required()
+    }
   }
 };

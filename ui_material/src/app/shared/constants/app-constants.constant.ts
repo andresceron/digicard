@@ -12,7 +12,9 @@ export const NOTIFICATIONS_MESSAGES = {
   UPDATED: 'Post updated successfully',
   ERROR: 'Unknown Error, please try again later',
   DELETED: 'Post deleted successfully',
-  DISMISS: 'Dismiss'
+  DISMISS: 'Dismiss',
+  LOGIN_SUCESS: 'Logged in sucessfully',
+  LOGIN_ERROR: 'Attempt to login failed'
 };
 
 export const MIME_TYPES = [

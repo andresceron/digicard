@@ -1,9 +1,8 @@
-const jwt = require('jsonwebtoken');
 const httpStatus = require('http-status');
 const APIError = require('../helpers/APIError');
-const config = require('../../config/config');
 const passport = require('passport');
 const User = require("../../models/user.model");
+const DataForm = require('../helpers/DataForm');
 
 /**
  * Returns jwt token if valid email and password is provided
@@ -13,31 +12,23 @@ const User = require("../../models/user.model");
  * @returns {*}
  */
 function login(req, res, next) {
-  // Ideally you'll fetch this from the db
-  // Idea here was to show how jwt works with simplicity
 
-  const user = req.body.data;
+  console.log('req!! ', req.body)
 
-  console.log('USER?!: ', user);
-
-  if (!user.email) {
-    return res.status(422).json({
-      errors: {
-        email: "is required"
-      }
-    });
+  if (!req.body || !req.body.data.email || !req.body.data.password) {
+    console.log('INSIDE NO EMAIL OR PASSWORD!!! ');
+    return res.status(422).json(
+      new DataForm({
+        code: 400,
+        message: 'Both email and password are required'
+      })
+    );
   }
 
-  if (!user.password) {
-    return res.status(422).json({
-      errors: {
-        password: "is required"
-      }
-    });
-  }
-
-  return passport.authenticate('local',
+  return passport.authenticate('login',
     (err, passportUser, info) => {
+      console.log('passportUser', passportUser);
+
       const test = {
         'err': err,
         'passportUser': passportUser,
@@ -47,14 +38,20 @@ function login(req, res, next) {
       if (err) {
         return next(err);
       }
+
       if (passportUser) {
         const user = passportUser;
         user.token = passportUser.generateJWT();
-        return res.json({ user: user.toAuthJSON(user.token) });
+        return res.json(new DataForm({ user: user.toAuthJSON(user.token) }));
       }
 
       // const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
-      return res.json({ status: 400 });
+      return res.status(401).json(
+        new DataForm({
+          code: 400,
+          message: 'Unknown user'
+        })
+      );
     }
   )(req, res, next);
 
@@ -84,8 +81,6 @@ function register(req, res, next) {
 
     newUser.setPassword(password);
 
-    console.log('newUSER!!: ' , newUser);
-
     newUser.save((err, savedUser) => {
       if (err) {
         console.log('errSAVED: ', err);
@@ -93,14 +88,54 @@ function register(req, res, next) {
       }
 
       console.log('userSAVED: ', savedUser);
-      return res.json(savedUser);
+      return res.json(new DataForm(savedUser));
     });
 
   });
 
 }
 
+/**
+ * This is a protected route. Will return random number only if jwt token is provided in header.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+function me(req, res, next) {
+  // passport.authenticate('jwt', {session: false},
+  //   (err, passportUser, info) => {
+  //     const test = {
+  //       'err': err,
+  //       'passportUser': passportUser,
+  //       'info': info
+  //     };
+      console.log('TEST!!!!');
 
+  //     // if (err) {
+  //     //   return next(err);
+  //     // }
+
+  //     // if (passportUser) {
+  //     //   const user = passportUser;
+  //     //   user.token = passportUser.generateJWT();
+  //     //   return res.json(new DataForm({ user: user.toAuthJSON(user.token) }));
+  //     // }
+
+  //     // // const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
+  //     // return res.status(401).json({
+  //     //     code: 400,
+  //     //     message: 'Unkown user'
+  //     //   });
+  //   }
+  // )(req, res, next);
+
+
+  // req.user is assigned by jwt middleware if valid token is provided
+  // return res.json({
+  //   user: req.user,
+  //   num: Math.random() * 100
+  // });
+}
 
 /**
  * This is a protected route. Will return random number only if jwt token is provided in header.
@@ -116,4 +151,4 @@ function getRandomNumber(req, res) {
   });
 }
 
-module.exports = { login, register, getRandomNumber };
+module.exports = { login, register, getRandomNumber, me };
