@@ -1,9 +1,0 @@
-{
-    "/api/*": {
-        "target": "http://zero.web.com:3000",
-        "secure": false,
-        "pathRewrite": {
-            "^/api": ""
-        }
-    }
-}
