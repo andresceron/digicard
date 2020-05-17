@@ -106,6 +106,37 @@ function register(req, res, next) {
  * @param res
  * @returns {*}
  */
+function google(req, res, next) {
+  console.log(google);
+  passport.authenticate('google', { scope: ['profile'] })
+}
+
+/**
+ * This is a protected route. Will return random number only if jwt token is provided in header.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+function linkedin(req, res, next) {
+
+}
+
+/**
+ * This is a protected route. Will return random number only if jwt token is provided in header.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+function facebook(req, res, next) {
+
+}
+
+/**
+ * This is a protected route. Will return random number only if jwt token is provided in header.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
 function me(req, res, next) {
 
 }
@@ -124,4 +155,4 @@ function getRandomNumber(req, res) {
   });
 }
 
-module.exports = { login, register, getRandomNumber, me };
+module.exports = { login, register, google, linkedin, facebook, getRandomNumber, me };

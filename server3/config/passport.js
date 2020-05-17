@@ -4,32 +4,16 @@ const Users = require("../models/user.model");
 const DataForm = require('../server/helpers/DataForm');
 JWTstrategy = require('passport-jwt').Strategy;
 ExtractJWT = require('passport-jwt').ExtractJwt;
+GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+// require and configure dotenv, will load vars in .env in PROCESS.ENV
+require('dotenv').config();
+const envVars = process.env;
 
 const opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: 'secret'
 };
-
-console.log('inside here!!');
-
-// passport.use(new LocalStrategy({
-//   usernameField: 'data[email]',
-//   passwordField: 'data[password]'
-// }, function (email, password, done) {
-//   console.log('INSIDE PASSPORT');
-//   Users.findOne({ 'email': email })
-//   .then(user => {
-//     if (!user || !user.validatePassword(password)) {
-//       return done(
-//         null,
-//         false,
-//         { errors: { "email or password": "is invalid" } }
-//       );
-//     }
-//     return done(null, user);
-//   })
-//   .catch(done);
-// }));
 
 passport.use(
   'login',
@@ -43,7 +27,6 @@ passport.use(
       Users.findOne({
         'email': email
       }).then(user => {
-        console.log('INSIDE LOGIN PASSPORT', user.validatePassword(password));
         if (!user || !user.validatePassword(password)) {
           return done(
             null,
@@ -55,12 +38,10 @@ passport.use(
           );
         }
 
-        console.log('user!!!!!!!! ', user);
         return done(null, user);
       });
     }
     catch(err) {
-      console.log('EEEEERRRRR ', err);
       done(err);
     }
   })
@@ -74,7 +55,6 @@ passport.use(
     session: false
   },
   (email, password, done) => {
-    console.log('INSIDE REGISTER PASSPORT');
     try {
       Users.findOne({
         'email': email
@@ -95,7 +75,6 @@ passport.use(
   })
 );
 
-console.log('opts!! ', opts);
 passport.use(
   'jwt',
   new JWTstrategy(opts, function(jwt_payload, done) {
@@ -110,4 +89,20 @@ passport.use(
             // or you could create a new account
         }
     });
-}));
+  })
+);
+
+passport.use(
+  'google',
+  new GoogleStrategy({
+  clientID: envVars.GOOGLE_CLIENT_ID,
+  clientSecret: envVars.GOOGLE_SECRET,
+  callbackURL: "http://dev.zeroweb.local.com:3000"
+},
+function(accessToken, refreshToken, profile, cb) {
+  console.log('profile!! ', profile);
+  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));

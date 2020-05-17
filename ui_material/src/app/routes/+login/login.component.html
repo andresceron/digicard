@@ -2,9 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="form-group">
+        <div class="form-group m-b-15">
           <mat-label class="m-r-15">No account?</mat-label>
           <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="onRegister()">Register</a>
+        </div>
+        <div class="form-group">
+          <a mat-raised-button color="primary" class="m-r-15" routerLinkActive="router-link-active" (click)="onSocialLogin('google')">Google</a>
+          <a mat-raised-button color="primary" class="m-r-15" routerLinkActive="router-link-active" (click)="onSocialLogin('linkedin')">LinkedIn</a>
         </div>
         <h2 matDialogTitle>Login</h2>
         <form #f="ngForm" [formGroup]="loginFormGroup" (ngSubmit)="onLogin(f)"  class="login-form">

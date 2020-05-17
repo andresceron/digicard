@@ -120,7 +120,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
               // add confirmation message
               this.showMessage(NOTIFICATIONS_MESSAGES.UPDATED);
 
-              // this.router.navigate(['/list']);
+              this.router.navigate(['/list']);
             }
           });
 

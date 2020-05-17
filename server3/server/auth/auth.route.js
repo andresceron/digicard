@@ -5,6 +5,7 @@ const paramValidation = require('../../config/param-validation');
 const authCtrl = require('./auth.controller');
 const config = require('../../config/config');
 const passportConfig  =  require('../../config/passport-config');
+const passport = require('passport');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -15,6 +16,18 @@ router.route('/login')
   /** POST /api/auth/login - Returns token if correct username and password is provided */
 router.route('/register')
   .post(validate(paramValidation.register), authCtrl.register);
+
+  /** GET /api/auth/google - Returns token if correct username and password is provided */
+router.route('/google')
+  .get(validate(paramValidation.register), passport.authenticate('google', { scope: ['profile'] }), authCtrl.google);
+
+  /** GET /api/auth/linkedin - Returns token if correct username and password is provided */
+router.route('/linkedin')
+  .get(validate(paramValidation.register), authCtrl.linkedin);
+
+  /** GET /api/auth/facebook - Returns token if correct username and password is provided */
+router.route('/facebook')
+  .get(validate(paramValidation.register), authCtrl.facebook);
 
   /** GET /api/auth/login - Returns token if correct username and password is provided */
 router.route('/me')

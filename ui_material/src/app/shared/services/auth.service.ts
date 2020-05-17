@@ -43,10 +43,23 @@ export class AuthService {
         .pipe(
           first(),
           map((res: ICustomResponse) => {
-          if (res && res.data && res.data._id) {
+            if (res && res.data && res.data._id) {
               return res.data;
             }
-            // return false;
+          })
+        );
+  }
+
+  social(target) {
+    return this.apiService
+        .get(`auth/${target}`)
+        .pipe(
+          first(),
+          map((res: ICustomResponse) => {
+            if (res) {
+              console.log(res);
+              return res;
+            }
           })
         );
   }

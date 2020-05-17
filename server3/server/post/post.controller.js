@@ -9,13 +9,14 @@ const passport = require('passport');
 /**
  * Load post and append to req.
  */
+
 function load(req, res, next, id) {
   Post.get(id)
-    .then((post) => {
-      req.post = new DataForm(post); // eslint-disable-line no-param-reassign
-      return next();
-    })
-    .catch(e => next(e));
+      .then((post) => {
+        req.post = new DataForm(post); // eslint-disable-line no-param-reassign
+        return next();
+      })
+      .catch(e => next(e));
 }
 
 /**
@@ -35,31 +36,17 @@ function get(req, res) {
  */
 
 function create(req, res, next) {
-  passport.authenticate('jwt', {session: false},
-    (err, passportUser, info) => {
 
-      if (err) {
-        return next(err);
-      }
+  const post = new Post({
+    title: req.body.data.title,
+    content: req.body.data.content,
+    image: req.body.data.image,
+    author: req.user._id
+  });
 
-      if (passportUser) {
-        const post = new Post({
-          title: req.body.data.title,
-          content: req.body.data.content,
-          image: req.body.data.image,
-          author: passportUser._id
-        });
-
-        post.save()
-            .then(savedPost => res.json(new DataForm(savedPost)))
-            .catch(e => next(e));
-
-      } else {
-        return next(err);
-      }
-
-    }
-  )(req, res, next);
+  post.save()
+      .then(savedPost => res.json(new DataForm(savedPost)))
+      .catch(e => next(e));
 }
 
 /**
@@ -84,8 +71,17 @@ async function update(req, res, next) {
     console.log('Upload error!', err);
   }
 
-  post.save()
-      .then(savedPost => res.json(savedPost))
+  Post.findOneAndUpdate({ author: req.user._id, _id: post._id }, post, {new: true})
+      .then(savedPost => {
+        if (savedPost) {
+          res.json(new DataForm(savedPost));
+        } else {
+          res.status(404).json({
+            code: 400,
+            message: 'No post found'
+          });
+        }
+      })
       .catch(e => next(e));
 }
 
@@ -98,26 +94,9 @@ async function update(req, res, next) {
 function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
 
-  passport.authenticate('jwt', {session: false},
-    (err, passportUser, info) => {
-      if (err) {
-        console.log('if errrrr');
-        return next(err);
-      }
-
-      if (passportUser) {
-        console.log('if passportUserrrrr');
-        const user = passportUser._id;
-        Post.list({ limit, skip }, user)
-        .then(posts => res.json(new DataForm(posts)))
-        .catch(e => next(e));
-      } else {
-        console.log('ELSEEEE passportUserrrrr');
-        return next(err);
-      }
-
-    }
-  )(req, res, next);
+  Post.list({ limit, skip }, req.user._id)
+      .then(posts => res.json(new DataForm(posts)))
+      .catch(e => next(e));
 
 }
 

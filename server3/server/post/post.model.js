@@ -21,7 +21,8 @@ const PostSchema = new mongoose.Schema({
     required: false
   },
   author: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   createdAt: {
@@ -36,6 +37,8 @@ const PostSchema = new mongoose.Schema({
  * - validations
  * - virtuals
  */
+
+mongoose.set('useFindAndModify', false);
 
 /**
  * Methods

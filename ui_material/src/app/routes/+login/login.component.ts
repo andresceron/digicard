@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { IUserResponse } from '@interfaces/user-response.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'sc-login',
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -82,6 +84,53 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onRegister() {
     this.router.navigate(['/register']);
+  }
+
+  onSocialLogin(target) {
+    console.log('Login with oauth2');
+    const oauthUrl = 'http://dev.zeroweb.local.com:3000/api/auth/google';
+    return this.http.get(oauthUrl)
+      .subscribe(
+        res => {
+          console.log(res);
+        }, err => {
+          console.warn(err);
+        });
+    // try {
+    //   this.loginError = false;
+    //   this.isLoading = true;
+
+    //   this.authService
+    //       .social(target)
+    //       .pipe(first())
+    //       .subscribe(
+    //         (res: ICustomResponse) => {
+    //           if (!!res) {
+    //             console.log('res: ', res);
+    //             this.isLoading = false;
+
+    //             // Sucessful Login
+    //             // this.snackBar.open(
+    //             //   `Welcome back ${res.email}`,
+    //             //   'Dismiss',
+    //             //   { duration: 3000 }
+    //             // );
+
+    //             // this.router.navigate(['/list']);
+    //           }
+    //         },
+    //         (err) => {
+    //           this.isLoading = false;
+    //           this.loginFormGroup.controls.password.reset();
+    //           this.loginFormGroup.controls.password.setErrors(null);
+    //           this.loginError = true;
+    //           this.snackBar.open(NOTIFICATIONS_MESSAGES.LOGIN_ERROR, 'Dismiss', {
+    //             duration: 3000
+    //           });
+    //       });
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   onLogout() {
