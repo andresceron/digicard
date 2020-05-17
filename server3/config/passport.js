@@ -99,11 +99,6 @@ console.log('opts!! ', opts);
 passport.use(
   'jwt',
   new JWTstrategy(opts, function(jwt_payload, done) {
-    console.log('INSIDEEEE: ', jwt_payload.email);
-    console.log('INSIDEEEE222: ', jwt_payload);
-    Users.find({}, function (err, users) {
-      console.log('users!!!', users);
-    })
     Users.findOne({_id: jwt_payload.id}, function(err, user) {
         if (err) {
             return done(false);

@@ -13,8 +13,10 @@ export const NOTIFICATIONS_MESSAGES = {
   ERROR: 'Unknown Error, please try again later',
   DELETED: 'Post deleted successfully',
   DISMISS: 'Dismiss',
-  LOGIN_SUCESS: 'Logged in sucessfully',
-  LOGIN_ERROR: 'Attempt to login failed'
+  LOGIN_SUCCESS: 'Logged in sucessfully',
+  LOGIN_ERROR: 'Attempt to login failed',
+  REGISTER_SUCCESS: 'Logged in sucessfully',
+  REGISTER_ERROR: 'Attempt to register failed'
 };
 
 export const MIME_TYPES = [

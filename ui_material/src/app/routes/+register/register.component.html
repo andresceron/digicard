@@ -1,0 +1,68 @@
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <mat-label class="m-r-15">Already have an account?</mat-label>
+          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="goToLogin()">Log in</a>
+        </div>
+        <h2 matDialogTitle>Register</h2>
+        <form #f="ngForm" [formGroup]="registerFormGroup" (ngSubmit)="onSubmit(f)"  class="login-form">
+
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" required>
+              <mat-error *ngIf="registerFormGroup.controls.email.errors">{{formErrorEmail}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" required>
+              <mat-error *ngIf="registerFormGroup.controls.email.errors">{{formErrorEmail}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" required>
+              <mat-error *ngIf="registerFormGroup.controls.email.errors">{{formErrorEmail}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput [type]="showPassword ? 'text' : 'password'" name="password" formControlName="password" required>
+              <button type="button" mat-icon-button matSuffix (click)="showPassword = !showPassword">
+                <mat-icon>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Re-type Password</mat-label>
+              <input matInput [type]="showPassword ? 'text' : 'password'" name="confirmPassword" formControlName="confirmPassword" required>
+              <button type="button" mat-icon-button matSuffix (click)="showPassword = !showPassword">
+                <mat-icon>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group m-b-15">
+            <mat-error class="m-b-15" *ngIf="loginError">'The email address or password entered was invalid.</mat-error>
+            <button mat-raised-button color="primary" [disabled]="!registerFormGroup.valid">Login</button>
+            <button mat-raised-button class="m-l-10">Forgot Password?</button>
+          </div>
+          <div class="form-group">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

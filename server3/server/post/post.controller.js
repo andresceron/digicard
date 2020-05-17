@@ -4,6 +4,7 @@ const FileUpload = require('../helpers/FileUpload');
 const fs = require('fs');
 const { promisify } = require('util');
 const unlinkAsync = promisify(fs.unlink);
+const passport = require('passport');
 
 /**
  * Load post and append to req.
@@ -34,16 +35,31 @@ function get(req, res) {
  */
 
 function create(req, res, next) {
-  console.log('CREATE!!: ', req.body.data);
-  const post = new Post({
-    title: req.body.data.title,
-    content: req.body.data.content,
-    image: req.body.data.image
-  });
+  passport.authenticate('jwt', {session: false},
+    (err, passportUser, info) => {
 
-  post.save()
-    .then(savedPost => res.json(savedPost))
-    .catch(e => next(e));
+      if (err) {
+        return next(err);
+      }
+
+      if (passportUser) {
+        const post = new Post({
+          title: req.body.data.title,
+          content: req.body.data.content,
+          image: req.body.data.image,
+          author: passportUser._id
+        });
+
+        post.save()
+            .then(savedPost => res.json(new DataForm(savedPost)))
+            .catch(e => next(e));
+
+      } else {
+        return next(err);
+      }
+
+    }
+  )(req, res, next);
 }
 
 /**
@@ -69,8 +85,8 @@ async function update(req, res, next) {
   }
 
   post.save()
-  .then(savedPost => res.json(savedPost))
-  .catch(e => next(e));
+      .then(savedPost => res.json(savedPost))
+      .catch(e => next(e));
 }
 
 /**
@@ -81,9 +97,28 @@ async function update(req, res, next) {
  */
 function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
-  Post.list({ limit, skip })
-    .then(posts => res.json(new DataForm(posts)))
-    .catch(e => next(e));
+
+  passport.authenticate('jwt', {session: false},
+    (err, passportUser, info) => {
+      if (err) {
+        console.log('if errrrr');
+        return next(err);
+      }
+
+      if (passportUser) {
+        console.log('if passportUserrrrr');
+        const user = passportUser._id;
+        Post.list({ limit, skip }, user)
+        .then(posts => res.json(new DataForm(posts)))
+        .catch(e => next(e));
+      } else {
+        console.log('ELSEEEE passportUserrrrr');
+        return next(err);
+      }
+
+    }
+  )(req, res, next);
+
 }
 
 /**
@@ -93,8 +128,8 @@ function list(req, res, next) {
 function remove(req, res, next) {
   const post = req.post.data;
   post.remove()
-    .then(deletedPost => res.json(deletedPost))
-    .catch(e => next(e));
+      .then(deletedPost => res.json(deletedPost))
+      .catch(e => next(e));
 }
 
 module.exports = { load, get, create, update, list, remove };

@@ -37,6 +37,20 @@ export class AuthService {
         );
   }
 
+  register(obj) {
+    return this.apiService
+        .post('auth/register', obj)
+        .pipe(
+          first(),
+          map((res: ICustomResponse) => {
+          if (res && res.data && res.data._id) {
+              return res.data;
+            }
+            // return false;
+          })
+        );
+  }
+
   logout() {
     // remove user from local storage to log user out
     this.token = null;

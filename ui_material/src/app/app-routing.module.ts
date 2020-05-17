@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadChildren: './routes/+login/login.module#LoginModule'
   },
   {
+    path: 'register',
+    loadChildren: './routes/+register/register.module#RegisterModule'
+  },
+  {
     path: 'list',
     canActivate: [AuthGuard],
     loadChildren: './routes/+list/list.module#ListModule'

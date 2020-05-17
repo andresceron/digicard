@@ -80,9 +80,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  onRegister() {
+    this.router.navigate(['/register']);
+  }
+
   onLogout() {
-
-
   }
 
   ngOnDestroy() {

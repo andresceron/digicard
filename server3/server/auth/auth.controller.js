@@ -69,12 +69,17 @@ function register(req, res, next) {
 
   User.findOne({ 'email': email }, (err, userMatch) => {
     if (userMatch) {
-      return res.json({
-        error: `Sorry, already a user with the email: ${email}`
-      });
+      return res.status(409).json(
+        new DataForm({
+          code: 400,
+          message: `Email already registered: ${email}`
+        })
+      );
     }
 
     const newUser = new User({
+      firstName: req.body.data.firstName,
+      lastName: req.body.data.lastName,
       email: req.body.data.email,
       password: req.body.data.password
     });
@@ -102,39 +107,7 @@ function register(req, res, next) {
  * @returns {*}
  */
 function me(req, res, next) {
-  // passport.authenticate('jwt', {session: false},
-  //   (err, passportUser, info) => {
-  //     const test = {
-  //       'err': err,
-  //       'passportUser': passportUser,
-  //       'info': info
-  //     };
-      console.log('TEST!!!!');
 
-  //     // if (err) {
-  //     //   return next(err);
-  //     // }
-
-  //     // if (passportUser) {
-  //     //   const user = passportUser;
-  //     //   user.token = passportUser.generateJWT();
-  //     //   return res.json(new DataForm({ user: user.toAuthJSON(user.token) }));
-  //     // }
-
-  //     // // const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
-  //     // return res.status(401).json({
-  //     //     code: 400,
-  //     //     message: 'Unkown user'
-  //     //   });
-  //   }
-  // )(req, res, next);
-
-
-  // req.user is assigned by jwt middleware if valid token is provided
-  // return res.json({
-  //   user: req.user,
-  //   num: Math.random() * 100
-  // });
 }
 
 /**

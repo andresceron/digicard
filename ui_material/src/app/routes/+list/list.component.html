@@ -40,7 +40,7 @@
         </sc-data-list>
       </div>
     </div>
-    <div class="row" *ngIf="!posts && !isLoading">
+    <div class="row" *ngIf="posts?.length === 0 && !isLoading">
       <div class="col-md-12">
         <div class="text-center">
           <p class="mat-body-1">No posts added yet...</p>

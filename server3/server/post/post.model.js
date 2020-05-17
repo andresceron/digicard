@@ -2,6 +2,7 @@ const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const APIError = require('../helpers/APIError');
+const passport = require('passport');
 
 /**
  * Posts Schema
@@ -18,6 +19,10 @@ const PostSchema = new mongoose.Schema({
   image: {
     type: String,
     required: false
+  },
+  author: {
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
@@ -65,12 +70,12 @@ PostSchema.statics = {
    * @param {number} limit - Limit number of posts to be returned.
    * @returns {Promise<Post[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
-    return this.find()
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
-      .exec();
+  list({ skip = 0, limit = 50 } = {}, author) {
+    return this.find({author: author})
+    .sort({ createdAt: -1 })
+    .skip(+skip)
+    .limit(+limit)
+    .exec();
   }
 };
 
