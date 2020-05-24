@@ -11,7 +11,7 @@ function authenticate (req, res, next) {
       }
       if (!user) {
         console.log('NO USER!!!! ', err);
-        return res.json(
+        return res.status(401).json(
           new DataForm({
             code: '401',
             error: 'UNAUTHORIZED_USER'

@@ -11,6 +11,8 @@ import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'sc-list',
   templateUrl: './list.component.html',
@@ -30,6 +32,9 @@ export class ListComponent implements OnInit, OnDestroy {
   };
   savedPosts = undefined;
   isLoading = false;
+  typesOfShoes: string[] = [ 'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers' ];
+
+  @ViewChild(MatSelectionList) selectionList: MatSelectionList;
 
   public postFormTitle: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -55,6 +60,8 @@ export class ListComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit() {
+    this.selectionList.selectedOptions = new SelectionModel<MatListOption>( false );
+
     this.loadPosts();
   }
 

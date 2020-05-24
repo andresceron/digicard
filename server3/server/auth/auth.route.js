@@ -19,7 +19,11 @@ router.route('/register')
 
   /** GET /api/auth/google - Returns token if correct username and password is provided */
 router.route('/google')
-  .get(validate(paramValidation.register), passport.authenticate('google', { scope: ['profile'] }), authCtrl.google);
+  .get(validate(paramValidation.register), authCtrl.google);
+
+  /** GET /api/auth/google - Returns token if correct username and password is provided */
+router.route('/google/callback')
+  .get(validate(paramValidation.register), passport.authenticate('google', { scope: ['profile'] }), authCtrl.googleCallback);
 
   /** GET /api/auth/linkedin - Returns token if correct username and password is provided */
 router.route('/linkedin')

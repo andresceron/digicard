@@ -97,7 +97,7 @@ passport.use(
   new GoogleStrategy({
   clientID: envVars.GOOGLE_CLIENT_ID,
   clientSecret: envVars.GOOGLE_SECRET,
-  callbackURL: "http://dev.zeroweb.local.com:3000"
+  callbackURL: "/auth/google/callback"
 },
 function(accessToken, refreshToken, profile, cb) {
   console.log('profile!! ', profile);

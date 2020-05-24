@@ -107,8 +107,20 @@ function register(req, res, next) {
  * @returns {*}
  */
 function google(req, res, next) {
-  console.log(google);
-  passport.authenticate('google', { scope: ['profile'] })
+  console.log('googleController!! req! ', req);
+  console.log('googleController!! res! ', res);
+  // passport.authenticate('google', { scope: ['profile'] })
+}
+
+/**
+ * This is a protected route. Will return random number only if jwt token is provided in header.
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+function googleCallback(req, res, next) {
+  console.log('googleCallback');
+  // passport.authenticate('google', { scope: ['profile'] })
 }
 
 /**
@@ -155,4 +167,4 @@ function getRandomNumber(req, res) {
   });
 }
 
-module.exports = { login, register, google, linkedin, facebook, getRandomNumber, me };
+module.exports = { login, register, google, googleCallback, linkedin, facebook, getRandomNumber, me };

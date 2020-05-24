@@ -9,12 +9,12 @@ import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { ConfirmPasswordValidator } from '@validators/confirm-password.validator';
 
 @Component({
-  selector: 'sc-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector: 'sc-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 
-export class RegisterComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
   registerError: boolean;
   formHasError: boolean;
   formErrorEmail = 'Invalid email';

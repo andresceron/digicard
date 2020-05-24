@@ -1,3 +1,31 @@
+<!-- <sc-subheader name=""></sc-subheader> -->
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span>Contacts</span>
+    <span class="subheader subheader__spacer"></span>
+    <button mat-icon-button [routerLink]="['/post/new']" routerLinkActive="router-link-active">
+      <mat-icon class="header__icon">add_box</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="['/post/new']" routerLinkActive="router-link-active">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Edit Contacts">edit</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <mat-selection-list #selectionList>
+    <mat-list-option *ngFor="let post of posts" class="post-item">
+      <div class="item">
+        <div class="image">
+          <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="">
+        </div>
+        <span>{{ post.title }}</span>
+      </div>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+
 <!-- <div class="container searchbox">
   <div class="row">
     <div class="col">
@@ -21,41 +49,55 @@
     </div>
   </div>
 </div> -->
-
-<div class="section">
-  <div class="container">
-    <div class="row m-b-10">
-      <div class="col-md-12 p-t-10">
-          <a mat-raised-button [routerLink]="['/post/new']" routerLinkActive="router-link-active"> Add + </a>
-        <!-- <button class="btn btn--brand" modalOpen modalId="addPostModal">Add +</button> -->
-      </div>
+<!-- <button class="btn btn--brand" modalOpen modalId="addPostModal">Add +</button> -->
+<!--
+<div class="container">
+  <div class="row search-results" *ngIf="posts?.length">
+    <div class="col-md-12">
+      <ng-container  *ngFor="let post of posts">
+        <mat-card class="example-card m-b-15">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Shiba Inu</mat-card-title>
+            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p>
+              The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+              A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+              bred for hunting.
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+      <sc-data-list [listToModify]="savedPosts" [items]="posts" [virtualScrollHeight]="560">
+        <ng-template #footer let-item>
+          <button mat-button (click)="onEdit(item)">EDIT</button>
+          <button mat-button (click)="onDelete(item)">DELETE</button>
+        </ng-template>
+      </sc-data-list>
     </div>
-    <div class="row search-results" *ngIf="posts?.length">
-      <div class="col-md-12">
-        <sc-data-list [listToModify]="savedPosts" [items]="posts" [virtualScrollHeight]="560">
-          <ng-template #footer let-item>
-            <button mat-button (click)="onEdit(item)">EDIT</button>
-            <button mat-button (click)="onDelete(item)">DELETE</button>
-          </ng-template>
-        </sc-data-list>
-      </div>
-    </div>
-    <div class="row" *ngIf="posts?.length === 0 && !isLoading">
-      <div class="col-md-12">
-        <div class="text-center">
-          <p class="mat-body-1">No posts added yet...</p>
-        </div>
-      </div>
-    </div>
-    <div class="row" *ngIf="isLoading">
-      <div class="col-md-12">
-        <mat-spinner ></mat-spinner>
+  </div>
+  <div class="row" *ngIf="posts?.length === 0 && !isLoading">
+    <div class="col-md-12">
+      <div class="text-center">
+        <p class="mat-body-1">No posts added yet...</p>
       </div>
     </div>
   </div>
-</div>
+  <div class="row" *ngIf="isLoading">
+    <div class="col-md-12">
+      <mat-spinner ></mat-spinner>
+    </div>
+  </div>
+</div> -->
 
-<ng-template #addPostDialog>
+<!-- <ng-template #addPostDialog>
   <h2 matDialogTitle>{{editPost ? 'Add Post' : 'Edit Post'}}</h2>
   <mat-dialog-content>
     <mat-vertical-stepper [linear]="!editPost" #stepper>
@@ -95,29 +137,7 @@
     <button mat-button matDialogClose color="primary">Dismiss</button>
   </mat-dialog-actions>
 
-  <!-- <div class="container">
-    <div class="row">
-      <form #f="ngForm" [formGroup]="postForm" class="col-md-12" (ngSubmit)="addPost()">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text"
-                  class="form-control"
-                  id="title"
-                  placeholder="Your title here"
-                  formControlName="title">
-        </div>
-        <div class="form-group">
-          <label for="addPostContent">Content</label>
-          <textarea class="form-control"
-                    id="addPostContent"
-                    rows="5"
-                    formControlName="content"></textarea>
-        </div>
-        <button class="btn btn--alt btn--center">Submit Post</button>
-      </form>
-    </div>
-  </div> -->
-</ng-template>
+</ng-template> -->
 
 <!-- <sc-modal #modal modalId="addPostModal" position="center" size="xl" title="Add Post">
   <div class="container">

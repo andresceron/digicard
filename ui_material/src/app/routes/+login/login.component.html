@@ -1,46 +1,36 @@
-<div class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group m-b-15">
-          <mat-label class="m-r-15">No account?</mat-label>
-          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="onRegister()">Register</a>
-        </div>
-        <div class="form-group">
-          <a mat-raised-button color="primary" class="m-r-15" routerLinkActive="router-link-active" (click)="onSocialLogin('google')">Google</a>
-          <a mat-raised-button color="primary" class="m-r-15" routerLinkActive="router-link-active" (click)="onSocialLogin('linkedin')">LinkedIn</a>
-        </div>
-        <h2 matDialogTitle>Login</h2>
-        <form #f="ngForm" [formGroup]="loginFormGroup" (ngSubmit)="onLogin(f)"  class="login-form">
+<mat-toolbar>Login</mat-toolbar>
+<div class="container" novalidate>
 
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input matInput formControlName="email" required>
-              <mat-error *ngIf="loginFormGroup.controls.email.errors">{{formErrorEmail}}</mat-error>
-            </mat-form-field>
-          </div>
 
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>Password</mat-label>
-              <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" required>
-              <button type="button" mat-icon-button matSuffix (click)="showPassword = !showPassword">
-                <mat-icon>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
+  <form #f="ngForm" [formGroup]="loginFormGroup" (ngSubmit)="onLogin(f)" class="form">
+    <mat-form-field class="form-element">
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="!loginFormGroup.get('email').valid && loginFormGroup.get('email').touched">
+        {{ getErrorEmail() }}
+      </mat-error>
+    </mat-form-field>
 
-          <div class="form-group m-b-15">
-            <mat-error class="m-b-15" *ngIf="loginError">'The email address or password entered was invalid.</mat-error>
-            <button mat-raised-button color="primary" [disabled]="!loginFormGroup.valid">Login</button>
-            <button mat-raised-button class="m-l-10">Forgot Password?</button>
-          </div>
-          <div class="form-group">
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-          </div>
-        </form>
-      </div>
+    <mat-form-field class="form-element m-b-15">
+      <input matInput placeholder="Password" formControlName="password">
+      <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+      <mat-error *ngIf="!loginFormGroup.controls['password'].valid && loginFormGroup.controls['password'].touched">
+        {{ getErrorPassword() }}
+      </mat-error>
+    </mat-form-field>
+<!--
+    <div class="form-element">
+      <mat-checkbox value="1">Name min. 3 characters</mat-checkbox>
+    </div> -->
+
+    <div class="form-element">
+      <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!loginFormGroup.valid">Submit Form</button>
     </div>
-  </div>
+
+  </form>
 </div>
+
+<!-- <ng-template #forminfo>
+  <div class="container">
+    {{ post | json }}
+  </div>
+</ng-template> -->

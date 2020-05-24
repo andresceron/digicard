@@ -1,6 +1,6 @@
 import { IAppConstants } from '@interfaces/app.interface';
 
-export const AppPrefix = 'AngularNode';
+export const AppPrefix = 'Zero QR';
 export const AppConstants: IAppConstants = {
   prefix: AppPrefix,
   appState: `${AppPrefix}.appState`,

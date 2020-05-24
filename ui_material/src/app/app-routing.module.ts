@@ -18,6 +18,11 @@ export const routes: Routes = [
     loadChildren: './routes/+register/register.module#RegisterModule'
   },
   {
+    path: 'profile',
+    canActivate: [AuthGuard],
+    loadChildren: './routes/+profile/profile.module#ProfileModule'
+  },
+  {
     path: 'list',
     canActivate: [AuthGuard],
     loadChildren: './routes/+list/list.module#ListModule'

@@ -51,8 +51,9 @@ export class AuthService {
   }
 
   social(target) {
+    console.log(target);
     return this.apiService
-        .get(`auth/${target}`)
+        .get('auth/google')
         .pipe(
           first(),
           map((res: ICustomResponse) => {

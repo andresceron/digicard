@@ -14,6 +14,29 @@ import { AppBootstrapModule } from '@shared/bootstrap/app.bootstrap.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from '@interceptors/auth.interceptor';
 
+// Social Login
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from 'angularx-social-login';
+
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('374138893031-b8m61et7aih54ao8t4c17v1b2arbd5vf.apps.googleusercontent.com')
+  }
+  // {
+  //   id: FacebookLoginProvider.PROVIDER_ID,
+  //   provider: new FacebookLoginProvider("Facebook-App-Id")
+  // }
+]);
+
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,6 +47,9 @@ import { AuthInterceptor } from '@interceptors/auth.interceptor';
     HttpClientModule,
     ComponentsModule,
     BrowserAnimationsModule,
+
+    // Social Login
+    SocialLoginModule
   ],
   providers: [
     AppBootstrapModule,
@@ -31,8 +57,13 @@ import { AuthInterceptor } from '@interceptors/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

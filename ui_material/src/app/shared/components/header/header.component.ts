@@ -34,6 +34,14 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  goToProfile() {
+    this.router.navigate(['/profile']);
+  }
+
+  goToList() {
+    this.router.navigate(['/list']);
+  }
+
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/login']);
