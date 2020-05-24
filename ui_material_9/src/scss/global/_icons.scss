@@ -1,0 +1,22 @@
+//
+// Icons
+// --------------------------------------------------------
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: middle;
+
+  //TYPES
+  &--action {
+    margin: 5px;
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    color: #FFF;
+    stroke-width: 2;
+  }
+}

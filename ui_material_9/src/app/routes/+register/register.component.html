@@ -54,7 +54,7 @@
           </div>
 
           <div class="form-group m-b-15">
-            <mat-error class="m-b-15" *ngIf="loginError">'The email address or password entered was invalid.</mat-error>
+            <mat-error class="m-b-15" *ngIf="registerError">'The email address or password entered was invalid.</mat-error>
             <button mat-raised-button color="primary" [disabled]="!registerFormGroup.valid">Login</button>
             <button mat-raised-button class="m-l-10">Forgot Password?</button>
           </div>

@@ -1,0 +1,32 @@
+// LAYOUT
+// ------------------------------
+.inline-block {
+  display: inline-block;
+}
+.full-height {
+  height: 100%;
+}
+
+.xs-center {
+  @include breakpoint(xs) {
+    padding: 0;
+    text-align: center;
+  }
+}
+
+// Single column centered in row
+.center-block {
+  float: none !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-right {
+  text-align: right;
+}

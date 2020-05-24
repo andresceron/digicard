@@ -1,0 +1,42 @@
+@import './src/scss/_exports';
+
+:host {
+  .saveditems {
+    span {
+      padding-left: 5px;
+      vertical-align: middle;
+    }
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container > * {
+    width: 100%;
+  }
+
+  .buttons {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .saveditems {
+    text-align: right;
+  }
+
+  input[type="file"] {
+    visibility: hidden;
+    display: none;
+  }
+
+}
+
+.image-preview {
+  width: 200px;
+  img {
+    border: 3px solid #d0d0d0;
+    border-radius: 2px;
+  }
+}
