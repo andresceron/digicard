@@ -1,9 +1,0 @@
-{
-    "/api/*": {
-        "target": "http://dev.zeroweb.local.com:3000",
-        "secure": false,
-        "pathRewrite": {
-            "^/api": ""
-        }
-    }
-}

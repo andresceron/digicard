@@ -2,20 +2,30 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Input,
+  ContentChild,
+  TemplateRef,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { Subscription } from 'rxjs';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'sc-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: 'sc-title',
+  templateUrl: './title.component.html',
+  styleUrls: ['./title.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class HeaderComponent implements OnInit {
+export class TitleComponent implements OnInit {
+  @Input() name: string;
+  @Input() navBack: boolean;
+  @Output() navBackEvent: EventEmitter<any> = new EventEmitter<any>();
+  @ContentChild('actions') actions: TemplateRef<NgTemplateOutlet>;
 
   userSubscription: Subscription;
   currentUser: any;
@@ -34,12 +44,16 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  navBackClicked() {
+    this.navBackEvent.emit();
+  }
+
   goToProfile() {
     this.router.navigate(['/profile']);
   }
 
-  goToContacts() {
-    this.router.navigate(['/contacts']);
+  goToList() {
+    this.router.navigate(['/list']);
   }
 
   onLogout() {

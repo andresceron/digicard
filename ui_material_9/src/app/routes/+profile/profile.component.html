@@ -1,15 +1,11 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <span>Profile</span>
-    <span class="subheader subheader__spacer"></span>
-    <button mat-icon-button [routerLink]="['/post/new']" routerLinkActive="router-link-active">
-      <mat-icon class="header__icon">add_box</mat-icon>
-    </button>
+<sc-title name="Profile">
+  <ng-template #actions>
     <button mat-icon-button [routerLink]="['/post/new']" routerLinkActive="router-link-active">
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Edit Contacts">edit</mat-icon>
     </button>
-  </mat-toolbar-row>
-</mat-toolbar>
+  </ng-template>
+</sc-title>
+
 <!-- <div class="container" *ngIf="!post; else forminfo" novalidate> -->
 <div class="container" novalidate>
   <form (ngSubmit)="onSubmit()" class="form">

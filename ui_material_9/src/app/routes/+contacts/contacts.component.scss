@@ -47,15 +47,6 @@
   }
 }
 
-.example-card {
-  max-width: 400px;
-}
-
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
-}
-
 .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
   &.post-item {
     height: 70px;
@@ -77,5 +68,14 @@
   img {
     display: inline;
     margin: 0 auto;
+  }
+}
+
+.container {
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(70vh);
   }
 }

@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@guards/auth.guard';
 
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./routes/+home/home.module').then(m => m.HomeModule)
-  },
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./routes/+home/home.module').then(m => m.HomeModule)
+  // },
   {
     path: 'login',
     loadChildren: () => import('./routes/+login/login.module').then(m => m.LoginModule)
@@ -28,13 +28,13 @@ export const routes: Routes = [
     loadChildren: () => import('./routes/+list/list.module').then(m => m.ListModule)
   },
   {
-    path: 'post',
+    path: 'contacts',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./routes/+post/post.module').then(m => m.PostModule)
+    loadChildren: () => import('./routes/+contacts/contacts.module').then(m => m.ContactsModule)
   },
   {
     path: '**',
-    redirectTo: 'list'
+    redirectTo: 'contacts'
   }
 ];
 

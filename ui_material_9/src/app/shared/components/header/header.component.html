@@ -4,7 +4,7 @@
       <span>DigiContacts</span>
       <span class="header__spacer"></span>
       <ng-container *ngIf="currentUser">
-        <button routerLink="list" routerLinkActive="active" (click)="goToList()" mat-icon-button>
+        <button routerLink="list" routerLinkActive="active" (click)="goToContacts()" mat-icon-button>
             <mat-icon class="header__icon">list_alt</mat-icon>
         </button>
         <button mat-icon-button (click)="goToProfile()">

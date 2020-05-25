@@ -8,6 +8,7 @@ import { SvgModule } from '@components/svg/svg.module';
 import { SvgDefsModule } from '@components/svg-defs/svg-defs.module';
 import { FileUploaderModule } from '@components/file-uploader/file-uploader.module';
 import { ProgressModule } from '@components/progress/progress.module';
+import { TitleModule } from '@components/title/title.module';
 
 export const COMPONENTS: any[] = [
   HeaderModule,
@@ -19,5 +20,6 @@ export const COMPONENTS: any[] = [
   SvgModule,
   SvgDefsModule,
   FileUploaderModule,
-  ProgressModule
+  ProgressModule,
+  TitleModule
 ];
