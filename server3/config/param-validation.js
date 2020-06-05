@@ -18,6 +18,16 @@ module.exports = {
     }
   },
 
+
+  // UPDATE /api/users/:userId
+  updateUser: {
+    data: {
+      title: Joi.string().required(),
+      content: Joi.string().required(),
+      image: Joi.any().optional()
+    }
+  },
+
   // POST /api/auth/login
   login: {
     data: {
@@ -29,8 +39,10 @@ module.exports = {
   // POST /api/auth/login
   register: {
     data: {
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
       email: Joi.string().required(),
-      password: Joi.string().required()
+      password: Joi.string().required(),
     }
   },
 

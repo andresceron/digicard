@@ -1,7 +1,9 @@
 <header class="header">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>DigiContacts</span>
+      <a class="header-title" [routerLink]="['/']" routerLinkActive="router-link-active">
+        <span>DigiContacts</span>
+      </a>
       <span class="header__spacer"></span>
       <ng-container *ngIf="currentUser">
         <button routerLink="list" routerLinkActive="active" (click)="goToContacts()" mat-icon-button>
@@ -14,6 +16,10 @@
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="goToShare()">
+              <mat-icon>share</mat-icon>
+              <span>Share</span>
+          </button>
           <button mat-menu-item (click)="onLogout()">
               <mat-icon>power_settings_new</mat-icon>
               <span>Logout</span>
@@ -21,7 +27,7 @@
         </mat-menu>
       </ng-container>
       <ng-container *ngIf="!currentUser">
-          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="onRegister()">Register</a>
+          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="goToRegister()">Register</a>
       </ng-container>
 
     </mat-toolbar-row>

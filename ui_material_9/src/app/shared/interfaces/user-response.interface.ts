@@ -1,5 +1,7 @@
+import { IUser } from './user.interface';
+
 export interface IUserResponse {
-  email: string;
-  token: string;
-  _id: string;
+  data: IUser;
+  message: any;
+  metadata: any;
 }

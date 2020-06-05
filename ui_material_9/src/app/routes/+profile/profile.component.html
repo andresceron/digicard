@@ -7,50 +7,200 @@
 </sc-title>
 
 <!-- <div class="container" *ngIf="!post; else forminfo" novalidate> -->
-<div class="container" novalidate>
-  <form (ngSubmit)="onSubmit()" class="form">
-    <mat-form-field class="form-element">
-      <input matInput placeholder="Name">
-      <mat-error>
-        titleAlert
-      </mat-error>
-    </mat-form-field>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="form">
 
-    <mat-form-field class="form-element">
-      <input matInput placeholder="Email">
-      <mat-error>
-        Error Email
-      </mat-error>
-    </mat-form-field>
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Personal Info">
+      <div class="container" formGroupName="personal">
+        <mat-form-field class="form-element">
+          <input matInput placeholder="First Name" formControlName="firstName">
+          <mat-error>
+            Error First Name
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field class="form-element">
-      <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
-      <mat-error>
-        Required field, must be between 5 and 10 characters.
-      </mat-error>
-    </mat-form-field>
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Last Name" formControlName="lastName">
+          <mat-error>
+            Error Last Name
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field class="form-element m-b-15">
-      <input matInput placeholder="Password">
-      <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
-      <mat-error>
-        getErrorPassword
-      </mat-error>
-    </mat-form-field>
-<!--
-    <div class="form-element">
-      <mat-checkbox value="1">Name min. 3 characters</mat-checkbox>
-    </div> -->
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Email Address" formControlName="email">
+          <mat-error>
+            Error Email Address
+          </mat-error>
+        </mat-form-field>
 
-    <div class="form-element">
-      <button mat-raised-button color="primary" type="submit" class="button">Submit Form</button>
-    </div>
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Job Title" formControlName="jobTitle">
+          <mat-error>
+            Error Job Title
+          </mat-error>
+        </mat-form-field>
 
-  </form>
-</div>
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+          <mat-error>
+            Error Phone Number
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="City"  formControlName="city">
+          <mat-error>
+            Error City
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Country" formControlName="country">
+          <mat-error>
+            Error Country
+          </mat-error>
+        </mat-form-field>
+
+        <!-- <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Password" formControlName="country">
+          <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field> -->
+      </div>
+    </mat-tab>
+    <mat-tab label="Social Accounts" >
+      <div class="container" formGroupName="socials">
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Behance" formControlName="behance">
+          <mat-error>
+            titleAlert
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Facebook" formControlName="facebook">
+          <mat-error>
+            Error Job Title
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Github" formControlName="github">
+          <mat-error>
+            Error Email Address
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Instagram" formControlName="instagram">
+          <mat-error>
+            Error Phone Number
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="LinkedIn" formControlName="linkedin">
+          <mat-error>
+            Error City
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Pinterest" formControlName="pinterest">
+          <mat-error>
+            Error Country
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Skype" formControlName="skype">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Snapchat" formControlName="snapchat">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Spotify" formControlName="spotify">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Tiktok" formControlName="tiktok">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Tumblr" formControlName="tumblr">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Twitter" formControlName="twitter">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Vimeo" formControlName="vimeo">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Whatsapp" formControlName="whatsapp">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element m-b-15">
+          <input matInput placeholder="Youtube" formControlName="youtube">
+          <mat-error>
+            getErrorPassword
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+<!-- <div class="form-element">
+    <mat-checkbox value="1">Name min. 3 characters</mat-checkbox>
+  </div> -->
+
+  <div class="form-element">
+    <button mat-raised-button color="primary" type="submit" class="button">Save</button>
+  </div>
+
+</form>
 
 <ng-template #forminfo>
   <div class="container">
     {{ post | json }}
   </div>
 </ng-template>
+
+
+
+    <!-- <mat-form-field class="form-element">
+      <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
+      <mat-error>
+        Required field, must be between 5 and 10 characters.
+      </mat-error>
+    </mat-form-field> -->

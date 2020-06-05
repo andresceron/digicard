@@ -1,4 +1,4 @@
-// @import './src/scss/exports';
+@import './src/scss/exports';
 
 .header {
   // background-color: $header-bg;
@@ -8,7 +8,7 @@
   width: 100%;
   position: fixed;
 
-  .navbar {
+  // .navbar {
     // height: $header-height-mobile;
     .header-title {
       color: setColor(white, base);
@@ -20,7 +20,7 @@
         }
       }
     }
-  }
+  // }
 
   &__spacer {
     flex: 1 1 auto;

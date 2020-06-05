@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
@@ -21,13 +21,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
   showPassword = false;
   isLoading = false;
 
-  public registerFormGroup: FormGroup = this.fb.group({
-    firstName: ['', [Validators.required]],
-    lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, , Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]],
-    confirmPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]]
-  }, {validator: ConfirmPasswordValidator.MatchPassword});
+  public registerFormGroup: FormGroup;
+
+  // public registerFormGroup: FormGroup = this.fb.group( {
+  //   firstName: [ '', [ Validators.required ] ],
+  //   lastName: [ '', [ Validators.required ] ],
+  //   email: [ '', [ Validators.required, , Validators.email ] ],
+  //   password: [ '', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 10 ) ] ]
+  // } );
+  // , { validator: ConfirmPasswordValidator.MatchPassword });
 
   constructor(
     private authService: AuthService,
@@ -37,6 +39,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.registerFormGroup = this.fb.group({
+      firstName: new FormControl( '', [ Validators.required ]),
+      lastName: new FormControl('', [ Validators.required ]),
+      email: new FormControl('', [ Validators.required, , Validators.email ]),
+      password: new FormControl('', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 10 ) ])
+    });
   }
 
   onSubmit() {
@@ -77,8 +85,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 this.isLoading = false;
                 this.registerFormGroup.get('password').reset();
                 this.registerFormGroup.get('password').setErrors(null);
-                this.registerFormGroup.get('confirmPassword').reset();
-                this.registerFormGroup.get('confirmPassword').setErrors(null);
                 this.registerError = true;
                 this.snackBar.open(NOTIFICATIONS_MESSAGES.REGISTER_ERROR, 'Dismiss', {
                   duration: 3000

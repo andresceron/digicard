@@ -6,7 +6,7 @@ import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
-import { IUserResponse } from '@interfaces/user-response.interface';
+import { IAuthResponse } from '@interfaces/auth-response.interface';
 import { GoogleLoginProvider, AuthService as SocialAuthService } from 'angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             .login(obj)
             .pipe(first())
             .subscribe(
-              (res: IUserResponse) => {
+              (res: IAuthResponse) => {
                 if (!!res) {
                   console.log(res);
                   this.isLoading = false;
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     { duration: 3000 }
                   );
 
-                  this.router.navigate(['/list']);
+                  this.router.navigate(['/contacts']);
                 }
               },
               (err) => {

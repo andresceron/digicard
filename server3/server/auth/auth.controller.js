@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const APIError = require('../helpers/APIError');
 const passport = require('passport');
-const User = require("../../models/user.model");
+const User = require("../user/user.model");
 const DataForm = require('../helpers/DataForm');
 
 /**
@@ -28,12 +28,6 @@ function login(req, res, next) {
   return passport.authenticate('login',
     (err, passportUser, info) => {
       console.log('passportUser', passportUser);
-
-      const test = {
-        'err': err,
-        'passportUser': passportUser,
-        'info': info
-      };
 
       if (err) {
         return next(err);

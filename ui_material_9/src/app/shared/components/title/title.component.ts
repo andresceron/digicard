@@ -37,7 +37,7 @@ export class TitleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userSubscription = this.authService.currentUser.subscribe(res => {
+    this.userSubscription = this.authService.currentAuth.subscribe(res => {
       this.currentUser = res;
       this.cdr.markForCheck();
     });

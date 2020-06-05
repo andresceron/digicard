@@ -6,19 +6,28 @@
   </ng-template>
 </sc-title>
 
+<div class="container container__spinner" *ngIf="!contactData">
+  <mat-spinner></mat-spinner>
+</div>
 
-<div class="container">
+<div class="container" *ngIf="contactData">
+
   <!-- Card widget -->
   <div class="card">
     <!-- Face 1 -->
     <div class="card-face face-1">
         <!-- Avatar -->
         <div class="card-face__avatar">
-            <!-- User avatar --><img src="https://s3.amazonaws.com/uifaces/faces/twitter/csswizardry/128.jpg" width="110" height="110" draggable="false" /></div>
-        <!-- Name -->
-        <h2 class="card-face__name">Mattia Astorino</h2>
-        <!-- Title --><span class="card-face__title">Web Designer & Developer</span>
-        <!-- Cart Footer -->
+          <img src="https://s3.amazonaws.com/uifaces/faces/twitter/csswizardry/128.jpg" width="110" height="110" draggable="false" />
+        </div>
+
+        <h2 class="card-face__name">Jon Snow</h2>
+        <span class="card-face__title">House Stark & Lord of Winterfell</span>
+        <span class="card-face__subtitle">jonsnow@website.com</span>
+        <span class="card-face__subtitle">+34 600 123 345</span>
+        <span class="card-face__subtitle">Barcelona, Spain</span>
+        <span class="divider"></span>
+
         <div class="card-face-footer">
           <a class="card-face__social" href="https://dribbble.com/astorino_mattia" target="_blank">
             <img src="/assets/images/social-icons/dribbble/Dribbble_icon-icons.com_66742.svg" width="36" height="36" draggable="false"/>

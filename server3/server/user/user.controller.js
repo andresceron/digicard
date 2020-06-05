@@ -1,9 +1,11 @@
-const User = require('./user.model');
+const User = require( './user.model' );
+const DataForm = require('../helpers/DataForm');
 
 /**
  * Load user and append to req.
  */
 function load(req, res, next, id) {
+  console.log( 'load!! ', req.user );
   User.get(id)
     .then((user) => {
       req.user = user; // eslint-disable-line no-param-reassign
@@ -17,7 +19,10 @@ function load(req, res, next, id) {
  * @returns {User}
  */
 function get(req, res) {
-  return res.json(req.user);
+  // console.log('user!!!: ', req.user);
+  return res.json(
+    new DataForm(req.user)
+  );
 }
 
 /**
@@ -45,8 +50,11 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const user = req.user;
-  user.username = req.body.data.username;
-  user.mobileNumber = req.body.data.mobileNumber;
+  // user.username = req.body.data.username;
+  // user.mobileNumber = req.body.data.mobileNumber;
+
+  console.log( 'req.user: ', req.user );
+  console.log( 'req.body.data: ', req.body.data );
 
   user.save()
     .then(savedUser => res.json(savedUser))

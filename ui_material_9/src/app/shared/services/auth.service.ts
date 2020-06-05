@@ -8,8 +8,8 @@ import { first, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-  currentUser: Observable<any> = this.currentUserSubject.asObservable();
+  private currentAuthSubject: BehaviorSubject<any> = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentAuth')));
+  currentAuth: Observable<any> = this.currentAuthSubject.asObservable();
 
   private token: string;
 
@@ -17,8 +17,8 @@ export class AuthService {
     private apiService: ApiService
   ) { }
 
-  public get currentUserValue() {
-    return this.currentUserSubject.value;
+  public get currentAuthValue() {
+    return this.currentAuthSubject.value;
   }
 
   login(obj) {
@@ -29,8 +29,8 @@ export class AuthService {
           map((res: ICustomResponse) => {
             if (res && res.data && res.data.user && res.data.user.token) {
               this.token = res.data.user.token;
-              localStorage.setItem('currentUser', JSON.stringify(res.data.user));
-              this.currentUserSubject.next({...res.data.user});
+              localStorage.setItem('currentAuth', JSON.stringify(res.data.user));
+              this.currentAuthSubject.next({...res.data.user});
             }
             return res.data.user;
           })
@@ -68,8 +68,8 @@ export class AuthService {
   logout() {
     // remove user from local storage to log user out
     this.token = null;
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    localStorage.removeItem('currentAuth');
+    this.currentAuthSubject.next(null);
   }
 
 }

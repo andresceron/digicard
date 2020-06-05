@@ -9,7 +9,7 @@
 <div class="container container__spinner" *ngIf="!posts">
   <mat-spinner></mat-spinner>
 </div>
-<div class="container" *ngIf="posts?.length">
+<div class="container" *ngIf="posts?.length; else noPosts">
   <mat-selection-list #selectionList [multiple]="false">
     <mat-list-option *ngFor="let contact of posts" class="post-item" (click)="goToDetail(contact)">
       <div class="item">
@@ -22,6 +22,11 @@
     </mat-list-option>
   </mat-selection-list>
 </div>
+<ng-template #noPosts>
+  <div class="container">
+    <p>NO POSTS YET</p>
+  </div>
+</ng-template>
 
 
 <!-- <div class="container searchbox">

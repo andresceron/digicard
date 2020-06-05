@@ -1,32 +1,49 @@
 <mat-toolbar>Login</mat-toolbar>
 <div class="container" novalidate>
 
+    <!-- Card widget -->
+    <div class="card">
+      <!-- Face 1 -->
+      <div class="card-face face-1">
+          <!-- Avatar -->
+          <div class="card-face__avatar">
+            <img src="https://pngimage.net/wp-content/uploads/2018/06/logo-placeholder-png-2.png" width="110" height="110" draggable="false" />
+          </div>
 
-  <form #f="ngForm" [formGroup]="loginFormGroup" (ngSubmit)="onLogin()" class="form">
-    <mat-form-field class="form-element">
-      <input matInput placeholder="Email" formControlName="email">
-      <mat-error *ngIf="!loginFormGroup.get('email').valid && loginFormGroup.get('email').touched">
-        {{ getErrorEmail() }}
-      </mat-error>
-    </mat-form-field>
+          <h2 class="card-face__name">Log In</h2>
 
-    <mat-form-field class="form-element m-b-15">
-      <input matInput placeholder="Password" formControlName="password">
-      <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
-      <mat-error *ngIf="!loginFormGroup.controls['password'].valid && loginFormGroup.controls['password'].touched">
-        {{ getErrorPassword() }}
-      </mat-error>
-    </mat-form-field>
-<!--
-    <div class="form-element">
-      <mat-checkbox value="1">Name min. 3 characters</mat-checkbox>
-    </div> -->
+          <div class="card-face-footer">
+            <form #f="ngForm" [formGroup]="loginFormGroup" (ngSubmit)="onLogin()" class="form">
+              <mat-form-field class="form-element">
+                <input matInput placeholder="Email" formControlName="email" required>
+                <mat-error *ngIf="!loginFormGroup.get('email').valid && loginFormGroup.get('email').touched">
+                  {{ getErrorEmail() }}
+                </mat-error>
+              </mat-form-field>
 
-    <div class="form-element">
-      <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!loginFormGroup.valid">Submit Form</button>
+              <mat-form-field class="form-element m-b-15">
+                <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password" required>
+                <button type="button" mat-icon-button matSuffix (click)="showPassword = !showPassword">
+                  <mat-icon>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </button>
+                <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+                <mat-error *ngIf="!loginFormGroup.controls['password'].valid && loginFormGroup.controls['password'].touched">
+                  {{ getErrorPassword() }}
+                </mat-error>
+              </mat-form-field>
+
+              <!-- <div class="form-element">
+                <mat-checkbox value="1">Name min. 3 characters</mat-checkbox>
+              </div> -->
+
+              <div class="form-element">
+                <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!loginFormGroup.valid">Submit Form</button>
+              </div>
+
+            </form>
+          </div>
+      </div>
     </div>
-
-  </form>
 </div>
 
 <!-- <ng-template #forminfo>
