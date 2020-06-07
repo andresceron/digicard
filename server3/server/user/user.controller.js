@@ -50,14 +50,24 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const user = req.user;
-  // user.username = req.body.data.username;
-  // user.mobileNumber = req.body.data.mobileNumber;
 
   console.log( 'req.user: ', req.user );
   console.log( 'req.body.data: ', req.body.data );
 
+  user.firstName = req.body.data.firstName;
+  user.lastName = req.body.data.lastName;
+  user.email = req.body.data.email;
+  user.jobTitle = req.body.data.jobTitle;
+  user.phonePrefix = req.body.data.phonePrefix;
+  user.phoneNumber = req.body.data.phoneNumber;
+  user.website = req.body.data.website;
+  user.city = req.body.data.city;
+  user.country = req.body.data.country;
+  user.socials = req.body.data.socials;
+  user.contacts = req.body.data.contacts;
+
   user.save()
-    .then(savedUser => res.json(savedUser))
+    .then(savedUser => res.json(new DataForm(savedUser)))
     .catch(e => next(e));
 }
 

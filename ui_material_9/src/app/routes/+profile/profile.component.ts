@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormControl, FormGroup } from '@angular/forms';
 import { first, debounceTime } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { UsersService } from '@services/users.service';
 import { Subscription } from 'rxjs';
 import { IUser } from '@interfaces/user.interface';
+import * as countryCodes from 'country-codes-list';
 
 @Component({
   selector: 'sc-profile',
@@ -21,6 +22,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   formErrorEmail = 'Invalid email';
   showPassword = false;
   isLoading = false;
+  isPreview = false;
+  title = 'Profile';
+  countriesList = countryCodes.all();
+  prefixList = countryCodes.all();
   currentAuthUser: any;
   user: IUser;
 
@@ -32,37 +37,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('',  [Validators.required]),
-      jobTitle: new FormControl(''),
+      website: new FormControl(''),
+      phonePrefix: new FormControl(''),
       phoneNumber: new FormControl(''),
+      jobTitle: new FormControl(''),
       city: new FormControl(''),
       country: new FormControl('')
     }),
-    socials: this.fb.group({
-      behance: new FormControl( '' ),
-      facebook: new FormControl(''),
-      github: new FormControl(''),
-      instagram: new FormControl(''),
-      linkedin: new FormControl(''),
-      pinterest: new FormControl(''),
-      skype: new FormControl(''),
-      snapchat: new FormControl(''),
-      spotify: new FormControl(''),
-      tiktok: new FormControl(''),
-      tumblr: new FormControl(''),
-      twitter: new FormControl(''),
-      vimeo: new FormControl(''),
-      whatsapp: new FormControl(''),
-      youtube: new FormControl('')
-    })
+    socials: this.fb.group({})
   });
-
-  // public profileFormGroup: FormGroup = this.fb.group({
-  //   firstName: ['', [Validators.required]],
-  //   lastName: ['', [Validators.required]],
-  //   email: ['', [Validators.required, , Validators.email]],
-  //   password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]],
-  //   confirmPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]]
-  // }, {validator: ConfirmPasswordValidator.MatchPassword});
 
   constructor(
     private authService: AuthService,
@@ -75,6 +58,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentAuthUser = this.authService.currentAuthValue;
 
+    for ( let i = 0; i < this.prefixList.length; i++ ) {
+      if ( !this.prefixList[ i ].countryCallingCode ) {
+        this.prefixList.splice( i, 1 );
+        i--;
+      }
+    }
+
     this.usersService
       .getUser(this.currentAuthUser._id)
       .pipe(first())
@@ -83,6 +73,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           if (!!res) {
             console.log(res);
             this.user = res;
+            this.user.countryName = this.getCountryName(this.user.country);
             this.isLoading = false;
             this.configForm();
           }
@@ -100,16 +91,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
+      website: this.user.website,
       jobTitle: this.user.jobTitle,
+      phonePrefix: this.user.phonePrefix,
       phoneNumber: this.user.phoneNumber,
       city: this.user.city,
       country: this.user.country
     });
 
-    this.user.socials.forEach((social) => {
-      console.log(social);
-      this.profileForm.get('socials').get(social.key).patchValue( social.value );
-    });
+    this.user.socials.forEach((social, idx) => {
+      (<FormGroup>this.profileForm.get('socials')).addControl(social.id, new FormControl(social.value));
+    } );
 
     this.profileForm.get('personal').updateValueAndValidity();
     this.profileForm.get('socials').updateValueAndValidity();
@@ -128,20 +120,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
           lastName: this.profileForm.value.personal.lastName,
           email: this.profileForm.value.personal.email,
           jobTitle: this.profileForm.value.personal.jobTitle,
+          phonePrefix: this.profileForm.value.personal.phonePrefix,
           phoneNumber: this.profileForm.value.personal.phoneNumber,
           city: this.profileForm.value.personal.city,
           country: this.profileForm.value.personal.country,
+          website: this.profileForm.value.personal.website,
           socials: []
         };
 
-        this.user.socials.forEach((test, key) => {
-          console.log('test ', test, key);
+        this.user.socials.forEach( ( social: {id: string, value: string} ) => {
+            obj.socials.push({
+              id: social.id,
+              value: this.profileForm.value.socials[ social.id ] || undefined
+            });
         });
-
-        // Object.values(this.profileForm.value.socials);
-        // this.profileForm.value.socials.forEach( acc => {
-        //   console.log( acc );
-        // });
 
         this.usersService
           .updateUser(this.currentAuthUser._id, obj)
@@ -149,19 +141,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
           .subscribe(
             (res: any) => {
               if (!!res && res._id) {
-                console.log(res);
                 this.isLoading = false;
+                this.user = res;
+                this.user.countryName = this.getCountryName(this.user.country);
 
                 // User update register
                 this.snackBar.open(
-                  `Thank you for registering: ${res.email}`,
+                  `Your profile was successfully updated: ${res.firstName}`,
                   'Dismiss',
-                  { duration: 3000 }
+                  { duration: 2000 }
                 );
-
-                // setTimeout(() => {
-                //   this.router.navigate(['/login']);
-                // }, 2000);
               }
             },
             (err) => {
@@ -178,8 +167,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  getCountryName( isoCode: string ) {
+    return this.countriesList.find(country => country.countryCode === isoCode).countryNameEn;
+  }
+
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  goToPreview(value) {
+    this.title = value ? 'Preview' : 'Profile';
+    this.isPreview = value;
   }
 
   ngOnDestroy() {

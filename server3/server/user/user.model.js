@@ -21,14 +21,22 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  website: {
+    type: String,
+    required: false
+  },
   jobTitle: {
     type: String,
     required: false
   },
+  phonePrefix: {
+    type: String,
+    required: false,
+  },
   phoneNumber: {
     type: String,
     required: false,
-    match: [/^[1-9][0-9]{9}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
+    match: [/^[1-9][0-9]{5,15}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
   },
   city: {
     type: String,
@@ -40,6 +48,27 @@ const UserSchema = new mongoose.Schema({
   },
   socials: {
     type: Array,
+    required: false,
+    default: [
+      { id: 'behance', value: undefined},
+      { id: 'facebook', value: undefined},
+      { id: 'github', value: undefined},
+      { id: 'instagram', value: undefined},
+      { id: 'linkedin', value: undefined},
+      { id: 'pinterest', value: undefined},
+      { id: 'skype', value: undefined},
+      { id: 'snapchat', value: undefined},
+      { id: 'spotify', value: undefined},
+      { id: 'tiktok', value: undefined},
+      { id: 'tumblr', value: undefined},
+      { id: 'twitter', value: undefined},
+      { id: 'vimeo', value: undefined},
+      { id: 'whatsapp', value: undefined},
+      { id: 'youtube', value: undefined}
+    ]
+  },
+  contacts: {
+    type: Array,
     required: false
   },
   createdAt: {
@@ -47,7 +76,10 @@ const UserSchema = new mongoose.Schema({
     default: Date.now
   },
   hash: { type: String },
-  salt: { type: String }
+  salt: { type: String },
+  refreshToken: { type: String, required: false },
+  resetPasswordToken: { type: String, required: false },
+  resetPasswordExpires: { type: String, required: false }
 });
 
 /**
