@@ -1,22 +1,22 @@
 <header class="header">
-  <mat-toolbar color="primary">
+  <mat-toolbar>
     <mat-toolbar-row>
       <a class="header-title" [routerLink]="['/']" routerLinkActive="router-link-active">
         <span>DigiContacts</span>
       </a>
       <span class="header__spacer"></span>
       <ng-container *ngIf="currentUser">
-        <button routerLink="list" routerLinkActive="active" (click)="goToContacts()" mat-icon-button>
+        <button routerLink="list" routerLinkActive="active" (click)="goToPage('contacts')" mat-icon-button>
             <mat-icon class="header__icon">list_alt</mat-icon>
         </button>
-        <button mat-icon-button (click)="goToProfile()">
+        <button mat-icon-button (click)="goToPage('profile')">
             <mat-icon class="header__icon">perm_identity</mat-icon>
         </button>
         <button class="header__icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="goToShare()">
+          <button mat-menu-item (click)="goToPage('share')">
               <mat-icon>share</mat-icon>
               <span>Share</span>
           </button>
@@ -27,7 +27,7 @@
         </mat-menu>
       </ng-container>
       <ng-container *ngIf="!currentUser">
-          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="goToRegister()">Register</a>
+          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="goToPage('register')">Register</a>
       </ng-container>
 
     </mat-toolbar-row>

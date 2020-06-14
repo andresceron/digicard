@@ -79,3 +79,22 @@
     height: calc(70vh);
   }
 }
+
+.align-center-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 60px auto;
+}
+
+.align-center-item {
+  max-width: 50%;
+}
+
+.icon--contacts-empty {
+  height: auto;
+  width: auto;
+  font-size: 3.5em;
+  margin-bottom: 15px;
+}

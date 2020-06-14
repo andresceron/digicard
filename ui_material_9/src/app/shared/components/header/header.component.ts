@@ -34,16 +34,8 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  goToRegister() {
-    this.router.navigate(['/register']);
-  }
-
-  goToProfile() {
-    this.router.navigate(['/profile']);
-  }
-
-  goToContacts() {
-    this.router.navigate(['/contacts']);
+  goToPage(path) {
+    this.router.navigate([`/${path}`]);
   }
 
   onLogout() {

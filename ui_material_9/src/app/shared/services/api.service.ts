@@ -69,4 +69,9 @@ export class ApiService {
     return this.http.patch<T>(this.config.host + url, {data: data}, this.getRequestOptions(params));
   }
 
+  public upload<T>( url: string, data: any, options?: { [ key: string ]: any } ): Observable<T> {
+    console.log( 'inside upload:: ', this.config.host + url, {data: data}, options);
+    return this.http.post<T>(this.config.host + url, data, options);
+  }
+
 }

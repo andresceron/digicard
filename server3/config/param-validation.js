@@ -51,5 +51,12 @@ module.exports = {
     data: {
       email: Joi.string().required()
     }
+  },
+
+  // POST /api/auth/upload
+  upload: {
+    data: {
+      file: Joi.any().required()
+    }
   }
 };

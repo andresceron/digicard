@@ -1,6 +1,10 @@
 <div class="file-drop-area">
-  <span class="fake-btn">Choose file</span>
-  <span class="file-msg">{{file ? file.name : 'or drag and drop file here' }}</span>
+
+  <a mat-raised-button class="button" href="javascript:void(0)">
+    <mat-icon aria-hidden="false" aria-label="Edit Contacts">{{this.icon}}</mat-icon>
+    <span class="m-l-5">{{this.buttonText}}</span>
+  </a>
+
   <input class="file-input" type="file">
 </div>
 

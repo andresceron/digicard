@@ -1,5 +1,10 @@
 const User = require( './user.model' );
-const DataForm = require('../helpers/DataForm');
+const DataForm = require( '../helpers/DataForm' );
+const FileUpload = require( '../helpers/FileUpload' );
+const fs = require('fs');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
+const passport = require('passport');
 
 /**
  * Load user and append to req.
@@ -44,15 +49,13 @@ function create(req, res, next) {
 
 /**
  * Update existing user
- * @property {string} req.body.data.username - The username of user.
- * @property {string} req.body.data.mobileNumber - The mobileNumber of user.
+ * @property {string} req.body.data - The user.
+ * @property {string} req.body.data.socials - The users social list.
+ * @property {string} req.file - The file of post
  * @returns {User}
  */
-function update(req, res, next) {
+async function update(req, res, next) {
   const user = req.user;
-
-  console.log( 'req.user: ', req.user );
-  console.log( 'req.body.data: ', req.body.data );
 
   user.firstName = req.body.data.firstName;
   user.lastName = req.body.data.lastName;
@@ -63,6 +66,7 @@ function update(req, res, next) {
   user.website = req.body.data.website;
   user.city = req.body.data.city;
   user.country = req.body.data.country;
+  user.image = req.body.data.image;
   user.socials = req.body.data.socials;
   user.contacts = req.body.data.contacts;
 

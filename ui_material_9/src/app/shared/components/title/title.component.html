@@ -1,7 +1,7 @@
 <mat-toolbar>
   <mat-toolbar-row>
     <div class="title-container" (click)="navBackClicked()" *ngIf="navBack">
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Edit Contacts">keyboard_arrow_left</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="Edit Contacts">keyboard_arrow_left</mat-icon>
       <span>{{ name }}</span>
     </div>
     <ng-container *ngIf="!navBack">

@@ -23,9 +23,9 @@ export const routes: Routes = [
     loadChildren: () => import('./routes/+profile/profile.module').then(m => m.ProfileModule)
   },
   {
-    path: 'list',
+    path: 'share',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./routes/+list/list.module').then(m => m.ListModule)
+    loadChildren: () => import('./routes/+share/share.module').then(m => m.ShareModule)
   },
   {
     path: 'contacts',

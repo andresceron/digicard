@@ -1,0 +1,23 @@
+<sc-title [name]="isQRVisible ? 'QR': 'Share'" [navBack]="isQRVisible" (navBackEvent)="backToList()">
+</sc-title>
+
+<div class="container">
+  <div *ngIf="!isQRVisible">
+    <a mat-raised-button class="button button__share" (click)="shareQR()">
+      <span class="m-l-5">QR CODE</span>
+    </a>
+    <a mat-raised-button class="button button__share" [href]="linkEmail" target="_blank">
+      <span class="m-l-5">EMAIL</span>
+    </a>
+    <a mat-raised-button class="button button__share" [href]="linkSMS" target="_blank">
+      <span class="m-l-5">SMS</span>
+    </a>
+    <a mat-raised-button class="button button__share" (click)="shareLink()">
+      <span class="m-l-5">LINK</span>
+    </a>
+  </div>
+  <div *ngIf="isQRVisible">
+    <h3 class="text-center m-t-10">SCAN THIS QR CODE</h3>
+    <img [src]="user.qr">
+  </div>
+</div>

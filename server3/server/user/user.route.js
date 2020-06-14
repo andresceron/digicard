@@ -2,6 +2,17 @@ const express = require('express');
 const validate = require('express-validation');
 const paramValidation = require('../../config/param-validation');
 const userCtrl = require('./user.controller');
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(' ').join('-');
+    cb(null, fileName)
+  }
+});
+const upload = multer({storage: storage});
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -17,7 +28,7 @@ router.route('/:userId')
   .get(userCtrl.get)
 
   /** PUT /api/users/:userId - Update user */
-  .put(validate(paramValidation.updateUser), userCtrl.update)
+  .put(validate(paramValidation.updateUser), upload.single('data[image]'), userCtrl.update)
 
   /** DELETE /api/users/:userId - Delete user */
   .delete(userCtrl.remove);

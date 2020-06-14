@@ -8,10 +8,14 @@ $colors: (
     base:         #FFFFFF
   ),
   primary: (
-    base:         #0E415B
+    base:         #00796b,
+    dark:         #004c40,
+    light:        #48a999
   ),
   secondary: (
-    base:         #001060
+    base:         #006064,
+    dark:         #00363a,
+    light:        #428e92
   ),
   gray : (
     base:         $gray-base,
@@ -25,7 +29,7 @@ $colors: (
   blue: (
     base:   #0E415B,
     dark:   #0E415B,
-    light:  #8ABCEE 
+    light:  #8ABCEE
   ),
   green: (
     base:   #009999,
@@ -35,7 +39,7 @@ $colors: (
   red: (
     base:   #ED8C73,
     dark:   #F9423A,
-    light:  #ED8C73 
+    light:  #ED8C73
   ),
   yellow: (
     base:   #ffec00,

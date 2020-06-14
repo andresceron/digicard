@@ -1,14 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormArray, Validators, FormControl, FormGroup } from '@angular/forms';
-import { first, debounceTime } from 'rxjs/operators';
+import { first, debounceTime, map, catchError } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { UsersService } from '@services/users.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { IUser } from '@interfaces/user.interface';
 import * as countryCodes from 'country-codes-list';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { UploadService } from '@services/upload.service';
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'sc-profile',
@@ -29,6 +32,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   currentAuthUser: any;
   user: IUser;
 
+  isUploadingImage = false;
+  imageS3Path: string;
+  progress = 0;
+  imagePreview: SafeResourceUrl;
+
   userSub: Subscription;
   formSub: Subscription;
 
@@ -42,7 +50,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       phoneNumber: new FormControl(''),
       jobTitle: new FormControl(''),
       city: new FormControl(''),
-      country: new FormControl('')
+      country: new FormControl(''),
+      image: new FormControl()
     }),
     socials: this.fb.group({})
   });
@@ -50,6 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
+    private uploadService: UploadService,
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
@@ -73,7 +83,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           if (!!res) {
             console.log(res);
             this.user = res;
-            this.user.countryName = this.getCountryName(this.user.country);
+            this.user.countryName = this.user.country ? this.getCountryName(this.user.country) : undefined;
             this.isLoading = false;
             this.configForm();
           }
@@ -86,6 +96,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   configForm() {
     console.log( this.user );
+    console.log( this.profileForm );
 
     this.profileForm.get('personal').patchValue({
       firstName: this.user.firstName,
@@ -96,15 +107,57 @@ export class ProfileComponent implements OnInit, OnDestroy {
       phonePrefix: this.user.phonePrefix,
       phoneNumber: this.user.phoneNumber,
       city: this.user.city,
-      country: this.user.country
+      country: this.user.country,
+      image: this.user.image
     });
 
     this.user.socials.forEach((social, idx) => {
       (<FormGroup>this.profileForm.get('socials')).addControl(social.id, new FormControl(social.value));
-    } );
+    });
 
     this.profileForm.get('personal').updateValueAndValidity();
     this.profileForm.get('socials').updateValueAndValidity();
+  }
+
+  imageFileEvent( event ) {
+    this.isUploadingImage = true;
+    // const reader = new FileReader();
+    // reader.onload = (e: any) => {
+    //   console.log( e.target.result );
+    //   this.imagePreview = e.target.result;
+    // };
+
+    // reader.readAsDataURL( event );
+
+    // this.profileForm.get('personal').patchValue({image: event}, {onlySelf: true, emitEvent: true});
+    // this.profileForm.get('personal').get('image').updateValueAndValidity();
+    // console.log( event );
+    // console.log( this.profileForm );
+
+    try {
+      this.uploadService
+      .upload('data[image]', event)
+      .pipe(
+        first()
+      )
+      .subscribe(
+        (res: any) => {
+          console.log( 'REEES: ', res );
+          if (!!res) {
+            this.isUploadingImage = false;
+            this.profileForm.get('personal').get('image').patchValue(res);
+            this.profileForm.get( 'personal' ).get( 'image' ).updateValueAndValidity();
+            this.user.image = res;
+          }
+        },
+        (err) => {
+          console.warn('register: ', err);
+          this.isUploadingImage = false;
+      });
+    } catch (err) {
+      this.isUploadingImage = false;
+      console.log(err);
+    }
   }
 
   onSubmit() {
@@ -125,8 +178,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
           city: this.profileForm.value.personal.city,
           country: this.profileForm.value.personal.country,
           website: this.profileForm.value.personal.website,
+          image: this.profileForm.value.personal.image,
           socials: []
         };
+
+        console.log('obj!!!! ', obj);
 
         this.user.socials.forEach( ( social: {id: string, value: string} ) => {
             obj.socials.push({
@@ -178,6 +234,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   goToPreview(value) {
     this.title = value ? 'Preview' : 'Profile';
     this.isPreview = value;
+  }
+
+  removeAvatar() {
+    this.profileForm.get('socials').patchValue({image: null});
+    this.profileForm.get('socials').updateValueAndValidity();
+    this.user.image = null;
   }
 
   ngOnDestroy() {

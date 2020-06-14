@@ -69,7 +69,16 @@ const UserSchema = new mongoose.Schema({
   },
   contacts: {
     type: Array,
+    required: false,
+    default: []
+  },
+  image: {
+    type: String,
     required: false
+  },
+  qr: {
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,

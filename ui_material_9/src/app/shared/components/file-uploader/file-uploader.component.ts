@@ -26,6 +26,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export class FileUploaderComponent implements ControlValueAccessor {
   @Input() progress;
+  @Input() icon;
+  @Input() buttonText = 'Button';
   @Output() fileEvent: EventEmitter<any> = new EventEmitter<any>();
   onChange: Function;
   file: File | null = null;
@@ -39,6 +41,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   }
 
   constructor( private host: ElementRef<HTMLInputElement> ) {
+    console.log( this.icon );
   }
 
   writeValue( value: null ) {

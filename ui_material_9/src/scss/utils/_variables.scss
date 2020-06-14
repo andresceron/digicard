@@ -4,7 +4,7 @@ $assetPath: '/../../assets/images';
 // Variables
 // -------------------------//
 
-// 
+//
 // Color system
 //
 
@@ -28,6 +28,7 @@ $colors: map-merge(
 );
 
 $primary:       setColor(primary,base);
+$secondary:     setColor(secondary,base);
 $success:       setColor(green);
 $info:          setColor(blue);
 $warning:       setColor(yellow);
@@ -38,6 +39,7 @@ $theme-colors: ();
 $theme-colors: map-merge(
   (
     "primary":    $primary,
+    "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
     "warning":    $warning,

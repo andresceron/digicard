@@ -61,15 +61,15 @@ async function update(req, res, next) {
   post.title = req.body.data.title;
   post.content = req.body.data.content;
 
-  try {
-    const uploadImage = await FileUpload.upload(req.file);
-    post.image = uploadImage.Location;
+  // try {
+  //   const uploadImage = await FileUpload.upload(req.file);
+  //   post.image = uploadImage.Location;
 
-    await unlinkAsync(`${ 'uploads/' + req.file.filename}`)
-  }
-  catch(err) {
-    console.log('Upload error!', err);
-  }
+  //   await unlinkAsync(`${ 'uploads/' + req.file.filename}`)
+  // }
+  // catch(err) {
+  //   console.log('Upload error!', err);
+  // }
 
   Post.findOneAndUpdate({ author: req.user._id, _id: post._id }, post, {new: true})
       .then(savedPost => {

@@ -9,11 +9,44 @@
   </ng-template>
 </sc-title>
 
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="form" *ngIf="!isPreview">
-
+<form [formGroup]="profileForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()" class="form" *ngIf="!isPreview">
   <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Avatar">
+      <div class="container" *ngIf="user">
+        <ng-container *ngIf="!isUploadingImage">
+          <div class="card-face__avatar"
+                *ngIf="user.image"
+                [style.background]="'url(' + user.image + ')'"
+                [style.background-size]="'cover'"
+                [style.background-position]="'center'">
+          </div>
+          <div class="card-face__avatar"
+                *ngIf="!user.image"
+                [style.background]="'url(/assets/images/icon-noavatar.png)'"
+                [style.background-size]="'cover'"
+                [style.background-position]="'center'">
+          </div>
+        </ng-container>
+        <div class="container__spinner" *ngIf="isUploadingImage">
+          <mat-spinner></mat-spinner>
+        </div>
+
+        <div class="m-b-30 text-center">
+          <sc-file-uploader [icon]="'add_a_photo'" [buttonText]="'Choose avatar'" [progress]="progress" (fileEvent)="imageFileEvent($event)"></sc-file-uploader>
+          <div class="invalid-feedback" style="display: block">
+            <!-- <ng-container *ngIf="hasError('image', 'requiredFileType')">Invalid file type</ng-container> -->
+          </div>
+          <a mat-raised-button color="warn" class="button button__delete" (click)="removeAvatar()" *ngIf="user.image">
+            <mat-icon aria-hidden="false" aria-label="Delete avatar">delete</mat-icon>
+            <span class="m-l-5">Remove avatar</span>
+          </a>
+        </div>
+      </div>
+    </mat-tab>
+
     <mat-tab label="Personal Info">
-      <div class="container" formGroupName="personal">
+      <div class="container" formGroupName="personal" *ngIf="profileForm.get('personal')">
+
         <mat-form-field class="form-element">
           <input matInput placeholder="First Name" formControlName="firstName">
           <mat-error>
@@ -79,16 +112,10 @@
           </select>
         </mat-form-field>
 
-        <!-- <mat-form-field class="form-element m-b-15">
-          <input matInput placeholder="Password" formControlName="country">
-          <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
-          <mat-error>
-            getErrorPassword
-          </mat-error>
-        </mat-form-field> -->
       </div>
     </mat-tab>
-    <mat-tab label="Social Accounts">
+
+    <mat-tab label="Social">
       <div class="container" formGroupName="socials" *ngIf="user?.socials">
         <mat-form-field class="form-element" *ngFor="let social of user.socials; let i = index">
           <input matInput placeholder="{{social.id | titlecase }}" [formControl]="profileForm.get('socials').get(social.id)">
@@ -98,8 +125,8 @@
     </mat-tab>
   </mat-tab-group>
 
-  <div class="form-element">
-    <button mat-raised-button color="primary" type="submit" class="button">Save</button>
+  <div class="save-btn--container">
+    <button mat-raised-button type="submit" class="button">Save</button>
   </div>
 
 </form>
@@ -111,8 +138,17 @@
     <!-- Face 1 -->
     <div class="card-face face-1">
         <!-- Avatar -->
-        <div class="card-face__avatar">
-          <img src="https://s3.amazonaws.com/uifaces/faces/twitter/csswizardry/128.jpg" width="110" height="110" draggable="false" />
+        <div class="card-face__avatar card-face__avatar--preview"
+              *ngIf="user.image"
+              [style.background]="'url(' + user.image + ')'"
+              [style.background-size]="'cover'"
+              [style.background-position]="'center'">
+        </div>
+        <div class="card-face__avatar card-face__avatar--preview"
+              *ngIf="!user.image"
+              [style.background]="'url(/assets/images/icon-noavatar.png)'"
+              [style.background-size]="'cover'"
+              [style.background-position]="'center'">
         </div>
 
         <h2 class="card-face__name">{{user.firstName}} {{user.lastName}}</h2>
@@ -135,3 +171,11 @@
     </div>
   </div>
 </div>
+
+
+    <!-- <mat-form-field class="form-element">
+      <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
+      <mat-error>
+        Required field, must be between 5 and 10 characters.
+      </mat-error>
+    </mat-form-field> -->

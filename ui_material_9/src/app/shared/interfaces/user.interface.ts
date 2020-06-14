@@ -12,4 +12,5 @@ export interface IUser {
   countryName?: string;
   website?: string;
   socials: any;
+  image?: string;
 }

@@ -1,8 +1,10 @@
 const httpStatus = require('http-status');
-const APIError = require('../helpers/APIError');
 const passport = require('passport');
+const QRCode = require( 'qrcode' );
+const APIError = require('../helpers/APIError');
 const User = require("../user/user.model");
-const DataForm = require('../helpers/DataForm');
+const DataForm = require( '../helpers/DataForm' );
+
 
 /**
  * Returns jwt token if valid email and password is provided
@@ -58,17 +60,19 @@ function login(req, res, next) {
  * @param next
  * @returns {*}
  */
-function register(req, res, next) {
+async function register(req, res, next) {
   const { email, password } = req.body.data;
 
-  User.findOne({ 'email': email }, (err, userMatch) => {
-    if (userMatch) {
+  try {
+    const user = await User.findOne({'email': email}).exec();
+    console.log('USER', user);
+    if (user) {
       return res.status(409).json(
         new DataForm({
           code: 400,
           message: `Email already registered: ${email}`
         })
-      );
+      )
     }
 
     const newUser = new User({
@@ -78,19 +82,74 @@ function register(req, res, next) {
       password: req.body.data.password
     });
 
+    const qrCodeResponse = await QRCode.toDataURL(`http://dev.zeroweb.local.com:4200/contacts/${newUser._id}`);
+    newUser.qr = qrCodeResponse;
     newUser.setPassword(password);
 
     newUser.save((err, savedUser) => {
       if (err) {
-        console.log('errSAVED: ', err);
         return res.json(err);
       }
 
-      console.log('userSAVED: ', savedUser);
       return res.json(new DataForm(savedUser));
     });
 
-  });
+    //   , ( err, userMatch ) =>
+    //   {
+    //   if ( userMatch ) {
+    //     console.log( 'userNatch:: ', userMatch );
+    //     return res.status(409).json(
+    //       new DataForm({
+    //           code: 400,
+    //           message: `Email already registered: ${email}`
+    //         })
+    //       );
+    //   }
+    // });
+    // console.log( 'USER!!: ', user );
+    //  => {
+    //   if (userMatch) {
+    //     return res.status(409).json(
+    //       new DataForm({
+    //         code: 400,
+    //         message: `Email already registered: ${email}`
+    //       })
+    //     );
+    //   }
+
+    //   const newUser = new User({
+    //     firstName: req.body.data.firstName,
+    //     lastName: req.body.data.lastName,
+    //     email: req.body.data.email,
+    //     password: req.body.data.password
+    //   } );
+
+    //   const test = await QR.generate( 'test' );
+
+    //   newUser.setPassword(password);
+
+    //   // newUser.qr = qrCode;
+
+    //   newUser.save((err, savedUser) => {
+    //     if (err) {
+    //       console.log('errSAVED: ', err);
+    //       return res.json(err);
+    //     }
+
+    //     console.log('userSAVED: ', savedUser);
+    //     return res.json(new DataForm(savedUser));
+    //   });
+
+    // });
+  }
+  catch (err) {
+    return res.status(400).json(
+      new DataForm({
+        code: 400,
+        message: `Unknown Error`
+      })
+    )
+  }
 
 }
 
