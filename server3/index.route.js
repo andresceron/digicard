@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./server/user/user.route');
+const contactRoutes = require('./server/contact/contact.route');
 const postRoutes = require('./server/post/post.route');
 const authRoutes = require('./server/auth/auth.route');
 const uploadRoutes = require('./server/upload/upload.route');
@@ -19,6 +20,9 @@ router.use('/posts', passportConfig.authenticate, postRoutes);
 
 // mount user routes at /users
 router.use('/users', passportConfig.authenticate, userRoutes);
+
+// mount user routes at /upload
+router.use('/contacts', contactRoutes);
 
 // mount user routes at /upload
 router.use('/upload', passportConfig.authenticate, uploadRoutes);

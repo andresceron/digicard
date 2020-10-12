@@ -1,10 +1,9 @@
-const httpStatus = require('http-status');
 const passport = require('passport');
 const QRCode = require( 'qrcode' );
+const httpStatus = require('http-status');
 const APIError = require('../helpers/APIError');
 const User = require("../user/user.model");
 const DataForm = require( '../helpers/DataForm' );
-
 
 /**
  * Returns jwt token if valid email and password is provided
@@ -15,10 +14,7 @@ const DataForm = require( '../helpers/DataForm' );
  */
 function login(req, res, next) {
 
-  console.log('req!! ', req.body)
-
   if (!req.body || !req.body.data.email || !req.body.data.password) {
-    console.log('INSIDE NO EMAIL OR PASSWORD!!! ');
     return res.status(422).json(
       new DataForm({
         code: 400,
@@ -29,8 +25,6 @@ function login(req, res, next) {
 
   return passport.authenticate('login',
     (err, passportUser, info) => {
-      console.log('passportUser', passportUser);
-
       if (err) {
         return next(err);
       }
@@ -65,7 +59,6 @@ async function register(req, res, next) {
 
   try {
     const user = await User.findOne({'email': email}).exec();
-    console.log('USER', user);
     if (user) {
       return res.status(409).json(
         new DataForm({
@@ -86,63 +79,19 @@ async function register(req, res, next) {
     newUser.qr = qrCodeResponse;
     newUser.setPassword(password);
 
-    newUser.save((err, savedUser) => {
-      if (err) {
-        return res.json(err);
-      }
+    const newUserResponse = await newUser.save();
+    if (!newUserResponse) {
+      return res.status(400).json(
+        new DataForm({
+          code: 400,
+          message: `Unknown Error`
+        })
+      )
+    }
 
-      return res.json(new DataForm(savedUser));
-    });
+    return res.json(new DataForm(newUserResponse));
 
-    //   , ( err, userMatch ) =>
-    //   {
-    //   if ( userMatch ) {
-    //     console.log( 'userNatch:: ', userMatch );
-    //     return res.status(409).json(
-    //       new DataForm({
-    //           code: 400,
-    //           message: `Email already registered: ${email}`
-    //         })
-    //       );
-    //   }
-    // });
-    // console.log( 'USER!!: ', user );
-    //  => {
-    //   if (userMatch) {
-    //     return res.status(409).json(
-    //       new DataForm({
-    //         code: 400,
-    //         message: `Email already registered: ${email}`
-    //       })
-    //     );
-    //   }
-
-    //   const newUser = new User({
-    //     firstName: req.body.data.firstName,
-    //     lastName: req.body.data.lastName,
-    //     email: req.body.data.email,
-    //     password: req.body.data.password
-    //   } );
-
-    //   const test = await QR.generate( 'test' );
-
-    //   newUser.setPassword(password);
-
-    //   // newUser.qr = qrCode;
-
-    //   newUser.save((err, savedUser) => {
-    //     if (err) {
-    //       console.log('errSAVED: ', err);
-    //       return res.json(err);
-    //     }
-
-    //     console.log('userSAVED: ', savedUser);
-    //     return res.json(new DataForm(savedUser));
-    //   });
-
-    // });
-  }
-  catch (err) {
+  } catch (err) {
     return res.status(400).json(
       new DataForm({
         code: 400,
@@ -159,51 +108,8 @@ async function register(req, res, next) {
  * @param res
  * @returns {*}
  */
-function google(req, res, next) {
-  console.log('googleController!! req! ', req);
-  console.log('googleController!! res! ', res);
-  // passport.authenticate('google', { scope: ['profile'] })
-}
-
-/**
- * This is a protected route. Will return random number only if jwt token is provided in header.
- * @param req
- * @param res
- * @returns {*}
- */
-function googleCallback(req, res, next) {
-  console.log('googleCallback');
-  // passport.authenticate('google', { scope: ['profile'] })
-}
-
-/**
- * This is a protected route. Will return random number only if jwt token is provided in header.
- * @param req
- * @param res
- * @returns {*}
- */
-function linkedin(req, res, next) {
-
-}
-
-/**
- * This is a protected route. Will return random number only if jwt token is provided in header.
- * @param req
- * @param res
- * @returns {*}
- */
-function facebook(req, res, next) {
-
-}
-
-/**
- * This is a protected route. Will return random number only if jwt token is provided in header.
- * @param req
- * @param res
- * @returns {*}
- */
 function me(req, res, next) {
-
+  //  TODO
 }
 
 /**
@@ -220,4 +126,4 @@ function getRandomNumber(req, res) {
   });
 }
 
-module.exports = { login, register, google, googleCallback, linkedin, facebook, getRandomNumber, me };
+module.exports = { login, register, getRandomNumber, me };

@@ -1,114 +1,174 @@
-const Post = require('./contact.model');
+const User = require( '../user/user.model' );
+const Contact = require( '../user/user.model' );
 const DataForm = require('../helpers/DataForm');
-const FileUpload = require('../helpers/FileUpload');
-const fs = require('fs');
-const { promisify } = require('util');
-const unlinkAsync = promisify(fs.unlink);
-const passport = require('passport');
+const Logger = require('../../config/logger');
 
 /**
- * Load post and append to req.
+ * Load contact and append to req.
  */
 
-function load(req, res, next, id) {
-  Post.get(id)
-      .then((post) => {
-        req.post = new DataForm(post); // eslint-disable-line no-param-reassign
+function loadPublicUser(req, res, next, id) {
+  // console.log('checkReq1:: ', req.headers.authorization);
+  // // console.log('checkReq2:: ', req);
+
+  // Contact.get(id)
+  //   .then((user) => {
+  //     console.log('user!!', user);
+  //     const customUser = {
+  //       _id: user._id,
+  //       contacts: user.contacts
+  //     };
+
+  //     req.user = customUser;
+  //       return next();
+  //     })
+  //     .catch(e => next(e));
+}
+
+
+function loadSingle(req, res, next, id) {
+  Contact.get(id)
+      .then((contact) => {
+        const customContact = {
+          firstName: contact.firstName,
+          lastName: contact.lastName,
+          email: contact.email,
+          jobTitle: contact.jobTitle,
+          phonePrefix: contact.phonePrefix,
+          phoneNumber: contact.phoneNumber,
+          website: contact.website,
+          city: contact.city,
+          country: contact.country,
+          image: contact.image,
+          socials: contact.socials
+        };
+
+        req.contact = new DataForm(customContact); // eslint-disable-line no-param-reassign
         return next();
       })
       .catch(e => next(e));
 }
 
 /**
- * Get post
- * @returns {Post}
+ * Get contact single
+ * @returns {Contact}
  */
-function get(req, res) {
-  return res.json(req.post);
+function getSingle(req, res, next) {
+  console.log('INSIDE HERE GETSIGNLE!!', req.contact);
+  return res.json(req.contact);
 }
 
-/**
- * Create new post
- * @property {string} req.body.data.title - The title of post.
- * @property {string} req.body.data.content - The content of post.
- * @property {string} req.file - The file of post.
- * @returns {Post}
- */
+async function getSearch(req, res, next) {
 
-function create(req, res, next) {
-
-  const post = new Post({
-    title: req.body.data.title,
-    content: req.body.data.content,
-    image: req.body.data.image,
-    author: req.user._id
-  });
-
-  post.save()
-      .then(savedPost => res.json(new DataForm(savedPost)))
-      .catch(e => next(e));
-}
-
-/**
- * Update existing post
- * @property {string} req.body.data.title - The title of post.
- * @property {string} req.body.data.content - The content of post.
- * @property {string} req.file - The file of post.
- * @returns {Post}
- */
-async function update(req, res, next) {
-  const post = req.post.data;
-  post.title = req.body.data.title;
-  post.content = req.body.data.content;
+  // Comparing IDS to match token id
+  if (!req.user._id.equals(req.params.userId)) {
+    return res.status(401).json(
+      new DataForm({
+        code: 401,
+        message: `Unauthorized User`
+      })
+    )
+  }
 
   try {
-    const uploadImage = await FileUpload.upload(req.file);
-    post.image = uploadImage.Location;
+    const search = new RegExp(req.query.name, 'i');
+    const query = {
+      $and: [
+        {
+          $or:
+            [
+              { firstName: search },
+              { lastName: search },
+            ]
+        },
+      ]
+    };
 
-    await unlinkAsync(`${ 'uploads/' + req.file.filename}`)
-  }
-  catch(err) {
-    console.log('Upload error!', err);
-  }
+    const contactsReturnFilter = { _id: 1, firstName: 1, lastName: 1, image: 1 };
+    const contactsResults = await User.find(query, contactsReturnFilter).exec();
+    const filterResults = contactsResults.filter(r => req.user.contacts.includes(r._id))
 
-  Post.findOneAndUpdate({ author: req.user._id, _id: post._id }, post, {new: true})
-      .then(savedPost => {
-        if (savedPost) {
-          res.json(new DataForm(savedPost));
-        } else {
-          res.status(404).json({
-            code: 400,
-            message: 'No post found'
-          });
-        }
+    res.json(new DataForm(filterResults));
+
+  } catch (err) {
+    console.log('err!!! ', err);
+    res.status(400).json(
+      new DataForm({
+        code: 400,
+        message: `Unexpected Error: ${err}`
       })
-      .catch(e => next(e));
-}
-
-/**
- * Get post list.
- * @property {number} req.query.skip - Number of posts to be skipped.
- * @property {number} req.query.limit - Limit number of posts to be returned.
- * @returns {Post[]}
- */
-function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-
-  Post.list({ limit, skip }, req.user._id)
-      .then(posts => res.json(new DataForm(posts)))
-      .catch(e => next(e));
+    )
+  }
 
 }
 
 /**
- * Delete post.
- * @returns {Post}
+ * Update existing user
+ * @property {string} req.body.data - The contacts list.
+ * @returns {void}
  */
-function remove(req, res, next) {
-  const post = req.post.data;
-  post.remove()
-      .then(deletedPost => res.json(deletedPost))
-      .catch(e => next(e));
+async function update(req, res, next) {
+  try {
+    console.log('INSIDE HERE!!');
+    const updateContact = await Contact.findByIdAndUpdate(id, postData, { new: true });
+    if (!updateContact) {
+      res.status(400).json(
+        new DataForm({
+          code: 400,
+          message: `Unexpected Error: ${updateContect}`
+        })
+      )
+    }
+
+    res.json(new DataForm(updateContact))
+
+  } catch (err) {
+    res.status(400).json(
+      new DataForm({
+        code: 400,
+        message: `Unexpected Error: ${err}`
+      })
+    )
+  }
+
+
+  user.firstName = req.body.data.firstName;
+  user.save()
+    .then(savedUser => res.json(new DataForm(savedUser)))
+    .catch(e => next(e));
 }
 
-module.exports = { load, get, create, update, list, remove };
+/**
+ * Remove existing contact
+ * @property {string} req.body.data - The contacts list.
+ * @returns {void}
+ */
+async function remove(req, res, next) {
+  try {
+    console.log('INSIDE HERE == REMOVE !!');
+    console.log('---- REQ USER ', req.user._id);
+    console.log('---- REQ PARAMS ', req.params.contactId);
+    const updateContact = await Contact.findByIdAndUpdate(req.user._id, { $pullAll: { contacts: [req.params.contactId] } });
+    if (!updateContact) {
+      res.status(400).json(
+        new DataForm({
+          code: 400,
+          message: `Unexpected Error: ${updateContect}`
+        })
+      )
+    }
+
+    res.json(new DataForm(updateContact))
+
+  } catch (err) {
+    res.status(400).json(
+      new DataForm({
+        code: 400,
+        message: `Unexpected Error: ${err}`
+      })
+    )
+  }
+}
+
+
+module.exports = { loadSingle, loadPublicUser, getSingle, getSearch, update, remove };

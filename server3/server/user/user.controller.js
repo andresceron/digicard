@@ -10,13 +10,26 @@ const passport = require('passport');
  * Load user and append to req.
  */
 function load(req, res, next, id) {
-  console.log( 'load!! ', req.user );
+
+  if (id.toString() !== req.user._id.toString()) {
+    console.log( 'load!! ', id );
+    console.log( 'load2!! ', req.user._id );
+
+    return res.status(401).json(
+      new DataForm({
+        code: '401',
+        error: 'UNAUTHORIZED_USER'
+      })
+    );
+  }
+
   User.get(id)
-    .then((user) => {
-      req.user = user; // eslint-disable-line no-param-reassign
-      return next();
-    })
-    .catch(e => next(e));
+  .then((user) => {
+    req.user = user; // eslint-disable-line no-param-reassign
+    return next();
+  })
+  .catch(e => next(e));
+
 }
 
 /**
@@ -76,6 +89,34 @@ async function update(req, res, next) {
 }
 
 /**
+ * SaveContact
+ * @property {string} req.body.data - contactId.
+ * @returns {User}
+ */
+
+function saveContact(req, res, next) {
+  const user = req.user;
+
+  contactFound = user.contacts.includes(req.body.data);
+  if (contactFound || user._id === req.body.data) {
+    console.log('inside here!!');
+    return res.status(409).json(
+      new DataForm({
+        code: 400,
+        message: `Contact is already in your list`
+      })
+    )
+  }
+
+  console.log( 'USER:: ', user);
+
+  user.contacts.push(req.body.data);
+  user.save()
+    .then(savedUser => res.json(new DataForm(savedUser)))
+    .catch(e => next(e));
+}
+
+/**
  * Get user list.
  * @property {number} req.query.skip - Number of users to be skipped.
  * @property {number} req.query.limit - Limit number of users to be returned.
@@ -99,4 +140,4 @@ function remove(req, res, next) {
     .catch(e => next(e));
 }
 
-module.exports = { load, get, create, update, list, remove };
+module.exports = { load, get, create, update, saveContact, list, remove };

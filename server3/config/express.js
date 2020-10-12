@@ -9,13 +9,14 @@ const httpStatus = require('http-status');
 const expressWinston = require('express-winston');
 const expressValidation = require('express-validation');
 const helmet = require('helmet');
-const winstonInstance = require('./winston');
+const Logger = require('./logger');
 const routes = require('../index.route');
 const config = require('./config');
 const passport  =  require('passport');
 const APIError = require('../server/helpers/APIError');
 
 const app = express();
+Logger.info('Express loaded');
 
 if (config.env === 'development') {
   app.use(logger('dev'));
@@ -29,6 +30,10 @@ app.use(cookieParser());
 app.use(compress());
 app.use(methodOverride());
 
+// Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// It shows the real origin IP in the heroku or Cloudwatch logs
+app.enable('trust proxy');
+
 // secure apps by setting various HTTP headers
 app.use(helmet());
 
@@ -36,16 +41,16 @@ app.use(helmet());
 app.use(cors());
 
 // enable detailed API logging in dev env
-if (config.env === 'development') {
-  expressWinston.requestWhitelist.push('body');
-  expressWinston.responseWhitelist.push('body');
-  app.use(expressWinston.logger({
-    winstonInstance,
-    meta: true, // optional: log meta data about request (defaults to true)
-    msg: 'HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms',
-    colorStatus: true // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
-  }));
-}
+// if (config.env === 'development') {
+//   expressWinston.requestWhitelist.push('body');
+//   expressWinston.responseWhitelist.push('body');
+//   app.use(expressWinston.logger({
+//     Logger,
+//     meta: true, // optional: log meta data about request (defaults to true)
+//     msg: 'HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms',
+//     colorStatus: true // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
+//   }));
+// }
 
 // Passport config
 app.use(passport.initialize());
@@ -72,13 +77,14 @@ app.use((err, req, res, next) => {
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new APIError('API not found', httpStatus.NOT_FOUND);
+  console.log('err:: ', err);
   return next(err);
 });
 
 // log error in winston transports except when executing test suite
-// if (config.env !== 'test') {
+// if (config.env !== 'production') {
 //   app.use(expressWinston.errorLogger({
-//     winstonInstance
+//     Logger
 //   }));
 // }
 

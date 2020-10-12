@@ -31,12 +31,12 @@ const UserSchema = new mongoose.Schema({
   },
   phonePrefix: {
     type: String,
-    required: false,
+    required: false
   },
   phoneNumber: {
     type: String,
     required: false,
-    match: [/^[1-9][0-9]{5,15}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
+    match: [/^[1-9][0-9]{5,15}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.'],
   },
   city: {
     type: String,
@@ -50,35 +50,42 @@ const UserSchema = new mongoose.Schema({
     type: Array,
     required: false,
     default: [
-      { id: 'behance', value: undefined},
-      { id: 'facebook', value: undefined},
-      { id: 'github', value: undefined},
-      { id: 'instagram', value: undefined},
-      { id: 'linkedin', value: undefined},
-      { id: 'pinterest', value: undefined},
-      { id: 'skype', value: undefined},
-      { id: 'snapchat', value: undefined},
-      { id: 'spotify', value: undefined},
-      { id: 'tiktok', value: undefined},
-      { id: 'tumblr', value: undefined},
-      { id: 'twitter', value: undefined},
-      { id: 'vimeo', value: undefined},
-      { id: 'whatsapp', value: undefined},
-      { id: 'youtube', value: undefined}
-    ]
+      { id: 'behance', baseUrl: 'https://www.behance.net/$$socialid$$', value: undefined },
+      { id: 'facebook', baseUrl: 'https://www.facebook.com/$$socialid$$', value: undefined },
+      { id: 'github', baseUrl: 'https://www.github.com/$$socialid$$', value: undefined },
+      { id: 'instagram', baseUrl: 'https://www.instagram.com/$$socialid$$', value: undefined },
+      { id: 'linkedin', baseUrl: 'https://www.linkedin.com/in/$$socialid$$', value: undefined },
+      { id: 'pinterest', baseUrl: 'https://www.pinterest.com/$$socialid$$', value: undefined },
+      { id: 'skype', baseUrl: 'skype:live:$$socialid$$', value: undefined },
+      { id: 'snapchat', baseUrl: 'https://www.snapchat.com/add/$$socialid$$', value: undefined },
+      { id: 'spotify', baseUrl: 'https://open.spotify.com/user/$$socialid$$', value: undefined },
+      { id: 'tiktok', baseUrl: 'https://www.tiktok.com/@$$socialid$$', value: undefined },
+      { id: 'tumblr', baseUrl: 'https://$$socialid$$.tumblr.com/', value: undefined },
+      { id: 'twitter', baseUrl: 'https://www.twitter.com/$$socialid$$', value: undefined },
+      { id: 'vimeo', baseUrl: 'https://www.vimeo.com/$$socialid$$', value: undefined },
+      { id: 'whatsapp', baseUrl: 'https://wa.me/$$socialid$$', value: undefined },
+      { id: 'youtube', baseUrl: 'https://youtube.com/$$socialid$$', value: undefined },
+    ],
   },
-  contacts: {
-    type: Array,
-    required: false,
-    default: []
-  },
+  contacts: [],
+  // {
+  // type: UserSchema.ObjectId,
+  // ref: 'User' }],
+  // {
+  //     type: Array,
+  //     required: false,
+  //     default: [ {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: 'User'
+  //     }]
+  //   },
   image: {
     type: String,
     required: false
   },
   qr: {
     type: String,
-    required: true
+    required: false
   },
   createdAt: {
     type: Date,
@@ -103,18 +110,20 @@ const UserSchema = new mongoose.Schema({
  */
 UserSchema.method({
   generateJWT: function() {
-    console.log('inside GENERATEJWT')
-    const today = new Date();
-    const expirationDate = new Date(today);
-    expirationDate.setDate(today.getDate() + 2);
+    // const today = new Date();
+    // const expirationDate = new Date(today);
+    // expirationDate.setDate(today.getDate() + 2);
 
     return jwt.sign(
       {
         email: this.email,
         id: this._id,
-        exp: parseInt(expirationDate.getTime() / 1000, 10)
+        // exp: parseInt(expirationDate.getTime() / 1000, 10)
       },
-      'secret'
+      'secret',
+      {
+        expiresIn: 10000
+      }
     );
   },
   validatePassword: function(password) {

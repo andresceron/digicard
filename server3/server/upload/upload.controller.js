@@ -13,14 +13,10 @@ const passport = require('passport');
 async function uploadSingle(req, res, next) {
   try
   {
-    console.log( 'inside uploadSingle!! ' );
     const uploadImage = await FileUpload.upload(req.file);
     const storedImagePath = uploadImage.Location;
 
-    console.log( 'inside uploadSingle!! PATH ' , storedImagePath);
-
     await unlinkAsync(`${'uploads/' + req.file.filename}`)
-
     return res.json(new DataForm(storedImagePath));
   }
   catch(err) {

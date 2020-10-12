@@ -28,6 +28,11 @@ module.exports = {
     }
   },
 
+  // SAVECONTACT /api/users/:userId
+  updateUser: {
+    data: Joi.string().required()
+  },
+
   // POST /api/auth/login
   login: {
     data: {

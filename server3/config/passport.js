@@ -86,23 +86,7 @@ passport.use(
             return done(null, user);
         } else {
             return done(null, false);
-            // or you could create a new account
         }
     });
   })
 );
-
-passport.use(
-  'google',
-  new GoogleStrategy({
-  clientID: envVars.GOOGLE_CLIENT_ID,
-  clientSecret: envVars.GOOGLE_SECRET,
-  callbackURL: "/auth/google/callback"
-},
-function(accessToken, refreshToken, profile, cb) {
-  console.log('profile!! ', profile);
-  User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
-}
-));

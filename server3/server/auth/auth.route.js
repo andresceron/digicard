@@ -17,23 +17,7 @@ router.route('/login')
 router.route('/register')
   .post(validate(paramValidation.register), authCtrl.register);
 
-  /** GET /api/auth/google - Returns token if correct username and password is provided */
-router.route('/google')
-  .get(validate(paramValidation.register), authCtrl.google);
-
-  /** GET /api/auth/google - Returns token if correct username and password is provided */
-router.route('/google/callback')
-  .get(validate(paramValidation.register), passport.authenticate('google', { scope: ['profile'] }), authCtrl.googleCallback);
-
-  /** GET /api/auth/linkedin - Returns token if correct username and password is provided */
-router.route('/linkedin')
-  .get(validate(paramValidation.register), authCtrl.linkedin);
-
-  /** GET /api/auth/facebook - Returns token if correct username and password is provided */
-router.route('/facebook')
-  .get(validate(paramValidation.register), authCtrl.facebook);
-
-  /** GET /api/auth/login - Returns token if correct username and password is provided */
+  /** GET /api/auth/me - Returns token if correct username and password is provided */
 router.route('/me')
   .get(validate(paramValidation.me), passportConfig.authenticate, authCtrl.me);
 
