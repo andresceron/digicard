@@ -80,6 +80,12 @@
   }
 }
 
+.searchbar {
+  &__wrapper {
+    margin-top: 20px;
+  }
+}
+
 .align-center-box {
   display: flex;
   align-items: center;

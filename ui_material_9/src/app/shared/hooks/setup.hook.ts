@@ -11,10 +11,6 @@ export function setupHook(cs: ClientStorage) {
         res(true);
       }
 
-      if (!cs.getItem(AppConstants.savedItems)) {
-        cs.setItem(AppConstants.savedItems, []);
-        res(true);
-      }
       return res(true);
     });
   };

@@ -1,41 +1,51 @@
 <sc-title [name]="'Contacts'">
   <ng-template #actions>
-    <!-- <button mat-icon-button [routerLink]="['/post/new']" routerLinkActive="router-link-active">
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Edit Contacts">edit</mat-icon>
+    <button mat-icon-button (click)="toggleSearchbar()" routerLinkActive="router-link-active">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Search contact">{{ isSearchbarVisible ? 'search_off' : 'person_search' }}</mat-icon>
+    </button>
+    <!-- <button mat-icon-button (click)="toggleSearchbar(false)" routerLinkActive="router-link-active" *ngIf="isSearchbarVisible">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Search contact">search_off</mat-icon>
     </button> -->
   </ng-template>
 </sc-title>
-
-<div class="container container__spinner" *ngIf="!posts">
+<div class="container">
+  <sc-searchbar class="searchbar__wrapper" (searchValue)="searchContacts($event)" *ngIf="isSearchbarVisible"></sc-searchbar>
+</div>
+<div class="container container__spinner" *ngIf="!contacts">
   <mat-spinner></mat-spinner>
 </div>
-<div class="container" *ngIf="posts?.length !== 0; else noPosts">
+<div class="container" *ngIf="contacts?.length !== 0; else noPosts">
   <mat-selection-list #selectionList [multiple]="false">
-    <mat-list-option *ngFor="let contact of posts" class="post-item" (click)="goToDetail(contact)">
+    <mat-list-option *ngFor="let contact of contacts" class="post-item" (click)="goToDetail(contact)">
       <div class="item">
         <div class="image">
-          <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="">
+          <ng-container *ngIf="contact.image; else defaultImage">
+            <img [src]="contact.image" alt="">
+          </ng-container>
+
+          <ng-template #defaultImage>
+            <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="">
+          </ng-template>
         </div>
-        <span>{{ contact.title }}</span>
+        <span>{{ contact.firstName + ' ' + contact.lastName }}</span>
       </div>
       <mat-divider></mat-divider>
     </mat-list-option>
   </mat-selection-list>
 </div>
+
 <ng-template #noPosts>
   <div class="container align-center-box">
     <div class="align-center-item">
       <mat-icon class="icon--contacts-empty" aria-hidden="false" aria-label="No Contacts">contacts</mat-icon>
-      <p>NO CONTACTS YET</p>
+      <p>NO CONTACTS FOUND</p>
     </div>
   </div>
 </ng-template>
 
-
 <!-- <div class="container searchbox">
   <div class="row">
     <div class="col">
-      <sc-searchbar class="searchbar__wrapper" (searchValue)="searchItems($event)"></sc-searchbar>
     </div>
   </div>
 </div> -->

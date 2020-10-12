@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '@services/auth.service';
+import { catchError } from 'rxjs/operators';
+import { ClientStorage } from '@services/client-storage.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private clientStorage: ClientStorage,
+    private router: Router,
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = this.authService.currentAuthValue;
     const isLoggedIn = currentUser && currentUser.token;
-    // const isApiUrl = req.url.startsWith(config.apiUrl);
 
     if (isLoggedIn) {
       req = req.clone({
@@ -20,6 +26,18 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(req);
+    return next.handle(req).pipe(
+      catchError(
+        (err, caught) => {
+          if (err.status === 401) {
+            this.clientStorage.removeItem( 'currentAuth' );
+            this.router.navigate(['/login']);
+
+            return of(err);
+          }
+          throw err;
+        }
+      )
+    );
   }
 }

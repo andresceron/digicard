@@ -5,6 +5,7 @@ import { Cookies } from '@services/cookies.service';
 import { PostsService } from '@services/posts.service';
 import { WindowsService } from '@services/windows.service';
 import { UploadService } from '@services/upload.service';
+import { ContactsService } from '@services/contacts.service';
 
 export const SERVICES: any[] = [
   ClientStorage,
@@ -12,5 +13,6 @@ export const SERVICES: any[] = [
   AuthService,
   Cookies,
   PostsService,
-  UploadService
+  UploadService,
+  ContactsService
 ];

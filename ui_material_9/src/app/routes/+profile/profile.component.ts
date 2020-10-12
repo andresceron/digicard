@@ -88,16 +88,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.configForm();
           }
         },
-        (err) => {
+        (err: any) => {
           console.log( 'err!', err );
+          this.isLoading = false;
         }
       );
   }
 
   configForm() {
-    console.log( this.user );
-    console.log( this.profileForm );
-
     this.profileForm.get('personal').patchValue({
       firstName: this.user.firstName,
       lastName: this.user.lastName,
@@ -142,7 +140,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (res: any) => {
-          console.log( 'REEES: ', res );
           if (!!res) {
             this.isUploadingImage = false;
             this.profileForm.get('personal').get('image').patchValue(res);
@@ -182,14 +179,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
           socials: []
         };
 
-        console.log('obj!!!! ', obj);
-
-        this.user.socials.forEach( ( social: {id: string, value: string} ) => {
+        this.user.socials.forEach( ( social: {id: string, value: string, baseUrl: string} ) => {
             obj.socials.push({
               id: social.id,
+              baseUrl: social.baseUrl,
               value: this.profileForm.value.socials[ social.id ] || undefined
             });
         });
+
+        console.log('updated objc!!! ', obj);
 
         this.usersService
           .updateUser(this.currentAuthUser._id, obj)
@@ -224,7 +222,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   getCountryName( isoCode: string ) {
-    return this.countriesList.find(country => country.countryCode === isoCode).countryNameEn;
+    return isoCode ? this.countriesList.find(country => country.countryCode === isoCode).countryNameEn : undefined;
   }
 
   goToLogin() {

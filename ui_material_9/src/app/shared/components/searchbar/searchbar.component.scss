@@ -1,8 +1,12 @@
 // @import './src/scss/_exports';
 
 :host {
-  input {
-    height: 50px;
-    border-radius: 8px;
+  .form-element {
+    width: 100%;
+
+    .search-input {
+      height: 20px
+    }
   }
+
 }

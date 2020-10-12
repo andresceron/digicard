@@ -3,7 +3,7 @@
 
 <div class="container">
   <div *ngIf="!isQRVisible">
-    <a mat-raised-button class="button button__share" (click)="shareQR()">
+    <a mat-raised-button class="button button__share" (click)="shareQR()" *ngIf="user?.qr">
       <span class="m-l-5">QR CODE</span>
     </a>
     <a mat-raised-button class="button button__share" [href]="linkEmail" target="_blank">
@@ -17,7 +17,7 @@
     </a>
   </div>
   <div *ngIf="isQRVisible">
-    <h3 class="text-center m-t-10">SCAN THIS QR CODE</h3>
+    <h3 class="text-center">SCAN THIS QR CODE</h3>
     <img [src]="user.qr">
   </div>
 </div>

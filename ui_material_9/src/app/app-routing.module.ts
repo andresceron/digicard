@@ -33,6 +33,10 @@ export const routes: Routes = [
     loadChildren: () => import('./routes/+contacts/contacts.module').then(m => m.ContactsModule)
   },
   {
+    path: 'public',
+    loadChildren: () => import('./routes/+public/public.module').then(m => m.PublicModule)
+  },
+  {
     path: '**',
     redirectTo: 'contacts'
   }

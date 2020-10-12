@@ -1,10 +1,9 @@
 import { IAppConstants } from '@interfaces/app.interface';
 
-export const AppPrefix = 'Zero QR';
+export const AppPrefix = 'SocialCard';
 export const AppConstants: IAppConstants = {
   prefix: AppPrefix,
-  appState: `${AppPrefix}.appState`,
-  savedItems: `${AppPrefix}.savedItems`
+  appState: `${AppPrefix}.appState`
 };
 
 export const NOTIFICATIONS_MESSAGES = {

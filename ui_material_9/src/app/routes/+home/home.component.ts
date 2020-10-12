@@ -137,7 +137,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadSavedItems() {
-    this.dataSavedIDs = this.cs.getItem(AppConstants.savedItems);
+    // this.dataSavedIDs = this.cs.getItem(AppConstants.savedItems);
 
     let items;
     if (this.savedList) {
@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.cs.setItem(`${AppConstants.savedItems}`, this.dataSavedIDs);
+    // this.cs.setItem(`${AppConstants.savedItems}`, this.dataSavedIDs);
   }
 
   ngOnDestroy() {

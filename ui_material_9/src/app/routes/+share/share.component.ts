@@ -3,6 +3,9 @@ import { UsersService } from '@services/users.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'sc-share',
@@ -12,6 +15,7 @@ import { environment } from 'environments/environment';
 
 export class ShareComponent implements OnInit, OnDestroy {
   public user;
+  public userSub: Subscription;
   public isQRVisible = false;
   public linkEmail: SafeResourceUrl;
   public linkSMS: SafeResourceUrl;
@@ -21,8 +25,8 @@ export class ShareComponent implements OnInit, OnDestroy {
     baseUrl: environment.baseUrl
   };
 
-
   constructor(
+    private authService: AuthService,
     private usersService: UsersService,
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar
@@ -30,8 +34,16 @@ export class ShareComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.user = this.usersService.currentAuthValue;
+    this.userSub = this.usersService.getUser(this.authService.currentAuthValue._id)
+      .pipe(first())
+      .subscribe( data => {
+        console.log('DATA', data );
+        this.user = data;
+        this.configData();
+    });
+  }
 
+  configData() {
     this.configQR();
     this.configEmail();
     this.configSMS();
@@ -39,7 +51,7 @@ export class ShareComponent implements OnInit, OnDestroy {
   }
 
   configQR() {
-    this.user.qr = this.sanitizeUrl(this.user.qr);
+    this.user.qr = this.user.qr ? this.sanitizeUrl(this.user.qr) : false;
   }
 
   configEmail() {

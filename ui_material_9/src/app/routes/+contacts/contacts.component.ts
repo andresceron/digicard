@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
 import { ApiService } from '@services/api.service';
-import { first, map } from 'rxjs/operators';
-import { Iposts } from '@interfaces/posts.interface';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { Ipost } from '@interfaces/post.interface';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,8 +9,9 @@ import { ModalService } from '@components/modal/shared/modal.service';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MatSelectionList, MatListOption } from '@angular/material/list';
-import { SelectionModel } from '@angular/cdk/collections';
+import { MatSelectionList } from '@angular/material/list';
+import { ContactsService } from '@services/contacts.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'sc-contacts',
@@ -20,11 +20,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 
 export class ContactsComponent implements OnInit, OnDestroy {
-  posts: Ipost[];
-  postSub: Subscription;
+  contacts: any;
+  contactsSub: Subscription;
   isPostSubmitted = false;
   isNewPost = false;
   editPost: Ipost;
+  oldSearchQuery: string | undefined = undefined;
+  currentAuthUser: any;
   dialogConfig: MatDialogConfig = {
     disableClose: false,
     autoFocus: true,
@@ -32,7 +34,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   };
   savedPosts = undefined;
   isLoading = false;
-  typesOfShoes: string[] = [ 'Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers' ];
+  isSearchbarVisible = false;
 
   @ViewChild(MatSelectionList, { static: true }) selectionList: MatSelectionList;
 
@@ -50,82 +52,36 @@ export class ContactsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private modalService: ModalService,
     private dialog: MatDialog,
-    private router: Router
+    private contactsService: ContactsService,
+    private router: Router,
+    private authService: AuthService
   ) { }
 
-  // @ViewChild('addPostDialog') addPostDialog: TemplateRef<any>;
-  // openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-  //   this.dialog.open(templateRef);
-  // }
-
   ngOnInit() {
-    this.loadPosts();
+    this.currentAuthUser = this.authService.currentAuthValue;
+    this.loadContacts();
   }
 
-  loadPosts() {
+  loadContacts() {
     this.isLoading = true;
-    this.postSub = this.apiService.get<Iposts>('posts')
-    .pipe(
-      first()
-    )
-    .subscribe((res: Iposts) => {
-      this.posts = res.data;
-      this.isLoading = false;
-    },
-    err => {
-      console.log(err);
-      this.isLoading = false;
-    }
-    );
-
+    this.searchContacts('');
   }
 
-  submitPost(editPost) {
-    if (this.postFormTitle.valid && this.postFormContent.valid) {
-      try {
-        const obj = {
-          title: this.postFormTitle.value.title,
-          content: this.postFormContent.value.content,
-        };
-
-        if (editPost) {
-          this.apiService.put('posts/' + editPost._id, obj)
-          .pipe(first())
-          .subscribe((res: ICustomResponse) => {
-            console.log('res:: ', res);
-            if (!!res) {
-              this.postFormTitle.reset();
-              this.postFormContent.reset();
-
-              const arrIdx = this.posts.findIndex((post) => post._id === res.data._id);
-              this.posts[arrIdx] = {...res.data};
-              this.posts = [...this.posts];
-            }
-          });
-
-        } else {
-          this.apiService.post('posts', obj)
-          .pipe(first())
-          .subscribe((res: ICustomResponse) => {
-            console.log('res:: ', res);
-            if (!!res) {
-              this.postFormTitle.reset();
-              this.postFormContent.reset();
-              this.posts = [...this.posts, res.data];
-            }
-          });
-        }
-
-      } catch (err) {
-        console.log(err);
-      }
+  searchContacts(query?: string) {
+    if (query === this.oldSearchQuery) {
+      return;
     }
-  }
 
-  onDelete(post: Ipost) {
-    this.apiService.delete(`posts/${post._id}`).pipe(first()).subscribe((data) => {
-      const updatedPosts = this.posts.filter(postItem => postItem._id !== post._id);
-      this.posts = [...updatedPosts];
+    this.oldSearchQuery = query;
+
+    this.isLoading = true;
+    this.contactsService.getContacts(this.currentAuthUser._id, query)
+      .pipe(
+        distinctUntilChanged(),
+      )
+      .subscribe(res => {
+        this.isLoading = false;
+        this.contacts = res;
     });
   }
 
@@ -143,16 +99,18 @@ export class ContactsComponent implements OnInit, OnDestroy {
     console.log('back!!');
   }
 
-  // openAddPostDialog() {
-  //   this.editPost = null;
-  //   console.log(this.postFormContent);
-  //   this.isNewPost = true;
-  //   this.dialog.open(this.addPostDialog, this.dialogConfig);
-  // }
+  toggleSearchbar() {
+    if (!this.isSearchbarVisible) {
+      this.isSearchbarVisible = true;
+    } else {
+      this.isSearchbarVisible = false;
+      this.searchContacts('');
+    }
+  }
 
   ngOnDestroy() {
-    if (this.postSub) {
-      this.postSub.unsubscribe();
+    if (this.contactsSub) {
+      this.contactsSub.unsubscribe();
     }
   }
 

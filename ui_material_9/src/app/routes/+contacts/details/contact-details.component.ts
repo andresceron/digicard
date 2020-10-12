@@ -1,66 +1,77 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, TemplateRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
 import { ApiService } from '@services/api.service';
 import { IpostSingle } from '@interfaces/post-single.interface';
-import { ICustomResponse } from '@interfaces/custom-response.interface';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
-import { requiredFileType } from '@shared/validators/file-type.validator';
-import { HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { SafeResourceUrl } from '@angular/platform-browser';
-
+import { ContactsService } from '@services/contacts.service';
+import { IUserResponse } from '@interfaces/user-response.interface';
+import { IUser } from '@interfaces/user.interface';
+import { UsersService } from '@services/users.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
-  selector: 'sc-contact-details',
-  templateUrl: './contact-details.component.html',
-  styleUrls: ['./contact-details.component.scss']
+    selector: 'sc-contact-details',
+    templateUrl: './contact-details.component.html',
+    styleUrls: ['./contact-details.component.scss'],
 })
-
 export class ContactDetailsComponent implements OnInit, OnDestroy {
   progress = 0;
+  isLoading = false;
 
   contactId: string;
   postSub: Subscription;
   routeParamsSub: Subscription;
+  contactSubscription: Subscription;
 
   imagePreview: SafeResourceUrl;
   contactData: any;
 
   constructor(
-    public apiService: ApiService,
     public cs: ClientStorage,
     public cdr: ChangeDetectorRef,
-    private fb: FormBuilder,
-    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private contactsService: ContactsService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.contactId = this.route.snapshot.params.contactId;
-    this.routeParamsSub = this.route.params.subscribe(params => {
-      console.log('subParams', params.contactId);
-    });
-
     if (this.contactId) {
-      console.log(this.contactId);
-      this.postSub = this.apiService.get<IpostSingle>('posts/' + this.contactId)
-      .pipe(first())
-      .subscribe((post: IpostSingle) => {
-        this.contactData = post.data;
-      },
-      err => {
-        console.log(err);
-      }
-      );
-    }
+      this.contactsService.getContact(this.contactId)
+          .pipe(first())
+          .subscribe(
+            (contact: IUser) => {
+              this.isLoading = false;
 
+              this.contactData = contact;
+              this.configSocialUrls(contact.socials);
+            },
+            (err: Error) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+          );
+    }
+  }
+
+  configSocialUrls(socials) {
+    const socialReplacePattern = new RegExp(/(?:^|\W)\$socialid\$(?:$|\W)/);
+
+    socials.forEach(social => {
+      if (!social.value) {
+        return;
+      }
+
+      social.fullUrl = social.baseUrl.replace(socialReplacePattern, social.value);
+    });
   }
 
   imageFileEvent(event) {
@@ -70,34 +81,37 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
     };
 
     reader.readAsDataURL(event);
-
-    // this.postFormGroup.patchValue({image: event}, {onlySelf: true, emitEvent: true});
-    // this.postFormGroup.controls['image'].updateValueAndValidity();
-    // this.postFormGroup.updateValueAndValidity();
   }
 
   showMessage(value) {
     this.snackBar.open(value, 'Dismiss', {
-      duration: 3000
+      duration: 3000,
     });
   }
 
-  onDelete(contactId: string) {
-    this.apiService.delete(`posts/${contactId}`).pipe(first()).subscribe((res) => {
-      if (!!res) {
-        this.showMessage(NOTIFICATIONS_MESSAGES.DELETED);
-        this.router.navigate(['/list']);
-      }
-    });
+  deleteContact() {
+    console.log('DELETE ?? ', this.authService.currentAuthValue);
+    this.contactSubscription =
+      this.contactsService
+        .removeContact(this.authService.currentAuthValue._id, this.contactId)
+        .pipe(first())
+        .subscribe((data: any) => {
+          console.log(data);
+
+          this.showMessage(NOTIFICATIONS_MESSAGES.DELETED);
+          this.router.navigate(['/list']);
+
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   onNavBack() {
-    this.router.navigate([ '/contacts/']);
+    this.router.navigate(['/contacts/']);
   }
 
   ngOnDestroy() {
-    if (this.postSub) {
-      this.postSub.unsubscribe();
-    }
   }
 }
