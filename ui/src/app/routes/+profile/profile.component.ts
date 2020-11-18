@@ -40,6 +40,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   userSub: Subscription;
   formSub: Subscription;
 
+
+  your_name = 'Donald Trump';
+
   public profileForm = this.fb.group({
     personal: this.fb.group({
       firstName: new FormControl('', [Validators.required]),

@@ -43,9 +43,25 @@ export class ContactsService {
 
   }
 
-  removeContact(userId: string, contactId: string) {
+  saveContact(contactId: string) {
     return this.apiService
-      .delete(`contacts/${userId}/delete/${contactId}`)
+      .patch(`contacts/${contactId}/save`, contactId)
+      .pipe(
+        first(),
+        // TODO: Add Contact Interface
+        map((res: any) => {
+          console.log(res);
+          if (res && res.data) {
+            return res.data;
+          }
+          return false;
+        })
+      );
+  }
+
+  removeContact(contactId: string) {
+    return this.apiService
+      .delete(`contacts/${contactId}/delete`)
       .pipe(
         first(),
         // TODO: Add Contact Interface

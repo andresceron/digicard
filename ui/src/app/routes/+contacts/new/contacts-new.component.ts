@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, TemplateRef } from '@angular/core';
-import { ClientStorage } from './node_modules/@services/client-storage.service';
-import { ApiService } from './node_modules/@services/api.service';
+import { ClientStorage } from '@services/client-storage.service';
+import { ApiService } from '@services/api.service';
 import { first } from 'rxjs/operators';
-import { Iposts } from './node_modules/@interfaces/posts.interface';
-import { Ipost } from './node_modules/@interfaces/post.interface';
+import { Iposts } from '@interfaces/posts.interface';
+import { Ipost } from '@interfaces/post.interface';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ICustomResponse } from './node_modules/@interfaces/custom-response.interface';
+import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 @Component({

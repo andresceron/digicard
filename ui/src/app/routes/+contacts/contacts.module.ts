@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { ComponentsModule } from './node_modules/@modules/components.module';
-import { SharedModule } from './node_modules/@modules/shared.module';
+import { ComponentsModule } from '@modules/components.module';
+import { SharedModule } from '@modules/shared.module';
 
 import { ContactsRouterModule } from './contacts-router.module';
 import { RouterModule } from '@angular/router';

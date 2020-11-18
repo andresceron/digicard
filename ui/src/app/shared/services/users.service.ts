@@ -59,7 +59,7 @@ export class UsersService {
       );
   }
 
-  saveContact(userId: string, contactId: string) {
+  public saveContact(userId: string, contactId: string) {
     return this.apiService
       .patch(`users/${userId}`, contactId)
       .pipe(

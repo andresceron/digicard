@@ -61,7 +61,7 @@ export class PublicComponent implements OnInit, OnDestroy {
     }
 
     console.log(this.contactId);
-    this.userSub = this.usersService.saveContact(this.currentAuthUser._id, this.contactId)
+    this.userSub = this.contactsService.saveContact(this.contactId)
     .pipe(first())
     .subscribe((data: any) => {
       this.router.navigate([ '/contacts/']);

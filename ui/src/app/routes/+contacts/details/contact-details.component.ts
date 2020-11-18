@@ -93,7 +93,7 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
     console.log('DELETE ?? ', this.authService.currentAuthValue);
     this.contactSubscription =
       this.contactsService
-        .removeContact(this.authService.currentAuthValue._id, this.contactId)
+        .removeContact(this.contactId)
         .pipe(first())
         .subscribe((data: any) => {
           console.log(data);
