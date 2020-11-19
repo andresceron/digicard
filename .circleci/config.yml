@@ -15,7 +15,7 @@ jobs:
           key: v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
           paths:
             - ./ui/node_modules
-      - run: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
+      - run: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
       - run: cd ./ui; xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
 
 # workflows:
