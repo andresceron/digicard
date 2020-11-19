@@ -5,7 +5,9 @@ jobs:
     docker:
       - image: circleci/node:10
     steps:
-      - run: ls /home/circleci/ui/
+      - run:
+          name: Move to UI directory
+          command: cd /home/circleci/ui/
       - checkout
       - restore_cache:
           key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
