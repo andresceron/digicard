@@ -1,10 +1,13 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/digicard/ui
+    working_directory: ~/digicard
     docker:
       - image: circleci/node:10
     steps:
+      - run:
+          name: GoTo UI
+          command: cd digicard/ui
       - checkout
       - restore_cache:
           keys:
