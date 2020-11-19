@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: GoTo UI
-          command: cd digicard/ui
+          command: cd ui
       - checkout
       - restore_cache:
           keys:
