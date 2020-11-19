@@ -8,14 +8,14 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
             - v1-dependencies-
       - save_cache:
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
           paths:
-            - ./node_modules
-      # - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
-      # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+            - ./ui/node_modules
+      - run: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
+      - run: cd ./ui; xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
 
 # workflows:
 #   build:
