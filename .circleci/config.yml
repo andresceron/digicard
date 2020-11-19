@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/ui
+    working_directory: ~/digicard/ui
     docker:
       - image: circleci/node:10
     steps:
