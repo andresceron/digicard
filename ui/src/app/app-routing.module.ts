@@ -7,7 +7,7 @@ export const routes: Routes = [
   //   path: '',
   //   pathMatch: 'full',
   //   canActivate: [AuthGuard],
-  //   loadChildren: () => import('./routes/+home/home.module').then(m => m.HomeModule)
+  //   loadChildren: () => import('./routes/+contacts/contacts.module').then(m => m.ContactsModule)
   // },
   {
     path: 'login',

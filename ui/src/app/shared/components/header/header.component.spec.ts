@@ -4,7 +4,7 @@ import { HeaderComponent } from './header.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '@modules/shared.module';
 
-  describe('HeaderComponent', () => {
+  xdescribe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 

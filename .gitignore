@@ -6,6 +6,8 @@
 /out-tsc
 /server/dist
 /server/uploads
+/ui/dist
+/ui/coverage
 
 # dependencies
 node_modules/

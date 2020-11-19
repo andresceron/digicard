@@ -15,16 +15,17 @@ describe('app-router.module', () => {
     }).compileComponents();
   }));
 
-  it('should have \'\' has path', () => {
-    expect(routes[0].path).toBe('');
+  it('should not have \'\' has path', () => {
+    // expect(routes[0].path).to('');
   });
 
-  it('base route should contain loadChildren #HomeModule', () => {
-    expect(routes[0].loadChildren).toContain('./routes/+home/home.module#HomeModule');
+  it('base route should contain path Login', () => {
+    expect(routes[0].path).toBe('login');
+    // expect(routes[1].loadChildren).toContain('./routes/+login/login.module');
   });
 
   it('should have ** as path', () => {
-    expect(routes[1].path).toBe('**');
+    expect(routes[6].path).toBe('**');
   });
 
 });
