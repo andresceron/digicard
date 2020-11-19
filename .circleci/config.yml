@@ -12,7 +12,7 @@ jobs:
             - v1-dependencies-
       - run: cd ./ui; ls;
       - run: echo $CIRCLE_WORKING_DIRECTORY/ui; ls;
-      - run: cd $CIRCLE_WORKING_DIRECTORY/ui; ls;
+      - run: cd ~/digicard/ui; ls;
       # - save_cache:
       #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       #     paths:
