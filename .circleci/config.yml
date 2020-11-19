@@ -22,13 +22,10 @@ jobs:
       # - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
       # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
 
-workflows:
-  build:
-    jobs:
-      - bar:
-          pre-steps: # steps to run before steps defined in the job bar
-            - run:
-                command: cd ./ui
-          post-steps: # steps to run after steps defined in the job bar
-            - run:
-                command: echo "upload artifact to s3"
+# workflows:
+#   build:
+#     jobs:
+#       - bar:
+#           pre-steps: # steps to run before steps defined in the job bar
+#             - run:
+#                 command: cd ./ui
