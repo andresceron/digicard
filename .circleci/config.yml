@@ -6,13 +6,13 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout:
-          path: ~/digicard/ui
       - restore_cache:
           keys:
             - v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
             - v1-dependencies-
       - run: cd ./ui; ls;
       - run: echo $CIRCLE_WORKING_DIRECTORY/ui; ls;
+      - run: echo $CIRCLE_WORKING_DIRECTORY/ui/ui; ls;
       # - save_cache:
       #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       #     paths:
