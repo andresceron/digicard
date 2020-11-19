@@ -7,9 +7,12 @@ jobs:
     steps:
       - checkout:
           path: ~/digicard/ui
-      # - run:
-      #     name: GoTo UI
-      #     command: cd digicard/; ls -la; pwd;
+      - run:
+          name: GoTo LS
+          command: ls
+      - run:
+          name: GoTo PWD
+          command: pwd
       # - restore_cache:
       #     keys:
       #       - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
