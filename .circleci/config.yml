@@ -1,20 +1,20 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/digicard
+    working_directory: ~/digicard/ui
     docker:
       - image: circleci/node:10
     steps:
       - checkout:
           path: ~/digicard/ui
-      - run:
-          name: GoTo UI
-          command: cd digicard/; ls -la; pwd;
+      # - run:
+      #     name: GoTo UI
+      #     command: cd digicard/; ls -la; pwd;
       # - restore_cache:
       #     keys:
       #       - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       #       - v1-dependencies-
-      # - run: npm install
+      - run: npm install
       # - save_cache:
       #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       #     paths:
