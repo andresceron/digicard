@@ -7,16 +7,16 @@ jobs:
     steps:
       - run:
           name: GoTo UI
-          command: cd ui
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: npm install
-      - save_cache:
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
+          command: cd digicard/; ls -la; pwd;
+      # - checkout
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      #       - v1-dependencies-
+      # - run: npm install
+      # - save_cache:
+      #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      #     paths:
+      #       - ./node_modules
       # - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
       # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
