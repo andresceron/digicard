@@ -1,21 +1,19 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/digicard/ui
+    working_directory: ~/digicard
     docker:
       - image: circleci/node:10
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
             - v1-dependencies-
-      - run: ls;
-      - run: cd ~/digicard/ui; ls;
-      # - save_cache:
-      #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-      #     paths:
-      #       - ./node_modules
+      - save_cache:
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
       # - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
       # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
 
