@@ -5,10 +5,11 @@ jobs:
     docker:
       - image: circleci/node:10
     steps:
+      - checkout:
+          path: ~/digicard/ui
       - run:
           name: GoTo UI
           command: cd digicard/; ls -la; pwd;
-      # - checkout
       # - restore_cache:
       #     keys:
       #       - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
