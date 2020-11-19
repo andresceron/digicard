@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: Move to UI directory
-          command: cd /home/circleci/ui/
+          command: ls
       - checkout
       - restore_cache:
           key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
