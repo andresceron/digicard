@@ -9,6 +9,8 @@
 /ui/dist
 /ui/coverage
 
+/docs/*
+
 # dependencies
 node_modules/
 

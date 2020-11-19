@@ -12,6 +12,9 @@ jobs:
             - v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
             - v1-dependencies-
       - run: cd ./ui; ls;
+      - run: echo $working_directory;
+      - run: echo $circle_working_directory;
+      - run: echo $CIRCLE_WORKING_DIRECTORY;
       # - save_cache:
       #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       #     paths:
