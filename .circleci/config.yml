@@ -7,14 +7,14 @@ jobs:
     steps:
       - run:
           name: Move to UI directory
-          command: ls
+          command: ls -l
       - checkout
-      - restore_cache:
-          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install
-      - save_cache:
-          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - "node_modules"
-      - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
-      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+      # - restore_cache:
+      #     key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
+      # - run: npm install
+      # - save_cache:
+      #     key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
+      #     paths:
+      #       - "node_modules"
+      # - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
+      # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
