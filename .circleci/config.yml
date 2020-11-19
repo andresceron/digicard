@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     working_directory: ~/digicard
@@ -6,27 +6,29 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout:
-          path: ~/digicard/
-      - run:
-          name: GoTo LS
-          command: ls;
-      - run:
-          name: GoTo PWD
-          command: pwd;
+          path: ~/digicard/ui
       - run:
           name: GoTo ui
-          command: cd ./ui; pwd;
-      - run:
-          name: GoTo ui2
-          command: pwd;
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-      #       - v1-dependencies-
-      - run: npm install
+          command: cd ./ui
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: cd ./ui; npm install
       # - save_cache:
       #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       #     paths:
       #       - ./node_modules
       # - run: xvfb-run -a npm run test -- --watch=false --progress=false --browser=ChromeNoSandbox
       # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+
+workflows:
+  build:
+    jobs:
+      - bar:
+          pre-steps: # steps to run before steps defined in the job bar
+            - run:
+                command: cd ./ui
+          post-steps: # steps to run after steps defined in the job bar
+            - run:
+                command: echo "upload artifact to s3"
