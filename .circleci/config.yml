@@ -1,18 +1,24 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/digicard/ui
+    working_directory: ~/digicard
     docker:
       - image: circleci/node:10
     steps:
       - checkout:
-          path: ~/digicard/ui
+          path: ~/digicard/
       - run:
           name: GoTo LS
-          command: ls
+          command: ls;
       - run:
           name: GoTo PWD
-          command: pwd
+          command: pwd;
+      - run:
+          name: GoTo ui
+          command: cd ./ui; pwd;
+      - run:
+          name: GoTo ui2
+          command: pwd;
       # - restore_cache:
       #     keys:
       #       - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
