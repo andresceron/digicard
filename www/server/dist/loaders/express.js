@@ -40,11 +40,11 @@ exports.default = (function (_a) {
     app.use(passport_1.default.initialize());
     app.use(passport_1.default.session());
     require('../config/passport-service');
-    // Serve UI dist
-    var distDir = path_1.default.resolve(__dirname, '../../../ui/dist/angularnode');
-    app.use(express_1.default.static(distDir));
     /** Mount all routes on /api path */
     app.use('/api', index_route_1.default);
+    // Serve UI dist
+    var distDir = path_1.default.resolve(__dirname, '../../../ui/dist/angularnode/index.html');
+    app.use(express_1.default.static(distDir));
     /** catch 404 and forward to error handler */
     app.use(function (req, res, next) {
         return next(new api_error_1.NotFoundError('API not found'));

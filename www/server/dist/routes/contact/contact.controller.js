@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.remove = exports.save = exports.getSearch = exports.getSingle = exports.loadSingle = void 0;
 var api_error_1 = require("../../helpers/api-error");
 var user_model_1 = __importDefault(require("../../models/user.model"));
 var data_form_1 = __importDefault(require("../../helpers/data-form"));

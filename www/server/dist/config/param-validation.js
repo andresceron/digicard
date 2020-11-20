@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadProfilePicValidation = exports.saveContactValidation = exports.updateUserValidation = exports.registerValidation = exports.loginValidation = void 0;
 var joi_1 = __importDefault(require("@hapi/joi"));
 var api_error_1 = require("../helpers/api-error");
 exports.loginValidation = function (req, res, next) {

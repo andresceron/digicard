@@ -43,12 +43,12 @@ export default ({ app }: { app: express.Application }) => {
   app.use(passport.session());
   require('../config/passport-service');
 
-  // Serve UI dist
-  const distDir = path.resolve(__dirname, '../../../ui/dist/angularnode');
-  app.use(express.static(distDir));
-
   /** Mount all routes on /api path */
   app.use('/api', routes);
+
+  // Serve UI dist
+  const distDir = path.resolve(__dirname, '../../../ui/dist/angularnode/index.html');
+  app.use(express.static(distDir));
 
   /** catch 404 and forward to error handler */
   app.use((req: Request, res: Response, next: NextFunction) => {

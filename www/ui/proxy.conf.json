@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "http://dev.zeroweb.local.com:3000",
+        "target": "https://socialcarddev.herokuapp.com",
         "secure": false,
         "pathRewrite": {
             "^/api": ""

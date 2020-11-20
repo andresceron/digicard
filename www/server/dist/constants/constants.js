@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NODE_ENV = exports.LOG_LEVELS = exports.LOCAL = void 0;
 exports.LOCAL = 'local';
 var LOG_LEVELS;
 (function (LOG_LEVELS) {

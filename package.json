@@ -22,7 +22,7 @@
     "ext": "ts"
   },
   "scripts": {
-    "start": "pm2 start process.json",
+    "start": "pm2 start process.json --env production",
     "start:watch": "nodemon",
     "pm2:start": "pm2 start process.json --env production",
     "pm2:watch": "pm2 start process.json --watch",
