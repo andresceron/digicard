@@ -31,7 +31,11 @@
     "pm2:heroku": "pm2-runtime start process.json --env production",
     "build": "cd www/server && tsc",
     "test": "mocha -r ts-node/register './www/server/**/*.spec.ts'",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet"
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet",
+    "pm2": "pm2",
+    "restart:prod": "pm2 restart process.json --env production",
+    "stop:prod": "pm2 stop socialcard",
+    "heroku-postbuild": "cd www/ui && npm install && npm run build"
   },
   "dependencies": {
     "aws-sdk": "2.657.0",
