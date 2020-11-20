@@ -6,21 +6,49 @@ jobs:
       - image: circleci/node:10-browsers
     steps:
       - checkout
+      - run:
+          name: __SERVER__
+          command: pwd
       - restore_cache:
           keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
-            - v1-dependencies-
-      - run: cd ./ui; npm install
+            - v1-server-dependencies-{{ .Branch }}-{{ checksum "./www/server/package.json" }}
+            - v1-server-dependencies-
+      - run:
+          name: npm install (server)
+          command: cd ./www/server; npm install;
       - save_cache:
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "./www/server/package.json" }}
           paths:
-            - ./ui/node_modules
+            - ./www/server/node_modules
+      # - run:
+      #     name: npm run lint
+      #     command: cd ./www/server; xvfb-run -a npm run lint
+      # - run:
+      #     name: npm run test
+      #     command: cd ./www/server; xvfb-run -a npm run test
+      # - run: ??? is this needed
+      #     name: Start pm2 server
+      #     command: npm run pm2
       - run:
-          name: ng lint
-          command: cd ./ui; xvfb-run -a npm run lint
+          name: __UI__
+          command: pwd
+      - restore_cache:
+          keys:
+            - v1-ui-dependencies-{{ .Branch }}-{{ checksum "./www/ui/package.json" }}
+            - v1-ui-dependencies-
       - run:
-          name: ng test
-          command: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
+          name: npm install (ui)
+          command: cd ./www/ui; npm install;
+      - save_cache:
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "./www/ui/package.json" }}
+          paths:
+            - ./www/ui/node_modules
+      - run:
+          name: npm run lint
+          command: cd ./www/ui; xvfb-run -a npm run lint
+      - run:
+          name: npm run test
+          command: cd ./www/ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
       # - run:
       #     name: ng e2e
       #     command: cd ./ui; xvfb-run -a npm run e2e -- --protractorConfig=e2e/protractor-ci.conf.js

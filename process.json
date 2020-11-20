@@ -1,0 +1,32 @@
+{
+  "name": "socialcard",
+  "script": "app.js",
+  "cwd": "./www/server/dist",
+  "error_file": "./logs/digicard-dev.telescope.tv.err.log",
+  "out_file": "./logs/digicard-dev.telescope.tv.out.log",
+  "log_type": "json",
+  "env": {
+    "PORT": 3000,
+    "NODE_ENV": "dev",
+    "LOG_LEVEL": "debug",
+    "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
+    "MONGO_HOST": "mongodb+srv://dbReadWrite:j2ILjK0RgMMeaSuB@cluster0-fdnhd.mongodb.net/node-angular?retryWrites=true&w=majority",
+    "MONGO_PORT": 27017,
+    "AWS_ID": "AKIAJMEGTTQSGCMV575A",
+    "AWS_SECRET": "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",
+    "AWS_REGION": "eu-west-1",
+    "AWS_BUCKET_NAME": "angularnode2"
+  },
+  "env_production": {
+    "PORT": 3000,
+    "NODE_ENV": "prod",
+    "LOG_LEVEL": "debug",
+    "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
+    "MONGO_HOST": "mongodb+srv://dbReadWrite:j2ILjK0RgMMeaSuB@cluster0-fdnhd.mongodb.net/node-angular?retryWrites=true&w=majority",
+    "MONGO_PORT": 27017,
+    "AWS_ID": "AKIAJMEGTTQSGCMV575A",
+    "AWS_SECRET": "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",
+    "AWS_REGION": "eu-west-1",
+    "AWS_BUCKET_NAME": "angularnode2"
+  }
+}
