@@ -23,7 +23,7 @@ jobs:
           command: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
       - run:
           name: ng e2e
-          command: cd ./ui; xvfb-run -a npm run e2e -- --configuration=e2e/protractor-ci.conf.js
+          command: cd ./ui; xvfb-run -a npm run e2e -- --protractorConfig=e2e/protractor-ci.conf.js
 
 # workflows:
 #   build:

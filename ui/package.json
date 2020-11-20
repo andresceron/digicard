@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e -- --protractorConfig=e2e/protractor-ci.conf.js"
+    "e2e": "ng e2e"
   },
   "engines": {
     "node": ">=10.16"
