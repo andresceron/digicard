@@ -29,7 +29,7 @@
     "pm2:stop": "pm2 stop socialcard",
     "pm2:restart": "pm2 restart socialcard",
     "pm2:heroku": "pm2-runtime start process.json --env production",
-    "build": "tsc",
+    "build": "cd www/server && tsc",
     "test": "mocha -r ts-node/register './www/server/**/*.spec.ts'",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet"
   },
