@@ -11,15 +11,15 @@ jobs:
           command: pwd
       - restore_cache:
           keys:
-            - v1-server-dependencies-{{ .Branch }}-{{ checksum "./www/server/package.json" }}
+            - v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
             - v1-server-dependencies-
       - run:
           name: npm install (server)
-          command: cd ./www/server; npm install;
+          command: npm install;
       - save_cache:
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "./www/server/package.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
-            - ./www/server/node_modules
+            - ./node_modules
       # - run:
       #     name: npm run lint
       #     command: cd ./www/server; xvfb-run -a npm run lint
