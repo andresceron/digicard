@@ -1,0 +1,1 @@
+web: npm pm2:start
