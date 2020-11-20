@@ -19,7 +19,7 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let apiService: ApiService;
-  const apiSpy;
+  // const apiSpy;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
