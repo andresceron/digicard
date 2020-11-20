@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {ModalService} from '@components/modal/shared/modal.service';
 
 @Directive({
-  selector: '[modalState]'
+  selector: '[modalState]' // tslint:disable-line
 })
 
 export class ModalStateDirective implements OnDestroy, OnInit {

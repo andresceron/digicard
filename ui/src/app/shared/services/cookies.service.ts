@@ -13,7 +13,12 @@ export class Cookies {
       return null;
     }
 
-    return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
+    return decodeURIComponent(
+      document.cookie.replace(
+        new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'),
+        '$1'
+      )
+    ) || null;
   }
 
   setItem(sKey?: string, sValue?: any, vEnd?: any, sPath?: string, sDomain?: string, bSecure?: boolean): void {
@@ -42,7 +47,7 @@ export class Cookies {
       }
     }
 
-    document.cookie = `${encodeURIComponent(sKey)}=${encodeURIComponent(sValue)}${sExpires}${(sDomain ? `; domain=${sDomain}` : '')}${sPath ? `; path=${sPath}` : ''}${bSecure ? '; secure' : ''}`;
+    document.cookie = `${encodeURIComponent(sKey)}=${encodeURIComponent(sValue)}${sExpires}${(sDomain ? `; domain=${sDomain}` : '')}${sPath ? `; path=${sPath}` : ''}${bSecure ? '; secure' : ''}`; // tslint:disable-line
   }
 
   removeItem(sKey: any, sPath?: any, sDomain?: any): void {
@@ -51,7 +56,7 @@ export class Cookies {
       return;
     }
 
-    document.cookie = `${encodeURIComponent(sKey)}=; expires=Thu, 01 Jan 1970 00:00:00 GMT${sDomain ? `; domain=${sDomain}` : ''}${sPath ? `; path=${sPath}` : ''}`;
+    document.cookie = `${encodeURIComponent(sKey)}=; expires=Thu, 01 Jan 1970 00:00:00 GMT${sDomain ? `; domain=${sDomain}` : ''}${sPath ? `; path=${sPath}` : ''}`; // tslint:disable-line
   }
 
   hasItem(sKey: any): boolean {

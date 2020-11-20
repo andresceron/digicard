@@ -15,8 +15,15 @@ jobs:
           key: v1-dependencies-{{ .Branch }}-{{ checksum "./ui/package.json" }}
           paths:
             - ./ui/node_modules
-      - run: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
-      - run: cd ./ui; xvfb-run -a npm run e2e -- --progress=false --configuration=protractor-ci.conf.js
+      - run:
+          name: ng lint
+          command: cd ./ui; xvfb-run -a npm run lint
+      - run:
+          name: ng test
+          command: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
+      - run:
+          name: ng e2e
+          command: cd ./ui; xvfb-run -a npm run e2e -- --configuration=e2e/protractor-ci.conf.js
 
 # workflows:
 #   build:

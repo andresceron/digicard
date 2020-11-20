@@ -3,7 +3,7 @@ import {Directive, HostListener, Input} from '@angular/core';
 import {ModalService} from '@components/modal/shared/modal.service';
 
 @Directive({
-  selector: '[modalClose]'
+  selector: '[modalClose]' // tslint:disable-line
 })
 
 export class ModalCloseDirective {
