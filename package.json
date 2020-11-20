@@ -24,7 +24,7 @@
   "scripts": {
     "start": "pm2 start process.json",
     "start:watch": "nodemon",
-    "pm2:start": "pm2 start process.json",
+    "pm2:start": "pm2 start process.json --env production",
     "pm2:watch": "pm2 start process.json --watch",
     "pm2:stop": "pm2 stop socialcard",
     "pm2:restart": "pm2 restart socialcard",
