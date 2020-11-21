@@ -28,9 +28,7 @@ const envVarsSchema = Joi.object({
 const { error, value: envVars } = envVarsSchema.validate(process.env);
 
 console.log('envVars.MONGO_HOST: ', envVars.MONGO_HOST);
-console.log('envVars.MONGO_PORT: ', envVars.MONGO_PORT);
-console.log('envVars.AWS_ID: ', envVars.AWS_ID);
-console.log('envVars.AWS_SECRET: ', envVars.AWS_SECRET);
+console.log('envVars.MONGODB_URI: ', envVars.MONGODB_URI);
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
@@ -45,7 +43,7 @@ const config = {
   mongooseDebug: envVars.MONGOOSE_DEBUG,
   jwtSecret: envVars.JWT_SECRET,
   mongo: {
-    host: envVars.MONGO_HOST,
+    host: envVars.MONGODB_URI || envVars.MONGO_HOST,
     port: envVars.MONGO_PORT
   },
   aws: {
