@@ -7,6 +7,9 @@ if (process.env.ENV === LOCAL && envFound.error) {
   throw new Error("Could not find .env file");
 }
 
+console.log('!!!!! PORT !!!!!! ', process.env.PORT);
+console.log('!!!!! NODE_ENV !!!!!! ', process.env.NODE_ENV);
+
 const envVarsSchema = Joi.object({
   LOG_LEVEL: Joi.string().valid(LOG_LEVELS.ERROR, LOG_LEVELS.WARNING, LOG_LEVELS.INFO, LOG_LEVELS.HTTP, LOG_LEVELS.VERBOSE, LOG_LEVELS.DEBUG).default(LOG_LEVELS.INFO),
   NODE_ENV: Joi.string().valid(NODE_ENV.DEV, NODE_ENV.TEST, NODE_ENV.PROD).default(NODE_ENV.DEV),
@@ -26,9 +29,6 @@ const envVarsSchema = Joi.object({
 }).unknown().required();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env);
-
-console.log('envVars.MONGO_HOST: ', envVars.MONGO_HOST);
-console.log('envVars.MONGODB_URI: ', envVars.MONGODB_URI);
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);

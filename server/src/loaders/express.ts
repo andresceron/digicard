@@ -45,7 +45,7 @@ export default ({ app }: { app: express.Application }) => {
 
   // Serve UI dist
   const distDir = path.resolve(__dirname, '../../../ui/dist/angularnode/index.html');
-  console.log(distDir);
+  console.log(':: distDir :: ', distDir);
 
   app.use(express.static(distDir));
 
