@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var compression_1 = __importDefault(require("compression"));
@@ -44,7 +45,7 @@ exports.default = (function (_a) {
     // Serve UI dist
     var distDir = path_1.default.resolve(__dirname, '../../../ui/dist/angularnode/index.html');
     console.log(distDir);
-    // app.use(express.static(distDir));
+    app.use(express_1.default.static(distDir));
     app.get('/', function (req, res) {
         res.sendFile(distDir);
     });
