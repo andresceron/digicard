@@ -18,6 +18,7 @@
     "AWS_BUCKET_NAME": "angularnode2"
   },
   "env_production": {
+    "PORT": 80,
     "NODE_ENV": "prod",
     "LOG_LEVEL": "debug",
     "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
