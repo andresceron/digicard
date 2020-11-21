@@ -12,5 +12,5 @@ export enum LOG_LEVELS {
 export enum NODE_ENV {
   DEV = 'dev',
   TEST = 'test',
-  PROD = 'prod'
+  PROD = 'production'
 }

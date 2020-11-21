@@ -19,7 +19,7 @@
     "AWS_BUCKET_NAME": "angularnode2"
   },
   "env_production": {
-    "NODE_ENV": "prod",
+    "NODE_ENV": "production",
     "LOG_LEVEL": "debug",
     "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
     "MONGODB_URI": "mongodb+srv://dbReadWrite:j2ILjK0RgMMeaSuB@cluster0-fdnhd.mongodb.net/node-angular?retryWrites=true&w=majority",
