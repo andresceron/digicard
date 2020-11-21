@@ -6,7 +6,6 @@
   "out_file": "./logs/digicard-dev.telescope.tv.out.log",
   "log_type": "json",
   "env": {
-    "PORT": 3000,
     "NODE_ENV": "dev",
     "LOG_LEVEL": "debug",
     "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
