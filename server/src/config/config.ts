@@ -25,12 +25,12 @@ const envVarsSchema = Joi.object({
   AWS_BUCKET_NAME: Joi.string() //.default('angularnode2')
 }).unknown().required();
 
-console.log('envVarsSchema', envVarsSchema);
-console.log('process.env', process.env);
-
 const { error, value: envVars } = envVarsSchema.validate(process.env);
 
-console.log('envVars', envVars);
+console.log('envVars.MONGO_HOST: ', envVars.MONGO_HOST);
+console.log('envVars.MONGO_PORT: ', envVars.MONGO_PORT);
+console.log('envVars.AWS_ID: ', envVars.AWS_ID);
+console.log('envVars.AWS_SECRET: ', envVars.AWS_SECRET);
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
