@@ -10,7 +10,7 @@ if (process.env.ENV === LOCAL && envFound.error) {
 const envVarsSchema = Joi.object({
   LOG_LEVEL: Joi.string().valid(LOG_LEVELS.ERROR, LOG_LEVELS.WARNING, LOG_LEVELS.INFO, LOG_LEVELS.HTTP, LOG_LEVELS.VERBOSE, LOG_LEVELS.DEBUG).default(LOG_LEVELS.INFO),
   NODE_ENV: Joi.string().valid(NODE_ENV.DEV, NODE_ENV.TEST, NODE_ENV.PROD).default(NODE_ENV.DEV),
-  PORT: Joi.number().default(3000),
+  PORT: Joi.number(),
   MONGOOSE_DEBUG: Joi.boolean().when('NODE_ENV', {
     is: Joi.string().equal(NODE_ENV.DEV),
     then: Joi.boolean().default(true),
@@ -36,7 +36,7 @@ const config = {
     level: envVars.LOG_LEVEL
   },
   env: envVars.NODE_ENV,
-  port: Number(envVars.PORT) || process.env.PORT || 80,
+  port: process.env.PORT || 80,
   mongooseDebug: envVars.MONGOOSE_DEBUG,
   jwtSecret: envVars.JWT_SECRET,
   mongo: {

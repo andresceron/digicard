@@ -13,7 +13,7 @@ if (process.env.ENV === constants_1.LOCAL && envFound.error) {
 var envVarsSchema = joi_1.default.object({
     LOG_LEVEL: joi_1.default.string().valid(constants_1.LOG_LEVELS.ERROR, constants_1.LOG_LEVELS.WARNING, constants_1.LOG_LEVELS.INFO, constants_1.LOG_LEVELS.HTTP, constants_1.LOG_LEVELS.VERBOSE, constants_1.LOG_LEVELS.DEBUG).default(constants_1.LOG_LEVELS.INFO),
     NODE_ENV: joi_1.default.string().valid(constants_1.NODE_ENV.DEV, constants_1.NODE_ENV.TEST, constants_1.NODE_ENV.PROD).default(constants_1.NODE_ENV.DEV),
-    PORT: joi_1.default.number().default(3000),
+    PORT: joi_1.default.number(),
     MONGOOSE_DEBUG: joi_1.default.boolean().when('NODE_ENV', {
         is: joi_1.default.string().equal(constants_1.NODE_ENV.DEV),
         then: joi_1.default.boolean().default(true),
@@ -36,7 +36,7 @@ var config = {
         level: envVars.LOG_LEVEL
     },
     env: envVars.NODE_ENV,
-    port: Number(envVars.PORT) || process.env.PORT || 80,
+    port: process.env.PORT || 80,
     mongooseDebug: envVars.MONGOOSE_DEBUG,
     jwtSecret: envVars.JWT_SECRET,
     mongo: {
