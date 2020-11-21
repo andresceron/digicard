@@ -20,7 +20,7 @@
     "build": "cd ./server && tsc",
     "test": "mocha -r ts-node/register './server/**/*.spec.ts'",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet",
-    "heroku-postbuild": "cd ui && npm install && cd .."
+    "heroku-postbuild": "cd ui && npm install"
   },
   "dependencies": {
     "@hapi/joi": "17.1.1",
