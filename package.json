@@ -12,7 +12,7 @@
     "start": "node -r ts-node/register server/src/app.ts",
     "start:watch": "nodemon --config nodemon.json server/src/app.ts",
     "start:dist": "node ./server/dist/app.js",
-    "pm2:start": "pm2 start process.json --env prod",
+    "pm2:start": "pm2 start process.json --env prod --deep-monitoring --attach",
     "pm2:watch": "pm2 start process.json --watch",
     "pm2:stop": "pm2 stop socialcard",
     "pm2:restart": "pm2 restart socialcard",
