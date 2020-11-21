@@ -23,6 +23,9 @@ export default () => {
     Logger.info(`⚡️[db] Connected to mongo database ⚡️`)
   });
 
+  console.log('config.NODE_ENV!! ', config.env);
+  console.log('config.PORT!! ', config.port);
+
   mongoose.connection.on('error', () => {
     Logger.error(`unable to connect to database: ${config.mongo.host}`);
       throw new Error(`unable to connect to database: ${config.mongo.host}`);
