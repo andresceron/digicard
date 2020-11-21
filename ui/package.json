@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --prod",
-    "heroku-postbuild": "cd .."
+    "postinstall": "ng build --prod"
   },
   "engines": {
     "node": "14.1.0",

@@ -19,7 +19,8 @@
     "pm2:restart": "pm2 restart socialcard",
     "build": "cd ./server && tsc",
     "test": "mocha -r ts-node/register './server/**/*.spec.ts'",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet"
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet",
+    "heroku-postbuild": "cd ui && npm install"
   },
   "dependencies": {
     "@hapi/joi": "17.1.1",
