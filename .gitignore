@@ -9,6 +9,10 @@
 /ui/dist
 /ui/coverage
 
+# env files
+.env
+/server/.env
+
 /docs/*
 
 # dependencies

@@ -1,7 +1,7 @@
 {
   "name": "socialcard",
   "script": "app.js",
-  "cwd": "./www/server/dist",
+  "cwd": "./server/dist",
   "error_file": "./logs/digicard-dev.telescope.tv.err.log",
   "out_file": "./logs/digicard-dev.telescope.tv.out.log",
   "log_type": "json",
@@ -18,7 +18,6 @@
     "AWS_BUCKET_NAME": "angularnode2"
   },
   "env_production": {
-    "PORT": 80,
     "NODE_ENV": "prod",
     "LOG_LEVEL": "debug",
     "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
