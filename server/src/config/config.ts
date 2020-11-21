@@ -51,7 +51,8 @@ const config = {
     secret: envVars.AWS_SECRET,
     region: envVars.AWS_REGION,
     bucket_name: envVars.AWS_BUCKET_NAME
-  }
+  },
+  baseUrl: envVars.NODE_ENV === NODE_ENV.PROD ? 'https://socialcarddev.herokuapp.com/' : 'http://dev.zeroweb.local.com/' + (envVars.PORT || 80)
 };
 
 export default config;

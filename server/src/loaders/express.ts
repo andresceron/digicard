@@ -49,7 +49,7 @@ export default ({ app }: { app: express.Application }) => {
 
   app.use(express.static(distDir));
 
-  app.get('/', (req, res) => {
+  app.get('/*', (req, res) => {
     res.sendFile(distDir);
   });
 

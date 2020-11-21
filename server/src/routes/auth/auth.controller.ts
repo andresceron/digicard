@@ -6,6 +6,7 @@ import DataForm from  '../../helpers/data-form' ;;
 import Logger from '../../loaders/logger';
 import { IUser } from '../../interfaces/user.interface';
 import { BadRequestError, ConflictError, InternalServerError, NotFoundError } from '../../helpers/api-error';
+import config from '../../config/config';
 
 /**
  * Returns jwt token if valid email and password is provided
@@ -74,7 +75,8 @@ export const register = async(req: Request, res: Response, next: NextFunction) =
     });
 
     // TODO: Change this static to dynamic per env
-    const qrCodeResponse = await QRCode.toDataURL(`http://dev.zeroweb.local.com:4200/contacts/${newUser._id}`);
+    const qrCodeResponse = await QRCode.toDataURL(`${config.baseUrl}/contacts/${newUser._id}`);
+    console.log('qrCodeResponse:: ', qrCodeResponse);
     newUser.qr = qrCodeResponse;
     newUser.setPassword(password);
 
