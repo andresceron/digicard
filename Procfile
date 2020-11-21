@@ -1,1 +1,1 @@
-web: npm run pm2:start
+web: npm run start:dist
