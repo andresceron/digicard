@@ -53,9 +53,8 @@ export default ({ app }: { app: express.Application }) => {
     res.sendFile(distDir);
   });
 
-
   // /** Mount all routes on /api path */
-  // app.use('/api', routes);
+  app.use('/api', routes);
 
   /** catch 404 and forward to error handler */
   app.use((req: Request, res: Response, next: NextFunction) => {
