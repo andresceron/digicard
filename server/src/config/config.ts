@@ -39,7 +39,7 @@ const config = {
     level: envVars.LOG_LEVEL
   },
   env: envVars.NODE_ENV,
-  port: envVars.env.PORT || 80,
+  port: envVars.PORT || 80,
   mongooseDebug: envVars.MONGOOSE_DEBUG,
   jwtSecret: envVars.JWT_SECRET,
   mongo: {
