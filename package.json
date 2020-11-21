@@ -20,7 +20,8 @@
     "pm2:heroku": "pm2-runtime start process.json --env production",
     "build": "cd ./server && tsc",
     "test": "mocha -r ts-node/register './server/**/*.spec.ts'",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet"
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet",
+    "heroku-postbuild": "cd ui && npm install"
   },
   "dependencies": {
     "@hapi/joi": "17.1.1",
