@@ -1,7 +1,7 @@
 {
   "name": "socialcard",
   "script": "./app.js",
-  "cwd": "../server/dist",
+  "cwd": "/dist",
   "error_file": "./logs/digicard-dev.telescope.tv.err.log",
   "out_file": "./logs/digicard-dev.telescope.tv.out.log",
   "log_type": "json",
