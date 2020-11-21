@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": " ",
   "author": "Andres Ceron",
-  "main": "server/dist/app.js",
+  "main": "./server/dist/app.js",
   "engines": {
     "node": "14.1.0",
     "npm": "6.14.4"
