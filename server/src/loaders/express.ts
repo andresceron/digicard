@@ -44,7 +44,7 @@ export default ({ app }: { app: express.Application }) => {
   require('../config/passport-service');
 
   // Serve UI dist
-  const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
+  const distDir = path.resolve(__dirname, '../../../ui/dist/angularnode/');
   console.log(':: distDir :: ', distDir);
 
   app.use(express.static(distDir));
