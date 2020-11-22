@@ -57,9 +57,9 @@ export default ({ app }: { app: express.Application }) => {
   app.use('/api', routes);
 
   /** catch 404 and forward to error handler */
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    return next(new NotFoundError('API not found'));
-  });
+  // app.use((req: Request, res: Response, next: NextFunction) => {
+  //   return next(new NotFoundError('API not found'));
+  // });
 
   /** ErrorHandler for all API Error */
   app.use(errorHandler);

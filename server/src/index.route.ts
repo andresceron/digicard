@@ -3,7 +3,6 @@ import express from 'express';
 import authRoutes from './routes/auth/auth.route';
 import userRoutes from './routes/user/user.route';
 import contactRoutes from './routes/contact/contact.route';
-// import postRoutes from './routes/post/post.route';
 import uploadRoutes from './routes/upload/upload.route';
 import * as passportAuth from './config/passport-authcheck';
 
