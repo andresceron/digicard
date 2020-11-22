@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import passport from 'passport';
 import path from 'path';
 import routes from '../index.route';
+import clientRoutes from '../client.route';
 import errorHandler from '../helpers/error';
 import { NotFoundError } from '../helpers/api-error';
 
@@ -46,19 +47,8 @@ export default ({ app }: { app: express.Application }) => {
   // /** Mount all routes on /api path */
   app.use('/api', routes);
 
-  // Serve UI dist
-  const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
-  console.log(':: distDir :: ', distDir);
-
-  app.use(express.static(distDir));
-
-  app.get('/', (req, res) => {
-    res.sendFile(distDir);
-  });
-
-  app.get('/public/*', (req, res) => {
-    res.sendFile(distDir);
-  });
+  // /** Mount routes for UI */
+  app.use('/*', clientRoutes);
 
   /** catch 404 and forward to error handler */
   app.use((req: Request, res: Response, next: NextFunction) => {
