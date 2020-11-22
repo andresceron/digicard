@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import fs from 'fs';
 import * as paramValidation from '../../config/param-validation';
 import * as uploadCtrl from './upload.controller';
 import multer from 'multer';
@@ -6,7 +7,10 @@ import multer from 'multer';
 // todo: move to service?
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    if (!fs.existsSync('./uploads')){
+      fs.mkdirSync('./uploads');
+  }
+    cb(null, './uploads/');
   },
   filename: (req, file, cb) => {
     const fileName = file.originalname.toLowerCase().split(' ').join('-');
