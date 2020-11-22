@@ -47,8 +47,14 @@ export default ({ app }: { app: express.Application }) => {
   // /** Mount all routes on /api path */
   app.use('/api', routes);
 
-  // /** Mount routes for UI */
-  app.use('/*', clientRoutes);
+  // Serve UI dist
+  const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
+  app.use(express.static(distDir));
+  console.log(':: distDir :: ', distDir);
+
+  app.get('/*', (req, res) => {
+    res.sendFile(distDir);
+  });
 
   /** catch 404 and forward to error handler */
   app.use((req: Request, res: Response, next: NextFunction) => {
