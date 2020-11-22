@@ -43,23 +43,23 @@ export default ({ app }: { app: express.Application }) => {
   app.use(passport.session());
   require('../config/passport-service');
 
-  // Serve UI dist
-  const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
-  console.log(':: distDir :: ', distDir);
-
-  app.use(express.static(distDir));
-
-  // app.get('/*', (req, res) => {
-  //   res.sendFile(distDir);
-  // });
-
   // /** Mount all routes on /api path */
   app.use('/api', routes);
 
+    // Serve UI dist
+    const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
+    console.log(':: distDir :: ', distDir);
+
+    // app.use(express.static(distDir));
+
+    app.get('*', (req, res) => {
+      res.sendFile(distDir);
+    });
+
   /** catch 404 and forward to error handler */
-  // app.use((req: Request, res: Response, next: NextFunction) => {
-  //   return next(new NotFoundError('API not found'));
-  // });
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    return next(new NotFoundError('API not found'));
+  });
 
   /** ErrorHandler for all API Error */
   app.use(errorHandler);
