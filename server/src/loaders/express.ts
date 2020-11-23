@@ -5,6 +5,7 @@ import compress from 'compression';
 import methodOverride from 'method-override';
 import cors from 'cors';
 import helmet from 'helmet';
+import helmetCSP from 'helmet-csp';
 import passport from 'passport';
 import path from 'path';
 import routes from '../index.route';
@@ -36,6 +37,26 @@ export default ({ app }: { app: express.Application }) => {
   /** Secure apps by setting various HTTP headers */
   app.use(helmet());
 
+  /** Secure CSP with customized directives for HTTP */
+  app.use(
+    helmetCSP({
+      directives: {
+        defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
+        blockAllMixedContent: [],
+        fontSrc: ["'self'", "https:", "data:"],
+        frameAncestors: ["'self'"],
+        imgSrc: ["'self'", "https://pngimage.net/", "data:"],
+        objectSrc: ["'none'"],
+        scriptSrc: ["'self'", "localhost:", "https://apis.google.com/", "'unsafe-inline'"],
+        scriptSrcAttr: ["'none'"],
+        styleSrc: ["'self'", "https:", "'unsafe-inline'"],
+        upgradeInsecureRequests: [],
+      },
+      reportOnly: false,
+    })
+  );
+
   /** Enable CORS - Cross Origin Resource Sharing */
   app.use(cors());
 
@@ -48,7 +69,7 @@ export default ({ app }: { app: express.Application }) => {
   app.use('/api', routes);
 
   // Serve UI dist
-  const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
+  const distDir = path.join(__dirname, '../../../ui/dist/angular9/');
   app.use(express.static(distDir));
   console.log(':: distDir :: ', distDir);
 
