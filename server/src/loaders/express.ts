@@ -69,7 +69,7 @@ export default ({ app }: { app: express.Application }) => {
   app.use('/api', routes);
 
   // Serve UI dist
-  const distDir = path.join(__dirname, '../../../ui/dist/angular9/');
+  const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
   app.use(express.static(distDir));
   console.log(':: distDir :: ', distDir);
 
