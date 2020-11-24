@@ -95,69 +95,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.router.navigate(['/register']);
   }
 
-  onSocialLogin(target): void {
-    this.user = undefined;
-    try {
-
-      if (target === 'google') {
-        this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-      }
-
-      // if (target === 'facebook') {
-      //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-      // }
-
-      // if (target === 'linkedin') {
-      //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-      // }
-
-      this.loginError = false;
-      this.isLoading = true;
-
-      // const source = this.socialAuthService.authState.pipe(
-      //   concatMap(result => this.authService.social(result))
-      // ).subscribe(result2 => { // do stuff });
-      //     console.log('result2: ', result2);
-      //   });
-
-      this.socialAuthService.authState.subscribe((user) => {
-        this.user = user;
-        console.log('user!! ', this.user);
-      });
-
-      this.authService
-          .social(target)
-          .pipe(take(this.user))
-          .subscribe(
-            (res: ICustomResponse) => {
-              if (!!res) {
-                console.log('res: ', res);
-                this.isLoading = false;
-
-                // Sucessful Login
-                // this.snackBar.open(
-                //   `Welcome back ${res.email}`,
-                //   'Dismiss',
-                //   { duration: 3000 }
-                // );
-
-                // this.router.navigate(['/list']);
-              }
-            },
-            (err) => {
-              this.isLoading = false;
-              this.loginFormGroup.controls.password.reset();
-              this.loginFormGroup.controls.password.setErrors(null);
-              this.loginError = true;
-              this.snackBar.open(NOTIFICATIONS_MESSAGES.LOGIN_ERROR, 'Dismiss', {
-                duration: 3000
-              });
-            });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   getErrorEmail() {
     return this.loginFormGroup.get('email').hasError('required') ? 'Field is required' :
       this.loginFormGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
