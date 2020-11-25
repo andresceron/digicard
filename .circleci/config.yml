@@ -54,7 +54,7 @@ jobs:
           command: cd ./ui; xvfb-run -a npm run lint
       - run:
           name: ui test
-          command: cd ./ui; xvfb-run -a npm run test
+          command: cd ./ui; xvfb-run -a npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox
       - run:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
