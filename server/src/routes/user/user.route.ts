@@ -5,11 +5,12 @@ import * as userCtrl from './user.controller';
 
 const router = Router();
 
-router.route('/')
-  /** GET /api/users - Get list of users */
-  // .get(userCtrl.list)
+router.route('/');
+/** GET /api/users - Get list of users */
+// .get(userCtrl.list)
 
-router.route('/:userId')
+router
+  .route('/:userId')
   /** GET /api/users/:userId - Get user */
   .get(passportAuth.authenticateTokenUser, userCtrl.get)
 

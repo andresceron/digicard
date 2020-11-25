@@ -6,7 +6,7 @@ export interface IUser extends Document {
   email: string;
   website: string;
   jobTitle: string;
-  phonePrefix: string
+  phonePrefix: string;
   phoneNumber: string;
   city: string;
   country: string;
@@ -27,14 +27,14 @@ export interface IUser extends Document {
 }
 
 export interface UserModel extends Model<IUser> {
-  get(name: string): Promise<IUser>,
-  list(skip: number, limit: number): Promise<Array<IUser>>
+  get(name: string): Promise<IUser>;
+  list(skip: number, limit: number): Promise<Array<IUser>>;
 }
 
 export interface SocialAccounts {
-  id: string,
-  baseUrl: string,
-  value: string
+  id: string;
+  baseUrl: string;
+  value: string;
 }
 
 export interface IauthJson {

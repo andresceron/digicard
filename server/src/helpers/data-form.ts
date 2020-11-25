@@ -1,5 +1,5 @@
 export default class DataForm {
-  data: object;
+  data: Record<string, unknown>;
   metadata: string | undefined;
 
   /**
@@ -18,5 +18,4 @@ export default class DataForm {
       this.metadata = metadata;
     }
   }
-
 }

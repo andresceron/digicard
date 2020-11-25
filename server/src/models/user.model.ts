@@ -37,7 +37,7 @@ const userSchema = new Schema({
   phoneNumber: {
     type: String,
     required: false,
-    match: [/^[1-9][0-9]{5,15}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.'],
+    match: [/^[1-9][0-9]{5,15}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
   },
   city: {
     type: String,
@@ -65,8 +65,8 @@ const userSchema = new Schema({
       { id: 'twitter', baseUrl: 'https://www.twitter.com/$$socialid$$', value: undefined },
       { id: 'vimeo', baseUrl: 'https://www.vimeo.com/$$socialid$$', value: undefined },
       { id: 'whatsapp', baseUrl: 'https://wa.me/$$socialid$$', value: undefined },
-      { id: 'youtube', baseUrl: 'https://youtube.com/$$socialid$$', value: undefined },
-    ],
+      { id: 'youtube', baseUrl: 'https://youtube.com/$$socialid$$', value: undefined }
+    ]
   },
   contacts: [],
   image: {
@@ -99,11 +99,11 @@ const userSchema = new Schema({
  * Methods
  */
 // TODO: Evaluate to move this methos to a service instead.
-userSchema.methods.generateJWT = function(): string {
+userSchema.methods.generateJWT = function (): string {
   return jwt.sign(
     {
       email: this.email,
-      id: this._id,
+      id: this._id
       // exp: parseInt(expirationDate.getTime() / 1000, 10)
     },
     config.jwtSecret,
@@ -111,31 +111,27 @@ userSchema.methods.generateJWT = function(): string {
       expiresIn: 10000
     }
   );
-}
+};
 
-userSchema.methods.validatePassword = function(password: string): boolean {
+userSchema.methods.validatePassword = function (password: string): boolean {
   console.log('validatePassword', password);
-  const hash = crypto
-    .pbkdf2Sync(password, this.salt, 128, 128, "sha512")
-    .toString("hex");
+  const hash = crypto.pbkdf2Sync(password, this.salt, 128, 128, 'sha512').toString('hex');
   return this.hash === hash;
-}
+};
 
-userSchema.methods.setPassword = function(password: string): void {
-  this.salt = crypto.randomBytes(16).toString("hex");
-  this.hash = crypto
-    .pbkdf2Sync(password, this.salt, 128, 128, "sha512")
-    .toString("hex");
-}
+userSchema.methods.setPassword = function (password: string): void {
+  this.salt = crypto.randomBytes(16).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 128, 128, 'sha512').toString('hex');
+};
 
-userSchema.methods.toAuthJSON = function(token: string): IauthJson {
+userSchema.methods.toAuthJSON = function (token: string): IauthJson {
   return {
     _id: this._id,
     email: this.email,
     token: token,
     username: this.username
-  }
-}
+  };
+};
 
 /**
  * Statics
@@ -150,12 +146,10 @@ userSchema.statics.get = async function (id: string): Promise<IUser> {
     }
 
     return user;
-
   } catch (err) {
     throw err;
   }
-
-}
+};
 
 userSchema.statics.list = function ({ skip = 0, limit = 50 } = {}): Promise<Array<IUser>> {
   return this.find()
@@ -163,7 +157,7 @@ userSchema.statics.list = function ({ skip = 0, limit = 50 } = {}): Promise<Arra
     .skip(+skip)
     .limit(+limit)
     .exec();
-}
+};
 
 /**
  * @typedef User

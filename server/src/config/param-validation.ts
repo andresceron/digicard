@@ -17,7 +17,7 @@ export const loginValidation = (req: Request, res: Response, next: NextFunction)
   }
 
   next();
-}
+};
 
 export const registerValidation = (req: Request, res: Response, next: NextFunction) => {
   const joiSchema = Joi.object().keys({
@@ -25,7 +25,7 @@ export const registerValidation = (req: Request, res: Response, next: NextFuncti
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       email: Joi.string().required(),
-      password: Joi.string().required(),
+      password: Joi.string().required()
     }
   });
 
@@ -36,7 +36,7 @@ export const registerValidation = (req: Request, res: Response, next: NextFuncti
   }
 
   next();
-}
+};
 
 /** PUT /api/users/:userId - Update user */
 export const updateUserValidation = (req: Request, res: Response, next: NextFunction) => {
@@ -51,7 +51,7 @@ export const updateUserValidation = (req: Request, res: Response, next: NextFunc
   }
 
   next();
-}
+};
 
 /** PATCH /api/users/:userId - Update user contacts */
 export const saveContactValidation = (req: Request, res: Response, next: NextFunction) => {
@@ -66,7 +66,7 @@ export const saveContactValidation = (req: Request, res: Response, next: NextFun
   }
 
   next();
-}
+};
 
 /** POST /api/upload - Upload image*/
 export const uploadProfilePicValidation = (req: Request, res: Response, next: NextFunction) => {
@@ -83,4 +83,4 @@ export const uploadProfilePicValidation = (req: Request, res: Response, next: Ne
   }
 
   next();
-}
+};

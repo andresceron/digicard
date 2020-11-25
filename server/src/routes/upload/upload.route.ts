@@ -7,27 +7,25 @@ import multer from 'multer';
 // todo: move to service?
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if (!fs.existsSync('./uploads')){
+    if (!fs.existsSync('./uploads')) {
       fs.mkdirSync('./uploads');
-  }
+    }
     cb(null, './uploads/');
   },
   filename: (req, file, cb) => {
     const fileName = file.originalname.toLowerCase().split(' ').join('-');
     console.log('fileName:: ', fileName);
-    cb(null, fileName)
+    cb(null, fileName);
   }
 });
-const upload = multer({storage: storage});
+const upload = multer({ storage: storage });
 
 const router = Router();
 
-router.route('/')
+router
+  .route('/')
 
   /** POST /api/upload - Create new user */
-  .post(
-    paramValidation.uploadProfilePicValidation,
-    upload.single('data[image]'),
-    uploadCtrl.uploadSingle)
+  .post(paramValidation.uploadProfilePicValidation, upload.single('data[image]'), uploadCtrl.uploadSingle);
 
 export default router;

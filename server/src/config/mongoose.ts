@@ -14,21 +14,25 @@ export default () => {
   mongoose.Promise = Promise;
 
   // connect to mongo db
-  mongoose.connect(config.mongo.host, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    keepAlive: true
-  }, () => {
-    Logger.info(`⚡️[db] Connected to mongo database ⚡️`)
-  });
+  mongoose.connect(
+    config.mongo.host,
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+      keepAlive: true
+    },
+    () => {
+      Logger.info(`⚡️[db] Connected to mongo database ⚡️`);
+    }
+  );
 
   console.log('config.NODE_ENV!! ', config.env);
   console.log('config.PORT!! ', config.port);
 
   mongoose.connection.on('error', () => {
     Logger.error(`unable to connect to database: ${config.mongo.host}`);
-      throw new Error(`unable to connect to database: ${config.mongo.host}`);
+    throw new Error(`unable to connect to database: ${config.mongo.host}`);
   });
 
   // print mongoose logs in dev env
@@ -37,4 +41,6 @@ export default () => {
       debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
     });
   }
+
+  return;
 };

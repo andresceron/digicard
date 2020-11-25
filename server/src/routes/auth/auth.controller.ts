@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
-import QRCode from  'qrcode';
-import User from "../../models/user.model";
-import DataForm from  '../../helpers/data-form' ;;
+import QRCode from 'qrcode';
+import User from '../../models/user.model';
+import DataForm from '../../helpers/data-form';
 import Logger from '../../loaders/logger';
 import { IUser } from '../../interfaces/user.interface';
 import { BadRequestError, ConflictError, InternalServerError, NotFoundError } from '../../helpers/api-error';
@@ -21,7 +21,8 @@ export const login = (req: Request, res: Response, next: NextFunction): any => {
     return next(new BadRequestError('Both email and password are required'));
   }
 
-  return passport.authenticate('login',
+  return passport.authenticate(
+    'login',
     // TODO: Add correct types
     (err: any, passportUser: IUser, info: any) => {
       try {
@@ -33,23 +34,17 @@ export const login = (req: Request, res: Response, next: NextFunction): any => {
           const user = passportUser;
           // TODO: Move to service?
           const token = passportUser.generateJWT();
-          return res.json(
-            new DataForm(
-              { user: passportUser.toAuthJSON(token) }
-            )
-          );
+          return res.json(new DataForm({ user: passportUser.toAuthJSON(token) }));
         }
 
         throw new NotFoundError('User not found');
-
       } catch (err) {
         Logger.error(err);
         return next(err);
       }
     }
   )(req, res, next);
-
-}
+};
 
 /**
  * Returns user if valid email and password is provided
@@ -58,11 +53,11 @@ export const login = (req: Request, res: Response, next: NextFunction): any => {
  * @param next
  * @returns {*}
  */
-export const register = async(req: Request, res: Response, next: NextFunction) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body.data;
 
   try {
-    const user = await User.findOne({'email': email}).exec();
+    const user = await User.findOne({ email: email }).exec();
     if (user) {
       throw new ConflictError('user already registred');
     }
@@ -86,13 +81,11 @@ export const register = async(req: Request, res: Response, next: NextFunction) =
     }
 
     return res.json(new DataForm(newUserResponse));
-
   } catch (err) {
     Logger.error(err);
     return next(err);
   }
-
-}
+};
 
 /**
  * This is a protected route. Will return random number only if jwt token is provided in header.
@@ -103,4 +96,4 @@ export const register = async(req: Request, res: Response, next: NextFunction) =
 export const me = (req: Request, res: Response, next: NextFunction) => {
   //  TODO finish this function call
   res.json(new DataForm(req.user));
-}
+};

@@ -12,7 +12,7 @@ const errorStackTracerFormat = winston.format((info) => {
 const format = {
   format: winston.format.combine(
     winston.format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: 'YYYY-MM-DD HH:mm:ss'
     }),
     winston.format.prettyPrint({
       colorize: true

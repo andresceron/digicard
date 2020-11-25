@@ -5,9 +5,10 @@ orbs:
   slack: circleci/slack@4.1.2
 
 jobs:
-  npm_install:
+  lint_and_test:
     working_directory: ~/digicard
-    machine: true
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - run:
@@ -24,25 +25,16 @@ jobs:
           key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-
-  lint:
-    machine: true
-    steps:
-      - checkout
       - run:
           name: npm run lint
           command: cd ./server; xvfb-run -a npm run lint
-
-  unit_test:
-    machine: true
-    steps:
-      - checkout
       - run:
           name: npm run test
           command: cd ./server; xvfb-run -a npm run test
 
   build:
-    machine: true
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - run:

@@ -8,11 +8,10 @@ import Logger from '../../loaders/logger';
 /**
  * Load user and append to req.
  */
-export const load = async(req: Request, res: Response, next: NextFunction, id: string) => {
-
+export const load = async (req: Request, res: Response, next: NextFunction, id: string) => {
   try {
+    // @ts-expect-error need to fix
     // TODO: Fix _id not found in User
-    // @ts-ignore
     if (id.toString() !== req.user?._id.toString()) {
       throw new UnauthorizedError();
     }
@@ -24,24 +23,20 @@ export const load = async(req: Request, res: Response, next: NextFunction, id: s
     }
 
     // throw user;
-
   } catch (err) {
     // TODO: Fix possible error log.
     // Logger.error('UserCtrlLoadErr: ', err);
     return next(err);
   }
-
-}
+};
 
 /**
  * Get user
  * @returns {User}
  */
 export const get = (req: Request, res: Response) => {
-  return res.json(
-    new DataForm(req.user)
-  );
-}
+  return res.json(new DataForm(req.user));
+};
 
 // /**
 //  * Update existing user
@@ -50,7 +45,7 @@ export const get = (req: Request, res: Response) => {
 //  * @property {string} req.file - The file of post
 //  * @returns {User}
 //  */
-export const update = async(req: Request, res: Response, next: NextFunction) => {
+export const update = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user;
   const bodyData = req.body.data || undefined;
 
@@ -59,23 +54,20 @@ export const update = async(req: Request, res: Response, next: NextFunction) => 
     // TODO: Make a loop instead to go through every user property and match and update
 
     // TODO: Check this typing error of 'user[key]'
-    for (let key of Object.keys(bodyData)) {
-      // @ts-ignore
+    for (const key of Object.keys(bodyData)) {
+      // @ts-expect-error need to fix
       user[key] = bodyData[key];
     }
 
     try {
-      // @ts-ignore
+      // @ts-expect-error need to fix
       const updatedUser = await user.save();
       res.json(new DataForm(updatedUser));
-
     } catch (err) {
       return next(err);
     }
-
   }
-
-}
+};
 
 /**
  * Get user list.
@@ -90,20 +82,19 @@ export const list = (req: Request, res: Response) => {
   // User.list({ limit, skip })
   //   .then(users => res.json(users))
   //   .catch(e => next(e));
-
   // return res.send('hello');
-}
+};
 
 /**
  * Delete user.
  * @returns {User}
  */
-export const remove = async(req: Request, res: Response, next: NextFunction) => {
+export const remove = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user;
 
   // TODO: Fix "remove" function not being recognized
   try {
-    // @ts-ignore
+    // @ts-expect-error need to fix
     const deletedUser = await user?.remove();
 
     if (deletedUser) {
@@ -116,11 +107,9 @@ export const remove = async(req: Request, res: Response, next: NextFunction) => 
           email: deletedUser.email
         })
       );
-
     }
-
   } catch (err) {
     console.log('err', err);
     return next(new InternalServerError(err));
   }
-}
+};

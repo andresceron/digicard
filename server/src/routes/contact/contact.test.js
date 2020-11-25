@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('supertest-as-promised');
 const httpStatus = require('http-status');
-const chai = require('chai'); // eslint-disable-line import/newline-after-import
+const chai = require('chai');
 const expect = chai.expect;
 const app = require('../../index');
 
@@ -19,4 +19,5 @@ after((done) => {
 });
 
 describe('## Posts APIs', () => {
+  console.log('test');
 });

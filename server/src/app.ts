@@ -20,7 +20,7 @@ async function startServer() {
    * Server Application
    */
   app.listen(config.port, () => {
-    Logger.info(`⚡️[server] Running on port: ${config.port} ⚡️`)
+    Logger.info(`⚡️[server] Running on port: ${config.port} ⚡️`);
   });
 
   /**

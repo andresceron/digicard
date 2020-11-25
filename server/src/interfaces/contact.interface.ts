@@ -6,7 +6,7 @@ export interface IContact {
   email: string;
   website: string;
   jobTitle: string;
-  phonePrefix: string
+  phonePrefix: string;
   phoneNumber: string;
   city: string;
   country: string;

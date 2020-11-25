@@ -12,14 +12,14 @@ AWS.config.update({
 });
 
 // TODO: Refactor this to be a service
-export const upload = async(data: any) => {
+export const upload = async (data: any) => {
   try {
     const params = {
       ACL: 'public-read',
       Bucket: config.aws.bucket_name,
       Body: fs.createReadStream(data.path),
       ContentType: data.mimetype,
-      Key: `avatar/${new Date().getTime()}_` + `${data.filename}`,
+      Key: `avatar/${new Date().getTime()}_` + `${data.filename}`
     };
 
     return await s3.upload(params).promise(); //.then(uploadResolve);
@@ -27,5 +27,4 @@ export const upload = async(data: any) => {
     console.log('Error occured while trying to upload to S3 bucket', e);
     return e;
   }
-
-}
+};

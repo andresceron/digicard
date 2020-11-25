@@ -19,7 +19,7 @@
     "pm2:stop": "pm2 stop socialcard",
     "pm2:restart": "pm2 restart socialcard",
     "test": "mocha -r ts-node/register './server/**/*.spec.ts'",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet",
+    "lint": "cd ./server && eslint '*/**/*.{js,ts,tsx}' --quiet",
     "postinstall": "cd ./server && tsc",
     "heroku-postbuild": "cd ui && npm install"
   },
@@ -102,6 +102,17 @@
     "typescript": "3.8.3"
   },
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test && lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

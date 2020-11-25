@@ -6,12 +6,10 @@ import DataForm from '../../helpers/data-form';
 /**
  * Load contact and append to req.
  */
-export const loadSingle = async(req: Request, res: Response, next: NextFunction, id: string) => {
-
+export const loadSingle = async (req: Request, res: Response, next: NextFunction, id: string) => {
   try {
     const contact = await User.get(id);
     if (contact) {
-
       const customContact = {
         firstName: contact.firstName,
         lastName: contact.lastName,
@@ -26,7 +24,7 @@ export const loadSingle = async(req: Request, res: Response, next: NextFunction,
         socials: contact.socials
       };
 
-      // @ts-ignore
+      // @ts-expect-error need to fix
       req.contact = contact;
 
       next();
@@ -34,8 +32,7 @@ export const loadSingle = async(req: Request, res: Response, next: NextFunction,
   } catch (err) {
     return next(err);
   }
-
-}
+};
 
 /**
  * Get contact single
@@ -43,10 +40,10 @@ export const loadSingle = async(req: Request, res: Response, next: NextFunction,
  */
 export const getSingle = (req: Request, res: Response, next: NextFunction) => {
   return res.json(
-    // @ts-ignore
+    // @ts-expect-error need to fix
     new DataForm(req.contact)
   );
-}
+};
 
 /**
  * Get contact single
@@ -54,7 +51,7 @@ export const getSingle = (req: Request, res: Response, next: NextFunction) => {
  */
 export const getSearch = async (req: Request, res: Response, next: NextFunction) => {
   // Comparing IDS to match token id
-  // @ts-ignore
+  // @ts-expect-error need to fix
   if (!req.user?._id.equals(req.params.userId)) {
     return next(new UnauthorizedError());
   }
@@ -64,29 +61,23 @@ export const getSearch = async (req: Request, res: Response, next: NextFunction)
     const query = {
       $and: [
         {
-          $or:
-            [
-              { firstName: search },
-              { lastName: search },
-            ]
-        },
+          $or: [{ firstName: search }, { lastName: search }]
+        }
       ]
     };
 
     const contactsReturnFilter = { _id: 1, firstName: 1, lastName: 1, image: 1 };
     const contactsResults = await User.find(query, contactsReturnFilter).exec();
 
-    // @ts-ignore
-    const filterResults = contactsResults.filter(r => req.user?.contacts.includes(r._id));
+    // @ts-expect-error need to fix
+    const filterResults = contactsResults.filter((r) => req.user?.contacts.includes(r._id));
 
     res.json(new DataForm(filterResults));
-
   } catch (err) {
     console.log('err!!! ', err);
     return next(new BadRequestError(err));
   }
-
-}
+};
 
 /**
  * SaveContact
@@ -95,34 +86,32 @@ export const getSearch = async (req: Request, res: Response, next: NextFunction)
  */
 
 // TODO: Fix 'contacts' and 'save' to show correct.
-export const save = async(req: Request, res: Response, next: NextFunction) => {
+export const save = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user;
   const contact = req.body.data;
 
-  // @ts-ignore
+  // @ts-expect-error need to fix
   const contactFound = user?.contacts.includes(contact);
 
-  // @ts-ignore
+  // @ts-expect-error need to fix
   if (contactFound || user?._id === req.body.data) {
     return next(new ConflictError('Contact is already in your list'));
   }
 
   try {
-    // @ts-ignore
+    // @ts-expect-error need to fix
     user?.contacts.push(contact);
 
-    // @ts-ignore
+    // @ts-expect-error need to fix
     const updatedUser = await user?.save();
 
     if (updatedUser) {
       res.json(new DataForm(updatedUser));
     }
-
   } catch (err) {
     return next(new InternalServerError());
   }
-
-}
+};
 
 /**
  * Remove existing contact
@@ -130,22 +119,22 @@ export const save = async(req: Request, res: Response, next: NextFunction) => {
  * @returns {void}
  */
 
-export const remove = async(req: Request, res: Response, next: NextFunction) => {
+export const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // @ts-ignore
-    const updateContact = await User.findByIdAndUpdate(req.user?._id, { $pullAll: { contacts: [req.params.contactId] } });
+    // @ts-expect-error need to fix
+    const updateContact = await User.findByIdAndUpdate(req.user?._id, {
+      $pullAll: { contacts: [req.params.contactId] }
+    });
     if (!updateContact) {
       throw new BadRequestError();
     }
 
     console.log('updateContact: ', updateContact);
-    res.json(new DataForm(updateContact))
-
+    res.json(new DataForm(updateContact));
   } catch (err) {
     return next(new BadRequestError());
   }
-}
-
+};
 
 // /**
 //  * Update existing user
@@ -176,13 +165,10 @@ export const remove = async(req: Request, res: Response, next: NextFunction) => 
 //     )
 //   }
 
-
 //   user.firstName = req.body.data.firstName;
 //   user.save()
 //     .then(savedUser => res.json(new DataForm(savedUser)))
 //     .catch(e => next(e));
 // }
-
-
 
 // module.exports = { loadSingle, loadPublicUser, getSingle, getSearch, update, remove };
