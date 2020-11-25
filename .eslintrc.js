@@ -19,4 +19,4 @@ module.exports = {
     'max-len': ['error', { code: 120, ignoreUrls: true }]
   }
 };
-/* eslint-disable max-len */
+/* eslint-enable max-len */

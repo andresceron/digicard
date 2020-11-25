@@ -31,6 +31,9 @@ jobs:
       - run:
           name: npm run test
           command: cd ./server; xvfb-run -a npm run test
+      - run:
+          name: npm run build
+          command: cd ./server; xvfb-run -a npm run test
 
   build:
     docker:
@@ -38,23 +41,24 @@ jobs:
     steps:
       - checkout
       - run:
-          name: npm run test
+          name: npm run build
           command: cd ./server; xvfb-run -a npm run test
 
-  # deploy:
-  #   executor: heroku/default
-  #   steps:
-  #     - checkout
-  #     - heroku/install
-  #     - heroku/deploy-via-git
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git
 
 workflows:
   deploy_heroku:
     jobs:
-      - npm_install
-      - lint
-      - unit_test
-
+      - server_lint_and_test
+      - server_build
+      - ui_lint_and_test
+      - ui_build
+      - deploy
 
 
 

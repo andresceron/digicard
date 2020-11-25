@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { NextFunction, Request, Response } from 'express';
 import fs = require('fs');
 import User from '../../models/user.model';
@@ -10,7 +11,7 @@ import Logger from '../../loaders/logger';
  */
 export const load = async (req: Request, res: Response, next: NextFunction, id: string) => {
   try {
-    // @ts-expect-error need to fix
+    // @ts-ignore
     // TODO: Fix _id not found in User
     if (id.toString() !== req.user?._id.toString()) {
       throw new UnauthorizedError();
@@ -55,12 +56,12 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     // TODO: Check this typing error of 'user[key]'
     for (const key of Object.keys(bodyData)) {
-      // @ts-expect-error need to fix
+      // @ts-ignore
       user[key] = bodyData[key];
     }
 
     try {
-      // @ts-expect-error need to fix
+      // @ts-ignore
       const updatedUser = await user.save();
       res.json(new DataForm(updatedUser));
     } catch (err) {
@@ -94,7 +95,7 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
 
   // TODO: Fix "remove" function not being recognized
   try {
-    // @ts-expect-error need to fix
+    // @ts-ignore
     const deletedUser = await user?.remove();
 
     if (deletedUser) {
@@ -113,3 +114,4 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     return next(new InternalServerError(err));
   }
 };
+/* eslint-enable @typescript-eslint/ban-ts-comment */
