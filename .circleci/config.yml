@@ -69,9 +69,14 @@ jobs:
 workflows:
   default:
     jobs:
-      - server_lint_test_build
-      - ui_lint_test_build
-      - deploy_heroku
+      - server_lint_test_build # your custom job from your config, that builds your code
+      - ui_lint_test_build: # your custom job; runs test suite 1
+          requires: # test1 will not run until the `build` job is completed.
+            - server_lint_test_build
+      - deploy_heroku: # another custom job; runs test suite 2,
+          requires: # test2 is dependent on the success of job `test1`
+            - server_lint_test_build
+            - ui_lint_test_build
 
 
 # orbs:
