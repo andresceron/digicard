@@ -5,44 +5,59 @@ orbs:
   slack: circleci/slack@4.1.2
 
 jobs:
-  lint_and_test:
+  server_lint_test_build:
     working_directory: ~/digicard
     docker:
       - image: circleci/node:10-browsers
     steps:
       - checkout
-      - run:
-          name: __SERVER__
-          command: pwd
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-serve  r-dependencies-
+            - v1-server-dependencies-
       - run:
-          name: npm install (server)
+          name: server npm install
           command: npm install;
       - save_cache:
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: npm run lint
+          name: server lint
           command: cd ./server; xvfb-run -a npm run lint
       - run:
-          name: npm run test
+          name: server test
           command: cd ./server; xvfb-run -a npm run test
       - run:
-          name: npm run build
-          command: cd ./server; xvfb-run -a npm run test
+          name: server build
+          command: cd ./server; xvfb-run -a tsc
 
-  build:
+  ui_lint_test_build:
+    working_directory: ~/digicard
     docker:
       - image: circleci/node:10-browsers
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-ui-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-ui-dependencies-
       - run:
-          name: npm run build
-          command: cd ./server; xvfb-run -a npm run test
+          name: ui npm install
+          command: cd ./ui && npm install;
+      - save_cache:
+          key: v1-ui-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ./ui/node_modules
+      - run:
+          name: ui lint
+          command: cd ./ui; xvfb-run -a npm run lint
+      - run:
+          name: ui test
+          command: cd ./ui; xvfb-run -a npm run test
+      - run:
+          name: ui build
+          command: cd ./ui; xvfb-run -a npm run build
 
   deploy:
     executor: heroku/default
@@ -54,13 +69,9 @@ jobs:
 workflows:
   deploy_heroku:
     jobs:
-      - server_lint_and_test
-      - server_build
+      - server_lint_test_build
       - ui_lint_and_test
-      - ui_build
       - deploy
-
-
 
 
 # orbs:
