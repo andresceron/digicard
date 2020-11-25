@@ -51,9 +51,6 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
   const bodyData = req.body.data || undefined;
 
   if (!!user) {
-    // TODO: fix all props not showing correctly
-    // TODO: Make a loop instead to go through every user property and match and update
-
     // TODO: Check this typing error of 'user[key]'
     for (const key of Object.keys(bodyData)) {
       // @ts-ignore

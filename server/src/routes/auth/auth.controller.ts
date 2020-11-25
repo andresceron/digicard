@@ -70,7 +70,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     });
 
     // TODO: Change this static to dynamic per env
-    const qrCodeResponse = await QRCode.toDataURL(`${config.baseUrl}/contacts/${newUser._id}`);
+    const qrCodeResponse = await QRCode.toDataURL(`${config.baseUrl}/public/${newUser._id}`);
     console.log('qrCodeResponse:: ', qrCodeResponse);
     newUser.qr = qrCodeResponse;
     newUser.setPassword(password);
