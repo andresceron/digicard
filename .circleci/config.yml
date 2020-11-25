@@ -59,7 +59,7 @@ jobs:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
 
-  deploy:
+  deploy_heroku:
     executor: heroku/default
     steps:
       - checkout
@@ -67,11 +67,11 @@ jobs:
       - heroku/deploy-via-git
 
 workflows:
-  deploy_heroku:
+  default:
     jobs:
       - server_lint_test_build
-      - ui_lint_and_test
-      - deploy
+      - ui_lint_test_build
+      - deploy_heroku
 
 
 # orbs:
