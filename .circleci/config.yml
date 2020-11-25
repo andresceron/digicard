@@ -30,7 +30,7 @@ jobs:
           command: cd ./server; xvfb-run -a npm run test
       - run:
           name: server build
-          command: cd ./server; xvfb-run -a tsc
+          command: cd ./server;
 
   ui_lint_test_build:
     working_directory: ~/digicard
