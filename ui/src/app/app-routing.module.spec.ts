@@ -11,7 +11,7 @@ describe('app-router.module', () => {
     }).compileComponents();
   }));
 
-  it("should not have '' has path", () => {
+  it('should not have empty has path', () => {
     // expect(routes[0].path).to('');
   });
 
