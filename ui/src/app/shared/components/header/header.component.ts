@@ -1,24 +1,27 @@
 import {
   Component,
   OnInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sc-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./header.component.scss']
 })
 
 export class HeaderComponent implements OnInit {
-
   userSubscription: Subscription;
   currentUser: any;
+  activeRoute: string;
+
+  ROUTES = {
+    LOGIN: 'login',
+    REGISTER: 'register'
+  };
 
   constructor(
     private authService: AuthService,
@@ -26,19 +29,24 @@ export class HeaderComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.userSubscription = this.authService.currentAuth.subscribe(res => {
       this.currentUser = res;
       this.cdr.markForCheck();
     });
 
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event.url) {
+        this.activeRoute = event.url.replace('/', '');
+      }
+    });
   }
 
-  goToPage(path) {
+  public goToPage(path) {
     this.router.navigate([`/${path}`]);
   }
 
-  onLogout() {
+  public onLogout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

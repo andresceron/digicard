@@ -17,19 +17,15 @@ import { ConfirmPasswordValidator } from '@validators/confirm-password.validator
 export class RegisterComponent implements OnInit, OnDestroy {
   registerError: boolean;
   formHasError: boolean;
+  formErrorFirstName = 'Invalid first name';
+  formErrorLastName = 'Invalid last name';
   formErrorEmail = 'Invalid email';
+  formErrorMinPassword = 'Password must be at least 6 characters';
+  formErrorMaxPassword = 'Password must be less than 15 characters';
   showPassword = false;
   isLoading = false;
 
   public registerFormGroup: FormGroup;
-
-  // public registerFormGroup: FormGroup = this.fb.group( {
-  //   firstName: [ '', [ Validators.required ] ],
-  //   lastName: [ '', [ Validators.required ] ],
-  //   email: [ '', [ Validators.required, , Validators.email ] ],
-  //   password: [ '', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 10 ) ] ]
-  // } );
-  // , { validator: ConfirmPasswordValidator.MatchPassword });
 
   constructor(
     private authService: AuthService,

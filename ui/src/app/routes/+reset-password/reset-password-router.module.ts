@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { ListComponent } from './list.component';
-import { AuthGuard } from '@guards/auth.guard';
+import { ResetPasswordComponent } from './reset-password.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ListComponent,
-    canActivate: [AuthGuard]
+    component: ResetPasswordComponent
+  },
+  {
+    path: ':token',
+    component: ResetPasswordComponent
   }
 ];
 
@@ -18,4 +19,4 @@ const routes: Routes = [
   ]
 })
 
-export class ListRouterModule {}
+export class ResetPasswordRouterModule {}

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import config from '../config/config';
 import { IauthJson, IUser, UserModel } from '../interfaces/user.interface';
+import { ConflictError } from '../helpers/api-error';
 
 /**
  * User Schema
@@ -139,10 +140,10 @@ userSchema.methods.toAuthJSON = function (token: string): IauthJson {
 
 userSchema.statics.get = async function (id: string): Promise<IUser> {
   try {
-    const user = await this.findById(id);
+    const user = await this.findOne({_id: id}, {hash: 0, salt: 0});
 
     if (!user) {
-      throw user;
+      throw new ConflictError('User does not exist');
     }
 
     return user;

@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ICustomResponse } from '@interfaces/custom-response.interface';
-import { first, concatMap, take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { IAuthResponse } from '@interfaces/auth-response.interface';
 import { GoogleLoginProvider, AuthService as SocialAuthService } from 'angularx-social-login';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'sc-login',
@@ -20,13 +18,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginError: boolean;
   formHasError: boolean;
   formErrorEmail = 'Invalid email';
+  formErrorPassword = 'Invalid password';
   showPassword = false;
   isLoading = false;
   user = undefined;
 
   public loginFormGroup: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(8)]]
+    password: ['', [Validators.required]]
   } );
 
   private regexValidators = {
@@ -40,8 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private socialAuthService: SocialAuthService,
-    private http: HttpClient
+    private socialAuthService: SocialAuthService
   ) { }
 
   ngOnInit() {
@@ -91,27 +89,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRegister() {
-    this.router.navigate(['/register']);
-  }
-
-  getErrorEmail() {
-    return this.loginFormGroup.get('email').hasError('required') ? 'Field is required' :
-      this.loginFormGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
-        this.loginFormGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
-  }
-
-  getErrorPassword() {
-    return this.loginFormGroup.get( 'password' ).hasError( 'required' ) ?
-      'Field is required (at least eight characters, one uppercase letter and one number)' :
-      this.loginFormGroup.get( 'password' ).hasError( 'requirements' ) ?
-        'Password needs to be at least eight characters, one uppercase letter and one number' : '';
-  }
-
-  checkPassword(control) {
-    const enteredPassword = control.value;
-    const passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-    return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
+  public goToPage(path) {
+    this.router.navigate([`/${path}`]);
   }
 
   ngOnDestroy() {

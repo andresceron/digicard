@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@guards/auth.guard';
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   pathMatch: 'full',
-  //   canActivate: [AuthGuard],
-  //   loadChildren: () => import('./routes/+contacts/contacts.module').then(m => m.ContactsModule)
-  // },
+  {
+    path: '',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./routes/+contacts/contacts.module').then(m => m.ContactsModule)
+  },
   {
     path: 'login',
     loadChildren: () => import('./routes/+login/login.module').then(m => m.LoginModule)
@@ -16,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./routes/+register/register.module').then(m => m.RegisterModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./routes/+reset-password/reset-password.module').then(m => m.ResetPasswordModule)
   },
   {
     path: 'profile',

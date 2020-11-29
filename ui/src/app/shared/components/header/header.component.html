@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header" *ngIf="activeRoute !== ROUTES.LOGIN">
   <mat-toolbar>
     <mat-toolbar-row>
       <a class="header-title" [routerLink]="['/']" routerLinkActive="router-link-active">
@@ -27,7 +27,11 @@
         </mat-menu>
       </ng-container>
       <ng-container *ngIf="!currentUser">
-          <a mat-raised-button color="warn" routerLinkActive="router-link-active" (click)="goToPage('register')">Register</a>
+        <a mat-raised-button
+          color="warn"
+          routerLinkActive="router-link-active"
+          *ngIf="activeRoute === ROUTES.REGISTER"
+          (click)="goToPage('login')">Login</a>
       </ng-container>
 
     </mat-toolbar-row>

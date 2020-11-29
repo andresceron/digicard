@@ -21,13 +21,13 @@ export class AuthService {
     return this.currentAuthSubject.value;
   }
 
-  login(obj) {
+  login(obj: object) {
     return this.apiService
         .post('auth/login', obj)
         .pipe(
           first(),
           map((res: ICustomResponse) => {
-            if (res && res.data && res.data.user && res.data.user.token) {
+            if (res?.data?.user && res?.data?.user?.token) {
               this.token = res.data.user.token;
               localStorage.setItem('currentAuth', JSON.stringify(res.data.user));
               this.currentAuthSubject.next({...res.data.user});
@@ -37,13 +37,52 @@ export class AuthService {
         );
   }
 
-  register(obj) {
+  register(obj: object) {
     return this.apiService
         .post('auth/register', obj)
         .pipe(
           first(),
           map((res: ICustomResponse) => {
             if (res && res.data && res.data._id) {
+              return res.data;
+            }
+          })
+        );
+  }
+
+  resetPassword(obj: object) {
+    return this.apiService
+        .post('auth/reset-password', obj)
+        .pipe(
+          first(),
+          map((res: ICustomResponse) => {
+            if (res?.data?.status) {
+              return res.data.status;
+            }
+          })
+        );
+  }
+
+  validateResetPasswordToken(obj: object) {
+    return this.apiService
+        .post('auth/validate-password-token', obj)
+        .pipe(
+          first(),
+          map((res: ICustomResponse) => {
+            if (res?.data?.status) {
+              return res.data.status;
+            }
+          })
+        );
+  }
+
+  newPassword(obj: object) {
+    return this.apiService
+        .post('auth/new-password', obj)
+        .pipe(
+          first(),
+          map((res: ICustomResponse) => {
+            if (res?.data) {
               return res.data;
             }
           })

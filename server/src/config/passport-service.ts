@@ -1,6 +1,5 @@
 import User from '../models/user.model';
 import Logger from '../loaders/logger';
-import DataForm from '../helpers/data-form';
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import * as passportJWT from 'passport-jwt';
@@ -93,7 +92,7 @@ passport.use(
   'jwt',
   new JWTStrategy(opts, async (jwt_payload, done) => {
     try {
-      const user = await User.findOne({ _id: jwt_payload.id });
+      const user = await User.get(jwt_payload.id);
       if (user) {
         return done(null, user);
       } else {
