@@ -101,7 +101,7 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
 
   console.log('inside reset-password controller');
 
-  const resetToken = new passwordResetToken({ _userId: user._id, resetToken: crypto.randomBytes(16).toString('hex') })
+  const resetToken = new passwordResetToken({ _userId: user._id, resetToken: crypto.randomBytes(16).toString('hex') });
   const saveResetToken = await resetToken.save();
   if (!saveResetToken) {
     throw new InternalServerError();
@@ -109,25 +109,29 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
 
   await passwordResetToken.deleteOne({ _userId: user._id, resetToken: { $ne: resetToken.resetToken } }).exec();
 
-  const transporter =
-    nodemailer.createTransport({
-      service: 'Gmail',
-      port: 465,
-      auth: {
-        user: 'andres.fleat@gmail.com',
-        pass: 'aC890423'
-      }
-    });
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    port: 465,
+    auth: {
+      user: 'andres.fleat@gmail.com',
+      pass: 'aC890423'
+    }
+  });
 
+  /* eslint-disable max-len */
   const mailOptions = {
     to: user.email,
     from: 'andres.fleat@gmail.com',
     subject: 'Node.js Password Reset',
-    text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+    text:
+      'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
       'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-      'http://dev.zeroweb.local.com:4200/reset-password/' + resetToken.resetToken + '\n\n' +
+      'http://dev.zeroweb.local.com:4200/reset-password/' +
+      resetToken.resetToken +
+      '\n\n' +
       'If you did not request this, please ignore this email and your password will remain unchanged.\n'
   };
+  /* eslint-enable max-len */
 
   transporter.sendMail(mailOptions, (err: any, info: any) => {
     console.log('sendMail info', info);
@@ -157,13 +161,11 @@ export const validatePasswordToken = async (req: Request, res: Response, next: N
       throw new InternalServerError();
     }
 
-    return res.json(
-      new DataForm({ status: 'OK' })
-    );
+    return res.json(new DataForm({ status: 'OK' }));
   } catch (err) {
     return next(err);
   }
-}
+};
 
 export const newPassword = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -185,14 +187,10 @@ export const newPassword = async (req: Request, res: Response, next: NextFunctio
 
     await passwordResetToken.deleteOne({ _userId: user._id, resetToken: req.body.data.token }).exec();
 
-    return res.json(
-      new DataForm({ status: 'OK' }
-    ));
-
+    return res.json(new DataForm({ status: 'OK' }));
   } catch (err) {
     return next(err);
   }
-
 };
 
 /**

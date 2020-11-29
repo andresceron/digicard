@@ -140,7 +140,7 @@ userSchema.methods.toAuthJSON = function (token: string): IauthJson {
 
 userSchema.statics.get = async function (id: string): Promise<IUser> {
   try {
-    const user = await this.findOne({_id: id}, {hash: 0, salt: 0});
+    const user = await this.findOne({ _id: id }, { hash: 0, salt: 0 });
 
     if (!user) {
       throw new ConflictError('User does not exist');

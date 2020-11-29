@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { IResetToken } from '../interfaces/reset-token.interface'
+import { IResetToken } from '../interfaces/reset-token.interface';
 
 const resetTokenSchema = new Schema({
   _userId: {
@@ -23,4 +23,4 @@ const resetTokenSchema = new Schema({
  * @typedef passwordResetToken
  */
 
-export default model<IResetToken>('passwordResetToken',resetTokenSchema);
+export default model<IResetToken>('passwordResetToken', resetTokenSchema);
