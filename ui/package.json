@@ -6,6 +6,7 @@
     "serve": "ng serve --disable-host-check",
     "build": "ng build --prod",
     "test": "ng test",
+    "test:watch": "ng test --watch",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ng build --prod"

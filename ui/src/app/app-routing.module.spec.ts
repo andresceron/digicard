@@ -1,31 +1,25 @@
 import { TestBed, async } from '@angular/core/testing';
-import { routes } from './app-routing.module';
+import { routes } from './app-routing.module';
 
 describe('app-router.module', () => {
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-      ],
-      imports: [
-      ],
-      providers: [
-      ],
+      declarations: [],
+      imports: [],
+      providers: [],
       schemas: []
     }).compileComponents();
   }));
 
-  it('should not have \'\' has path', () => {
+  it("should not have '' has path", () => {
     // expect(routes[0].path).to('');
   });
 
   it('base route should contain path Login', () => {
-    expect(routes[0].path).toBe('login');
-    // expect(routes[1].loadChildren).toContain('./routes/+login/login.module');
+    expect(routes[1].path).toBe('login');
   });
 
   it('should have ** as path', () => {
-    expect(routes[6].path).toBe('**');
+    expect(routes[8].path).toBe('**');
   });
-
 });
