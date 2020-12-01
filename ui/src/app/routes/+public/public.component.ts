@@ -1,78 +1,82 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { AuthService } from '@services/auth.service';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
-import { Subscription, of } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { AuthService } from '@services/auth.service';
 import { ContactsService } from '@services/contacts.service';
-import { UsersService } from '@services/users.service';
+import { REG_EXP_PATTERNS } from '@constants/app-constants.constant';
+import { IUser } from '@interfaces/user.interface';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'sc-public',
   templateUrl: './public.component.html',
   styleUrls: ['./public.component.scss']
 })
-
-export class PublicComponent implements OnInit, OnDestroy {
+export class PublicComponent implements OnInit {
   contactId: string;
   contact: any;
   isLoading = false;
   imagePreview: SafeResourceUrl;
-  routeParamsSub: Subscription;
-  userSub: Subscription;
   currentAuthUser: any;
 
   constructor(
     private authService: AuthService,
     private contactsService: ContactsService,
-    private usersService: UsersService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.currentAuthUser = this.authService.currentAuthValue;
-    console.log( 'currentAuthUser:: ', this.currentAuthUser );
 
     this.contactId = this.route.snapshot.params.contactId;
-    this.routeParamsSub = this.route.params.subscribe(params => {
-      console.log('subParams', params.contactId);
-    } );
-
     if (this.contactId) {
-      console.log(this.contactId);
-      this.userSub = this.contactsService.getContact(this.contactId)
-      .pipe(first())
-      .subscribe((data: any) => {
-        this.contact = data;
-      },
-      err => {
-        console.log(err);
-      }
-      );
+      this.initSubscriptions();
     }
-
   }
 
-  saveContact() {
+  public saveContact() {
     if (!this.currentAuthUser) {
       this.router.navigate(['/login']);
     }
 
-    console.log(this.contactId);
-    this.userSub = this.contactsService.saveContact(this.contactId)
-    .pipe(first())
-    .subscribe((data: any) => {
-      this.router.navigate([ '/contacts/']);
-    },
-    err => {
-      console.log(err);
-    }
-    );
+    this.contactsService
+      .saveContact(this.contactId)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/contacts/']);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
-  ngOnDestroy() {
-    this.routeParamsSub.unsubscribe();
+  private initSubscriptions() {
+    this.contactsService
+      .getContact(this.contactId)
+      .pipe(first())
+      .subscribe(
+        (data: IUser) => {
+          this.contact = data;
+          this.configSocialUrls(this.contact.socials);
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+  }
+
+  private configSocialUrls(socials) {
+    const socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
+
+    socials.forEach((social) => {
+      if (!social.value) {
+        return;
+      }
+
+      social.fullUrl = social.baseUrl.replace(socialReplacePattern, social.value);
+    });
   }
 }

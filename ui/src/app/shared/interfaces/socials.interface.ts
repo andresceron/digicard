@@ -1,3 +1,6 @@
 export interface ISocials {
-  [key: string]: any;
+  id: string;
+  baseUrl: string;
+  value?: string;
+  fullUrl?: string;
 }

@@ -11,6 +11,6 @@ export interface IUser {
   country?: string;
   countryName?: string;
   website?: string;
-  socials: any;
+  socials: ISocials[];
   image?: string;
 }

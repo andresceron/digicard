@@ -71,7 +71,6 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       password: req.body.data.password
     });
 
-    // TODO: Change this static to dynamic per env
     const qrCodeResponse = await QRCode.toDataURL(`${config.baseUrl}/public/${newUser._id}`);
     console.log('qrCodeResponse:: ', qrCodeResponse);
     newUser.qr = qrCodeResponse;
@@ -98,8 +97,6 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
   if (!user) {
     throw new ConflictError('Email does not exist');
   }
-
-  console.log('inside reset-password controller');
 
   const resetToken = new passwordResetToken({ _userId: user._id, resetToken: crypto.randomBytes(16).toString('hex') });
   const saveResetToken = await resetToken.save();

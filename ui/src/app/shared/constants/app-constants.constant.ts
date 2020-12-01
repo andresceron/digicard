@@ -18,12 +18,15 @@ export const NOTIFICATIONS_MESSAGES = {
   REGISTER_ERROR: 'Attempt to register failed',
   REQUEST_RESET_PASSWORD_SUCCESS: 'Reset password requested successfully. Check you email',
   REQUEST_RESET_PASSWORD_ERROR: 'Attempt to request new password failed. Please try again later',
-  VALIDATE_TOKEN_ERROR: 'Invalid token! Please try again'
+  NEW_PASSWORD_SUCCESS: 'New password updated successfully.',
+  NEW_PASSWORD_ERROR: 'Attempt to set new password failed. Please try again later',
+  VALIDATE_TOKEN_ERROR: 'Invalid token! Please try again',
+  PROFILE_UPDATE_SUCCESS: 'Profile updated!',
+  PROFILE_UPDATE_ERROR: 'Attempt to update profile failed. Please try again later'
 };
 
-export const MIME_TYPES = [
-  'jpg',
-  'jpeg',
-  'image/jpg',
-  'image/jpeg'
-];
+export const REG_EXP_PATTERNS = {
+  SOCIAL_REPLACE: /(?:^|\W)\$socialid\$(?:$|\W)/
+};
+
+export const MIME_TYPES = ['jpg', 'jpeg', 'image/jpg', 'image/jpeg'];

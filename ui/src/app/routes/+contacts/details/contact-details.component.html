@@ -38,8 +38,8 @@
 
       <div class="card-face-footer">
         <ng-container *ngFor="let social of contactData.socials">
-          <a class="card-face__social" href="{{social.url}}" target="_blank" *ngIf="social.value">
-            <img src="{{'/assets/images/social-icons/' + social.id + '.svg'}}" width="36" height="36" draggable="false"/>
+          <a class="card-face__social" href="{{social.fullUrl}}" target="_blank" *ngIf="social.fullUrl">
+            <img src="/assets/images/social-icons/{{social.id}}.svg" width="36" height="36" draggable="false"/>
           </a>
         </ng-container>
       </div>
