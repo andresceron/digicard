@@ -71,8 +71,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       password: req.body.data.password
     });
 
-    const qrCodeResponse = await QRCode.toDataURL(`${config.baseUrl}/public/${newUser._id}`);
-    console.log('qrCodeResponse:: ', qrCodeResponse);
+    const qrCodeResponse = await QRCode.toDataURL(`${config.baseUrl}public/${newUser._id}`);
     newUser.qr = qrCodeResponse;
     newUser.setPassword(password);
 
@@ -148,7 +147,6 @@ export const validatePasswordToken = async (req: Request, res: Response, next: N
 
   try {
     const userToken = await passwordResetToken.findOne({ resetToken: req.body.data.token });
-    console.log('userToken:: ', userToken);
     if (!userToken) {
       throw new ConflictError('Invalid Token');
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { IAuthResponse } from '@interfaces/auth-response.interface';
-import { GoogleLoginProvider, AuthService as SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'sc-login',
@@ -14,7 +13,7 @@ import { GoogleLoginProvider, AuthService as SocialAuthService } from 'angularx-
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
   loginError: boolean;
   formHasError: boolean;
   formErrorEmail = 'Invalid email';
@@ -29,21 +28,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   } );
 
   private regexValidators = {
+    /* eslint-disable max-len */
     /* tslint:disable */
     email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     /* tslint:enable */
+    /* eslint-enable max-len */
   };
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private socialAuthService: SocialAuthService
+    private snackBar: MatSnackBar
   ) { }
-
-  ngOnInit() {
-  }
 
   onLogin() {
     if (this.loginFormGroup.valid) {
@@ -62,8 +59,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             .subscribe(
               (res: IAuthResponse) => {
                 if (!!res) {
-                  console.log(res);
                   this.isLoading = false;
+
                   // Sucessful Login
                   this.snackBar.open(
                     `Welcome back ${res.email}`,
@@ -91,8 +88,5 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public goToPage(path) {
     this.router.navigate([`/${path}`]);
-  }
-
-  ngOnDestroy() {
   }
 }

@@ -7,9 +7,6 @@ if (process.env.ENV === LOCAL && envFound.error) {
   throw new Error('Could not find .env file');
 }
 
-console.log('!!!!! PORT !!!!!! ', process.env.PORT);
-console.log('!!!!! NODE_ENV !!!!!! ', process.env.NODE_ENV);
-
 const envVarsSchema = Joi.object({
   LOG_LEVEL: Joi.string()
     .valid(LOG_LEVELS.ERROR, LOG_LEVELS.WARNING, LOG_LEVELS.INFO, LOG_LEVELS.HTTP, LOG_LEVELS.VERBOSE, LOG_LEVELS.DEBUG)

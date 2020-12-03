@@ -1,11 +1,9 @@
 <div class="file-drop-area">
-
-  <a mat-raised-button class="button" href="javascript:void(0)">
+  <a mat-raised-button class="button" (click)="fileInput.click()">
     <mat-icon aria-hidden="false" aria-label="Edit Contacts">{{this.icon}}</mat-icon>
     <span class="m-l-5">{{this.buttonText}}</span>
   </a>
-
-  <input class="file-input" type="file">
 </div>
+<input hidden type="file" #fileInput accept="image/*">
 
 <sc-progress [progress]="progress"></sc-progress>

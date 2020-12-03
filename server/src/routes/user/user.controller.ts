@@ -96,7 +96,6 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     const deletedUser = await user?.remove();
 
     if (deletedUser) {
-      console.log('deletedUser', deletedUser);
       res.json(
         new DataForm({
           id: deletedUser._id,
@@ -107,7 +106,6 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
       );
     }
   } catch (err) {
-    console.log('err', err);
     return next(new InternalServerError(err));
   }
 };

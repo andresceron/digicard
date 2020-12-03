@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES, REG_EXP_PATTERNS } from '@constants/app-constants.constant';
@@ -28,6 +28,8 @@ export class ProfileComponent implements OnInit {
   prefixList = countryCodes.all();
   currentAuthUser: any;
   user: IUser;
+
+  socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
 
   isUploadingImage = false;
   imageS3Path: string;
@@ -77,11 +79,6 @@ export class ProfileComponent implements OnInit {
     // };
 
     // reader.readAsDataURL( event );
-
-    // this.profileForm.get('personal').patchValue({image: event}, {onlySelf: true, emitEvent: true});
-    // this.profileForm.get('personal').get('image').updateValueAndValidity();
-    // console.log( event );
-    // console.log( this.profileForm );
 
     try {
       this.uploadService
@@ -194,17 +191,44 @@ export class ProfileComponent implements OnInit {
           this.isLoading = false;
         }
       );
+
+    this.profileForm.controls.personal.valueChanges
+      .pipe(
+        debounceTime(500)
+      ).subscribe((data) => {
+        this.user = { ...this.user, ...data };
+      });
+
+    this.profileForm.controls.socials.valueChanges
+      .pipe(
+        debounceTime(500)
+      ).subscribe((data) => {
+        this.updateSocialUrls(data);
+      });
   }
 
   private configSocialUrls(socials) {
-    const socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
-
     socials.forEach((social) => {
       if (!social.value) {
         return;
       }
 
-      social.fullUrl = social.baseUrl.replace(socialReplacePattern, social.value);
+      social.fullUrl = social.baseUrl.replace(this.socialReplacePattern, social.value);
+    });
+  }
+
+  private updateSocialUrls(socials) {
+    Object.entries(socials).forEach(([key, value]: [string, string]) => {
+      if (!value) {
+        return;
+      }
+
+      this.user.socials.forEach(social => {
+        if (social.id === key) {
+          social.value = value;
+          social.fullUrl = social.baseUrl.replace(this.socialReplacePattern, social.value);
+        }
+      });
     });
   }
 

@@ -75,7 +75,6 @@ export const getSearch = async (req: Request, res: Response, next: NextFunction)
 
     res.json(new DataForm(filterResults));
   } catch (err) {
-    console.log('err!!! ', err);
     return next(new BadRequestError(err));
   }
 };
@@ -130,7 +129,6 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
       throw new BadRequestError();
     }
 
-    console.log('updateContact: ', updateContact);
     res.json(new DataForm(updateContact));
   } catch (err) {
     return next(new BadRequestError());

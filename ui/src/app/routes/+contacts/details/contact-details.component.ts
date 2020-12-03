@@ -54,7 +54,6 @@ export class ContactDetailsComponent implements OnInit {
           },
           (err: Error) => {
             this.isLoading = false;
-            console.log(err);
           }
         );
     }
@@ -88,14 +87,10 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   deleteContact() {
-    console.log('DELETE ?? ', this.authService.currentAuthValue);
     this.contactSubscription = this.contactsService
       .removeContact(this.contactId)
       .pipe(first())
-      .subscribe(
-        (data: any) => {
-          console.log(data);
-
+      .subscribe(() => {
           this.showMessage(NOTIFICATIONS_MESSAGES.DELETED);
           this.router.navigate(['/list']);
         },

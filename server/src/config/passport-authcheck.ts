@@ -23,7 +23,6 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
       if (info) {
         // TODO: What to do with this?
-        console.log('!!AUTH INFOO!! ', info);
       }
 
       req.user = user;
@@ -49,7 +48,6 @@ export const authenticateTokenUser = (req: Request, res: Response, next: NextFun
 
       if (info) {
         // TODO: What to do with this?
-        console.log('!!AUTH INFOO!! ', info);
       }
 
       // Forward user information to the next middleware

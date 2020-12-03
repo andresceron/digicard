@@ -9,7 +9,6 @@ import helmetCSP from 'helmet-csp';
 import passport from 'passport';
 import path from 'path';
 import routes from '../index.route';
-import clientRoutes from '../client.route';
 import errorHandler from '../helpers/error';
 import { NotFoundError } from '../helpers/api-error';
 
