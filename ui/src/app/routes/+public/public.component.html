@@ -7,51 +7,9 @@
 </sc-title>
 
 <div class="container">
-  <!-- Card widget -->
-  <div class="card" *ngIf="contact">
-    <!-- Face 1 -->
-    <div class="card-face face-1">
-        <!-- Avatar -->
-        <div class="card-face__avatar card-face__avatar--preview"
-              *ngIf="contact.image"
-              [style.background]="'url(' + contact.image + ')'"
-              [style.background-size]="'cover'"
-              [style.background-position]="'center'">
-        </div>
-        <div class="card-face__avatar card-face__avatar--preview"
-              *ngIf="!contact.image"
-              [style.background]="'url(/assets/images/icon-noavatar.png)'"
-              [style.background-size]="'cover'"
-              [style.background-position]="'center'">
-        </div>
+  <sc-contact-detail [user]="contact" *ngIf="contact"></sc-contact-detail>
 
-        <h2 class="card-face__name">{{contact.firstName}} {{contact.lastName}}</h2>
-        <span class="card-face__title" *ngIf="contact.jobTitle">{{contact.jobTitle}}</span>
-        <span class="card-face__subtitle" *ngIf="contact.email">{{contact.email}}</span>
-        <span class="card-face__subtitle" *ngIf="contact.website">{{contact.website}}</span>
-        <span class="card-face__subtitle" *ngIf="contact.phoneNumber"><span *ngIf="contact.phonePrefix">{{ '+' + contact.phonePrefix}}</span> {{contact.phoneNumber}}</span>
-        <span class="card-face__subtitle" *ngIf="contact.city && contact.countryName">{{contact.city + ', ' + contact.countryName}}</span>
-        <span class="card-face__subtitle" *ngIf="contact.city && !contact.countryName">{{contact.city}}</span>
-        <span class="card-face__subtitle" *ngIf="contact.countryName && !contact.city">{{contact.countryName}}</span>
-        <span class="divider"></span>
-
-        <div class="card-face-footer">
-          <ng-container *ngFor="let social of contact.socials; let i = index">
-            <a class="card-face__social" href="{{social.fullUrl}}" target="_blank" *ngIf="social.fullUrl">
-              <img src="/assets/images/social-icons/{{social.id}}.svg" width="36" height="36" draggable="false"/>
-            </a>
-          </ng-container>
-        </div>
-    </div>
-  </div>
-
-  <div class="container__spinner" *ngIf="!contact">
+  <div class="spinner" *ngIf="!contact">
     <mat-spinner></mat-spinner>
   </div>
 </div>
-    <!-- <mat-form-field class="form-element">
-      <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
-      <mat-error>
-        Required field, must be between 5 and 10 characters.
-      </mat-error>
-    </mat-form-field> -->

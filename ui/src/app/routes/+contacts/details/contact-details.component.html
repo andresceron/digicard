@@ -6,42 +6,10 @@
   </ng-template>
 </sc-title>
 
-<div class="container container__spinner" *ngIf="!contactData">
+<div class="spinner" *ngIf="!contactData">
   <mat-spinner></mat-spinner>
 </div>
 
 <div class="container" *ngIf="contactData">
-
-  <!-- Card widget -->
-  <div class="card">
-    <!-- Face 1 -->
-    <div class="card-face face-1">
-        <!-- Avatar -->
-        <div class="card-face__avatar">
-          <ng-container *ngIf="contactData.image; else defaultImage">
-            <img [src]="contactData.image" alt="">
-          </ng-container>
-
-          <ng-template #defaultImage>
-            <img src="https://vignette.wikia.nocookie.net/gameofthrones/images/d/d0/JonSnow8x06.PNG" width="110" height="110" draggable="false" alt="">
-          </ng-template>
-        </div>
-    </div>
-
-      <h2 class="card-face__name">{{contactData.firstName}} {{contactData.lastName}}</h2>
-      <span class="card-face__title">{{contactData.jobTitle}}</span>
-      <span class="card-face__subtitle">{{contactData.website}}</span>
-      <span class="card-face__subtitle">{{contactData.email}}</span>
-      <span class="card-face__subtitle">{{contactData.phoneNumber}}</span>
-      <span class="card-face__subtitle">{{contactData.city}}, {{contactData.country}}</span>
-      <span class="divider"></span>
-
-      <div class="card-face-footer">
-        <ng-container *ngFor="let social of contactData.socials">
-          <a class="card-face__social" href="{{social.fullUrl}}" target="_blank" *ngIf="social.fullUrl">
-            <img src="/assets/images/social-icons/{{social.id}}.svg" width="36" height="36" draggable="false"/>
-          </a>
-        </ng-container>
-      </div>
-  </div>
+  <sc-contact-detail [user]="contactData"></sc-contact-detail>
 </div>

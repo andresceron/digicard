@@ -1,3 +1,9 @@
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
 // LAYOUT
 // ------------------------------
 .inline-block {
@@ -12,6 +18,11 @@
     padding: 0;
     text-align: center;
   }
+}
+
+.container {
+  padding: 10px;
+  margin-top: 20px;
 }
 
 // Single column centered in row
@@ -33,4 +44,11 @@
 
 .text-center {
   text-align: center;
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
 }

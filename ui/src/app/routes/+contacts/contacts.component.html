@@ -11,7 +11,7 @@
 <div class="container">
   <sc-searchbar class="searchbar__wrapper" (searchValue)="searchContacts($event)" *ngIf="isSearchbarVisible"></sc-searchbar>
 </div>
-<div class="container container__spinner" *ngIf="!contacts">
+<div class="spinner" *ngIf="!contacts">
   <mat-spinner></mat-spinner>
 </div>
 <div class="container" *ngIf="contacts?.length !== 0; else noPosts">
