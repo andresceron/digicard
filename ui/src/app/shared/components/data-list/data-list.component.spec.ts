@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DataListComponent } from './data-list.component';
 import { SharedModule } from '@modules/shared.module';
-import { ModalService } from '@components/modal/shared/modal.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DataListComponent', () => {
@@ -17,9 +15,7 @@ describe('DataListComponent', () => {
       imports: [
         SharedModule
       ],
-      providers: [
-        ModalService
-      ],
+      providers: [],
       schemas: [NO_ERRORS_SCHEMA]
 
     })

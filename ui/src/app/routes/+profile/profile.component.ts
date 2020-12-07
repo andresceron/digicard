@@ -33,7 +33,6 @@ export class ProfileComponent implements OnInit {
 
   isUploadingImage = false;
   imageS3Path: string;
-  progress = 0;
   imagePreview: SafeResourceUrl;
 
   userSub: Subscription;
@@ -182,6 +181,9 @@ export class ProfileComponent implements OnInit {
             this.user = res;
             this.user.countryName = this.user.country ? this.getCountryName(this.user.country) : undefined;
             this.isLoading = false;
+
+            console.log(this.user);
+
             this.configForm();
             this.configSocialUrls(this.user.socials);
           }

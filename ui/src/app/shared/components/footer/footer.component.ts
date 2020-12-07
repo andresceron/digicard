@@ -1,7 +1,5 @@
 import {
   Component,
-  OnInit,
-  AfterViewInit,
   ChangeDetectionStrategy
 } from '@angular/core';
 
@@ -12,9 +10,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   constructor(
   ) {}
 
-  ngOnInit() {}
 }

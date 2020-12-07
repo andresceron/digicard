@@ -1,67 +1,37 @@
 @import './src/scss/_exports';
 
-.fill-remaining-space {
-  /* This fills the remaining space, by using flexbox.
-     Every toolbar row uses a flexbox row layout. */
-  flex: 1 1 auto;
-}
-
-.container {
-  padding: 10px;
-  margin-top: 20px;
+mat-toolbar {
+  margin-top: 56px;
 }
 
 .form {
-  min-width: 150px;
-  width: 100%;
-}
-
-.form-element {
-  padding: 5px 0px 15px 2px;
-  width: 100%;
-}
-
-.form-phone-prefix {
-  padding: 5px 0px 15px 2px;
-  width: 20%;
-  margin-right: 5%;
-}
-
-.form-phone-number {
-  padding: 5px 0px 15px 2px;
-  width: 75%;
-}
-
-.button {
-  width: 100%;
-}
-
-mat-toolbar {
-  margin-top: 56px;
+  &__phone {
+    &--prefix {
+      padding: 5px 0px 15px 2px;
+      width: 20%;
+      margin-right: 5%;
+    }
+    &--number {
+      padding: 5px 0px 15px 2px;
+      width: 75%;
+    }
+  }
 }
 
 
 // Contact Preview Card
 // ---------------------------------------------------------------------
 
-// card block
-.card {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  min-height: 405px;
-  user-select: none;
-
-  // definition on $extra-small devices (small smartphone)
-  @media screen and (min-width: 30em) {
-    height: 405px;
-    border-radius: 3px;
-
-    // hover status
-    &:hover {
-      cursor: pointer;
-    }
+// user avatar element
+.card-face__avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  text-align: center;
+  margin: 20px auto 20px;
+  &--preview {
+    width: 110px;
+    height: 110px;
   }
 }
 
@@ -72,6 +42,7 @@ mat-toolbar {
 }
 
 .button {
+  width: 100%;
   background-color: setColor(primary, base);
   color: setColor(white, base);
   &__delete {
@@ -79,8 +50,4 @@ mat-toolbar {
     margin-top: 10px;
     width: 155px;
   }
-}
-
-.text-center {
-  text-align: center;
 }

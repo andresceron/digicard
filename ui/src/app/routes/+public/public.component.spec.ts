@@ -1,15 +1,12 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { PublicComponent } from './public.component';
 import { SearchbarComponent } from '@components/searchbar/searchbar.component';
-import { SortbyComponent } from '@components/sortby/sortby.component';
 import { DataListComponent } from '@components/data-list/data-list.component';
 import { SvgComponent } from '@components/svg/svg.component';
-import { ModalComponent } from '@components/modal/modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@modules/shared.module';
 import { ApiService } from '@services/api.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ModalService } from '@components/modal/shared/modal.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
@@ -23,10 +20,8 @@ xdescribe('PublicComponent', () => {
       declarations: [
         PublicComponent,
         SearchbarComponent,
-        SortbyComponent,
         DataListComponent,
-        SvgComponent,
-        ModalComponent,
+        SvgComponent
       ],
       imports: [
         ReactiveFormsModule,
@@ -36,7 +31,6 @@ xdescribe('PublicComponent', () => {
       ],
       providers: [
         ApiService,
-        ModalService,
         ClientStorage
       ],
       schemas: [NO_ERRORS_SCHEMA]

@@ -32,7 +32,7 @@
         </div>
 
         <div class="m-b-30 text-center">
-          <sc-file-uploader [icon]="'add_a_photo'" [buttonText]="'Choose avatar'" [progress]="progress" (fileEvent)="imageFileEvent($event)"></sc-file-uploader>
+          <sc-file-uploader [icon]="'add_a_photo'" [buttonText]="'Choose avatar'" (fileEvent)="imageFileEvent($event)"></sc-file-uploader>
           <div class="invalid-feedback" style="display: block">
             <!-- <ng-container *ngIf="hasError('image', 'requiredFileType')">Invalid file type</ng-container> -->
           </div>
@@ -68,7 +68,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="form-phone-prefix">
+        <mat-form-field class="form__phone--prefix">
           <mat-label>Prefix</mat-label>
           <select matNativeControl formControlName="phonePrefix">
             <option selected value>0</option>
@@ -76,7 +76,7 @@
           </select>
         </mat-form-field>
 
-        <mat-form-field class="form-phone-number">
+        <mat-form-field class="form__phone--number">
           <input matInput placeholder="Phone Number" formControlName="phoneNumber">
           <mat-error>
             Error Phone Number
@@ -132,5 +132,5 @@
 </form>
 
 <div class="container">
-  <sc-contact-detail [user]="user" *ngIf="isPreview"></sc-contact-detail>
+  <sc-card [user]="user" *ngIf="isPreview"></sc-card>
 </div>

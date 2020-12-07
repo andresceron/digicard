@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,7 +14,6 @@ export class SearchbarComponent implements OnDestroy, OnInit {
   @Input() debounceTime = 500;
   @Output() searchValue: EventEmitter<any> = new EventEmitter<any>();
 
-  // public model: any;
   public query = new FormControl();
   private subscription: Subscription;
 

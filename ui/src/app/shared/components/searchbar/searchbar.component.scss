@@ -1,12 +1,10 @@
-// @import './src/scss/_exports';
+@import './src/scss/_exports';
 
-:host {
-  .form-element {
-    width: 100%;
+.form-element {
+  width: 100%;
+  padding-bottom: 0;
 
-    .search-input {
-      height: 20px
-    }
+  .search-input {
+    height: 20px
   }
-
 }

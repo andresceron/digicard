@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@modules/shared.module';
-import { ProgressComponent } from '@components/progress/progress.component';
+import { CardComponent } from '@components/card/card.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
-    RouterModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   exports: [
-    ProgressComponent
+    CardComponent
   ],
   declarations: [
-    ProgressComponent
+    CardComponent
   ]
 })
 
-export class ProgressModule {}
+export class CardModule {}

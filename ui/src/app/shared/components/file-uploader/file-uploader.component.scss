@@ -1,13 +1,11 @@
 @import './src/scss/_exports';
 
-// https://codepen.io/Saminou24/pen/kXEYGB
 .file-drop-area {
   position: relative;
   text-align: center;
-}
-
-.file-drop-area.is-active {
-  background-color: #3F4069;
+  &.is-active {
+    background-color: #3F4069;
+  }
 }
 
 .button {

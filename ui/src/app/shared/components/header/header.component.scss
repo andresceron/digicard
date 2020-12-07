@@ -1,6 +1,7 @@
 @import './src/scss/exports';
 
 .header {
+  // TODO: Change setColor to header-bg?
   // background-color: $header-bg;
   mat-toolbar {
     background-color: setColor(primary, dark);
@@ -13,7 +14,7 @@
   width: 100%;
   position: fixed;
 
-  .header-title {
+  &__title {
     color: setColor(white, base);
     p {
       font-size: 18px;

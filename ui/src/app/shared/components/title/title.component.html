@@ -7,10 +7,7 @@
     <ng-container *ngIf="!navBack">
       <span>{{ name }}</span>
     </ng-container>
-    <span class="subheader subheader__spacer"></span>
-    <ng-template #estimateTemplate let-lessonsCounter="estimate">
-      <div> Approximately {{lessonsCounter}} lessons ...</div>
-    </ng-template>
+    <span class="subheader__spacer"></span>
     <ng-container [ngTemplateOutlet]="actions"></ng-container>
   </mat-toolbar-row>
 </mat-toolbar>

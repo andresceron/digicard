@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   HostListener,
   Input,
-  ElementRef,
   Output,
   EventEmitter
 } from '@angular/core';
@@ -16,8 +15,7 @@ import {
 })
 
 export class FileUploaderComponent {
-  @Input() progress;
-  @Input() icon;
+  @Input() icon: string;
   @Input() buttonText = 'Button';
   @Output() fileEvent: EventEmitter<any> = new EventEmitter();
   onChange: Function;
@@ -25,19 +23,17 @@ export class FileUploaderComponent {
 
   @HostListener('change', ['$event.target.files'])
   emitFiles(event: FileList) {
-    const file = event && event.item(0);
-    // this.onChange(file);
-    this.file = file;
-    this.handleInputChange(file);
+    this.file = event?.item(0);
+    this.handleInputChange(this.file);
   }
 
-  constructor( private host: ElementRef<HTMLInputElement> ) {
-  }
+  constructor() {}
 
-  handleInputChange(files) {
+  private handleInputChange(files) {
     const file = files;
     const pattern = /image-*/;
 
+    // TODO: In the future, check the match-file before emitting
     // if (!file.type.match(pattern)) {
     //   alert('invalid format');
     //   return;

@@ -6,10 +6,10 @@
   </ng-template>
 </sc-title>
 
-<div class="spinner" *ngIf="!contactData">
-  <mat-spinner></mat-spinner>
+<div class="container" *ngIf="contactData">
+  <sc-card [user]="contactData"></sc-card>
 </div>
 
-<div class="container" *ngIf="contactData">
-  <sc-contact-detail [user]="contactData"></sc-contact-detail>
+<div class="spinner" *ngIf="!contactData">
+  <mat-spinner></mat-spinner>
 </div>

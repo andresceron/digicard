@@ -7,7 +7,7 @@
 </sc-title>
 
 <div class="container">
-  <sc-contact-detail [user]="contact" *ngIf="contact"></sc-contact-detail>
+  <sc-card [user]="contact" *ngIf="contact"></sc-card>
 
   <div class="spinner" *ngIf="!contact">
     <mat-spinner></mat-spinner>

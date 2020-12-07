@@ -8,14 +8,6 @@ const routes: Routes = [
     component: ContactsComponent
   },
   {
-    path: 'new',
-    loadChildren: () => import('./edit/contacts-edit.module').then(m => m.ContactsEditModule)
-  },
-  {
-    path: ':contactId/edit',
-    loadChildren: () => import('./edit/contacts-edit.module').then(m => m.ContactsEditModule)
-  },
-  {
     path: ':contactId/detail',
     loadChildren: () => import('./details/contact-details.module').then(m => m.ContactDetailsModule)
   }

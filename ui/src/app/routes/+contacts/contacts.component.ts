@@ -5,9 +5,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { Ipost } from '@interfaces/post.interface';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalService } from '@components/modal/shared/modal.service';
-import { ICustomResponse } from '@interfaces/custom-response.interface';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatSelectionList } from '@angular/material/list';
 import { ContactsService } from '@services/contacts.service';
@@ -50,8 +48,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
     public cs: ClientStorage,
     public cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-    private modalService: ModalService,
-    private dialog: MatDialog,
     private contactsService: ContactsService,
     private router: Router,
     private authService: AuthService

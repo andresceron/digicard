@@ -10,12 +10,12 @@
   <h2 class="title">Log In</h2>
 
   <form #f="ngForm" [formGroup]="loginFormGroup" (ngSubmit)="onLogin()" class="form">
-    <mat-form-field class="form__elements">
+    <mat-form-field class="form-element">
       <input matInput placeholder="Email" formControlName="email" required>
       <mat-error *ngIf="loginFormGroup.controls.email.errors">{{formErrorEmail}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="form__elements m-b-15">
+    <mat-form-field class="form-element m-b-15">
       <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password" required>
       <button type="button" mat-icon-button matSuffix (click)="showPassword = !showPassword">
         <mat-icon>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
@@ -23,7 +23,7 @@
       <mat-error *ngIf="loginFormGroup.controls.password.errors">{{formErrorPassword}}</mat-error>
     </mat-form-field>
 
-    <div class="form__elements">
+    <div class="form-element">
       <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!loginFormGroup.valid">Submit Form</button>
     </div>
 

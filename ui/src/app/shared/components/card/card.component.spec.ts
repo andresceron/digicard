@@ -1,32 +1,40 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { ProgressComponent } from './progress.component';
+import { CardComponent } from './card.component';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '@modules/shared.module';
+import { AuthService } from '@services/auth.service';
+import { AuthServiceStub } from '../../../stubs';
 
-describe('ProgressComponent', () => {
-  let component: ProgressComponent;
-  let fixture: ComponentFixture<ProgressComponent>;
+  xdescribe('CardComponent', () => {
+  let component: CardComponent;
+  let fixture: ComponentFixture<CardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ProgressComponent,
+        CardComponent,
       ],
       imports: [
         RouterTestingModule,
         SharedModule
       ],
+      providers: [
+        {
+          provide: AuthService,
+          useClass: AuthServiceStub
+        }
+      ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProgressComponent);
+    fixture = TestBed.createComponent(CardComponent);
     component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create sortby component', async(() => {
+  it('should create card component', async(() => {
     expect(component).toBeTruthy();
   }));
 

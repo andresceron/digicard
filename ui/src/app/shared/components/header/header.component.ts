@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { AuthService } from '@services/auth.service';
@@ -10,7 +11,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'sc-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HeaderComponent implements OnInit {

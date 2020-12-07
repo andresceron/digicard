@@ -68,7 +68,7 @@ export class ShareComponent implements OnInit, OnDestroy {
   }
 
   configLink() {
-    this.linkCopy = `${this.config.baseUrl}contacts/${this.user._id}`;
+    this.linkCopy = `${this.config.baseUrl}public/${this.user._id}`;
   }
 
   shareQR(): void {
