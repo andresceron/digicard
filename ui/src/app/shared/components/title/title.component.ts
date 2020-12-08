@@ -7,9 +7,9 @@ import {
   ContentChild,
   TemplateRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnDestroy
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { Subscription } from 'rxjs';
 import { NgTemplateOutlet } from '@angular/common';
@@ -21,7 +21,7 @@ import { NgTemplateOutlet } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TitleComponent implements OnInit {
+export class TitleComponent implements OnInit, OnDestroy {
   @Input() name: string;
   @Input() navBack: boolean;
   @Output() navBackEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -32,33 +32,24 @@ export class TitleComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userSubscription = this.authService.currentAuth.subscribe(res => {
       this.currentUser = res;
       this.cdr.markForCheck();
     });
-
   }
 
-  navBackClicked() {
+  public navBackClicked(): void {
     this.navBackEvent.emit();
   }
 
-  goToProfile() {
-    this.router.navigate(['/profile']);
-  }
-
-  goToList() {
-    this.router.navigate(['/list']);
-  }
-
-  onLogout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
 }

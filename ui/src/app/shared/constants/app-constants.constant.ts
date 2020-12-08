@@ -25,6 +25,22 @@ export const NOTIFICATIONS_MESSAGES = {
   PROFILE_UPDATE_ERROR: 'Attempt to update profile failed. Please try again later'
 };
 
+export const FORM_ERRORS = {
+  EMAIL: 'Invalid email',
+  PASSWORD: 'Invalid password',
+  FIRST_NAME: 'Invalid first name',
+  LAST_NAME: 'Invalid last name',
+  MIN_PASSWORD: 'Password must be at least 6 characters',
+  MAX_PASSWORD: 'Password must be less than 15 characters',
+  REGISTER: 'Attempt to register failed',
+  PASSWORD_MATCH: 'Pasword does not match'
+};
+
+export const ROUTES = {
+  LOGIN: 'login',
+  REGISTER: 'register'
+};
+
 export const REG_EXP_PATTERNS = {
   SOCIAL_REPLACE: /(?:^|\W)\$socialid\$(?:$|\W)/
 };

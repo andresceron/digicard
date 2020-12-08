@@ -18,7 +18,5 @@ export class CardComponent {
   @Input() user: IUser;
   @Output() navBackEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  currentUser: any;
-
   constructor() {}
 }

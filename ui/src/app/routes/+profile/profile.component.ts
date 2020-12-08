@@ -5,10 +5,8 @@ import { AuthService } from '@services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES, REG_EXP_PATTERNS } from '@constants/app-constants.constant';
 import { UsersService } from '@services/users.service';
-import { Subscription } from 'rxjs';
 import { IUser } from '@interfaces/user.interface';
 import * as countryCodes from 'country-codes-list';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { UploadService } from '@services/upload.service';
 
 @Component({
@@ -17,26 +15,12 @@ import { UploadService } from '@services/upload.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  submitError: boolean;
-  formHasError: boolean;
-  formErrorEmail = 'Invalid email';
-  showPassword = false;
-  isLoading = false;
-  isPreview = false;
-  title = 'Profile';
-  countriesList = countryCodes.all();
-  prefixList = countryCodes.all();
-  currentAuthUser: any;
-  user: IUser;
-
-  socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
-
-  isUploadingImage = false;
-  imageS3Path: string;
-  imagePreview: SafeResourceUrl;
-
-  userSub: Subscription;
-  formSub: Subscription;
+  public TITLE = 'Profile';
+  public isPreview = false;
+  public countriesList = countryCodes.all();
+  public prefixList = [];
+  public user: IUser;
+  public isUploadingImage = false;
 
   public profileForm = this.fb.group({
     personal: this.fb.group({
@@ -54,6 +38,9 @@ export class ProfileComponent implements OnInit {
     socials: this.fb.group({})
   });
 
+  private currentAuthUser: any;
+  private socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
+
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
@@ -62,7 +49,7 @@ export class ProfileComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentAuthUser = this.authService.currentAuthValue;
 
     this.configPrefixList();
@@ -71,13 +58,6 @@ export class ProfileComponent implements OnInit {
 
   public imageFileEvent(event) {
     this.isUploadingImage = true;
-    // const reader = new FileReader();
-    // reader.onload = (e: any) => {
-    //   console.log( e.target.result );
-    //   this.imagePreview = e.target.result;
-    // };
-
-    // reader.readAsDataURL( event );
 
     try {
       this.uploadService
@@ -93,25 +73,20 @@ export class ProfileComponent implements OnInit {
             }
           },
           (err) => {
-            console.warn('register: ', err);
             this.isUploadingImage = false;
           }
         );
     } catch (err) {
       this.isUploadingImage = false;
-      console.log(err);
     }
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     if (!this.profileForm.valid) {
       return;
     }
 
     try {
-      this.submitError = false;
-      this.isLoading = true;
-
       const obj = {
         firstName: this.profileForm.value.personal.firstName,
         lastName: this.profileForm.value.personal.lastName,
@@ -140,28 +115,26 @@ export class ProfileComponent implements OnInit {
         .subscribe(
           (res: any) => {
             if (!!res && res._id) {
-              this.isLoading = false;
               this.user = res;
               this.user.countryName = this.getCountryName(this.user.country);
               this.snackBar.open(NOTIFICATIONS_MESSAGES.PROFILE_UPDATE_SUCCESS, 'Dismiss', { duration: 5000 });
             }
           },
           (err) => {
-            console.warn('register: ', err);
-            this.isLoading = false;
-            this.submitError = true;
             this.snackBar.open(NOTIFICATIONS_MESSAGES.PROFILE_UPDATE_ERROR, 'Dismiss', {
               duration: 5000
             });
           }
         );
     } catch (err) {
-      console.log(err);
+      this.snackBar.open(NOTIFICATIONS_MESSAGES.PROFILE_UPDATE_ERROR, 'Dismiss', {
+        duration: 5000
+      });
     }
   }
 
   public showPreview(value) {
-    this.title = value ? 'Preview' : 'Profile';
+    this.TITLE = value ? 'Preview' : 'Profile';
     this.isPreview = value;
   }
 
@@ -171,7 +144,7 @@ export class ProfileComponent implements OnInit {
     this.user.image = null;
   }
 
-  private initSubscriptions() {
+  private initSubscriptions(): void {
     this.usersService
       .getUser(this.currentAuthUser._id)
       .pipe(first())
@@ -180,9 +153,6 @@ export class ProfileComponent implements OnInit {
           if (!!res) {
             this.user = res;
             this.user.countryName = this.user.country ? this.getCountryName(this.user.country) : undefined;
-            this.isLoading = false;
-
-            console.log(this.user);
 
             this.configForm();
             this.configSocialUrls(this.user.socials);
@@ -190,7 +160,6 @@ export class ProfileComponent implements OnInit {
         },
         (err: any) => {
           console.log('err!', err);
-          this.isLoading = false;
         }
       );
 
@@ -209,7 +178,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  private configSocialUrls(socials) {
+  private configSocialUrls(socials): void {
     socials.forEach((social) => {
       if (!social.value) {
         return;
@@ -219,7 +188,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private updateSocialUrls(socials) {
+  private updateSocialUrls(socials): void {
     Object.entries(socials).forEach(([key, value]: [string, string]) => {
       if (!value) {
         return;
@@ -234,7 +203,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private configForm() {
+  private configForm(): void {
     this.profileForm.get('personal').patchValue({
       firstName: this.user.firstName,
       lastName: this.user.lastName,
@@ -256,7 +225,8 @@ export class ProfileComponent implements OnInit {
     this.profileForm.get('socials').updateValueAndValidity();
   }
 
-  private configPrefixList() {
+  private configPrefixList(): void {
+    this.prefixList = countryCodes.all();
     for (let i = 0; i < this.prefixList.length; i++) {
       if (!this.prefixList[i].countryCallingCode) {
         this.prefixList.splice(i, 1);
@@ -265,7 +235,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  private getCountryName(isoCode: string) {
+  private getCountryName(isoCode: string): string {
     return isoCode ? this.countriesList.find((country) => country.countryCode === isoCode).countryNameEn : undefined;
   }
 }

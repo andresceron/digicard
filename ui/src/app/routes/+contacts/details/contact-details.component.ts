@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ClientStorage } from '@services/client-storage.service';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -16,30 +16,19 @@ import { ISocials } from '@interfaces/socials.interface';
   templateUrl: './contact-details.component.html',
   styleUrls: ['./contact-details.component.scss']
 })
-export class ContactDetailsComponent implements OnInit {
-  progress = 0;
-  isLoading = false;
-
-  contactId: string;
-  postSub: Subscription;
-  routeParamsSub: Subscription;
-  contactSubscription: Subscription;
-
-  imagePreview: SafeResourceUrl;
-  contactData: any;
+export class ContactDetailsComponent implements OnInit, OnDestroy {
+  public contactData: IUser;
+  private contactId: string;
+  private contactSubscription: Subscription;
 
   constructor(
-    public cs: ClientStorage,
-    public cdr: ChangeDetectorRef,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private contactsService: ContactsService,
-    private authService: AuthService
+    private contactsService: ContactsService
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.contactId = this.route.snapshot.params.contactId;
     if (this.contactId) {
       this.contactsService
@@ -47,46 +36,14 @@ export class ContactDetailsComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (contact: IUser) => {
-            this.isLoading = false;
-
             this.contactData = contact;
             this.configSocialUrls(contact.socials);
-          },
-          (err: Error) => {
-            this.isLoading = false;
           }
         );
     }
   }
 
-  configSocialUrls(socials: ISocials[]) {
-    const socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
-
-    socials.forEach((social) => {
-      if (!social.value) {
-        return;
-      }
-
-      social.fullUrl = social.baseUrl.replace(socialReplacePattern, social.value);
-    });
-  }
-
-  imageFileEvent(event) {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.imagePreview = e.target.result;
-    };
-
-    reader.readAsDataURL(event);
-  }
-
-  showMessage(value) {
-    this.snackBar.open(value, 'Dismiss', {
-      duration: 3000
-    });
-  }
-
-  deleteContact() {
+  public deleteContact(): void {
     this.contactSubscription = this.contactsService
       .removeContact(this.contactId)
       .pipe(first())
@@ -100,7 +57,31 @@ export class ContactDetailsComponent implements OnInit {
       );
   }
 
-  onNavBack() {
+  private configSocialUrls(socials: ISocials[]): void {
+    const socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
+
+    socials.forEach((social) => {
+      if (!social.value) {
+        return;
+      }
+
+      social.fullUrl = social.baseUrl.replace(socialReplacePattern, social.value);
+    });
+  }
+
+  private showMessage(value: string): void {
+    this.snackBar.open(value, 'Dismiss', {
+      duration: 3000
+    });
+  }
+
+  public onNavBack(): void {
     this.router.navigate(['/contacts/']);
+  }
+
+  public ngOnDestroy() {
+    if (this.contactSubscription) {
+      this.contactSubscription.unsubscribe();
+    }
   }
 }

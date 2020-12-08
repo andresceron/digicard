@@ -18,8 +18,8 @@ export class FileUploaderComponent {
   @Input() icon: string;
   @Input() buttonText = 'Button';
   @Output() fileEvent: EventEmitter<any> = new EventEmitter();
-  onChange: Function;
-  file: File | null = null;
+
+  private file: File | null = null;
 
   @HostListener('change', ['$event.target.files'])
   emitFiles(event: FileList) {
@@ -29,7 +29,7 @@ export class FileUploaderComponent {
 
   constructor() {}
 
-  private handleInputChange(files) {
+  private handleInputChange(files): void {
     const file = files;
     const pattern = /image-*/;
 

@@ -4,12 +4,13 @@ import { Component, Input } from '@angular/core';
   selector: 'sc-svg',
   templateUrl: './svg.component.html'
 })
+
 export class SvgComponent {
   @Input() name: String;
 
   constructor() {}
 
-  get absUrl() {
+  get absUrl(): string {
     return window.location.href;
   }
 }

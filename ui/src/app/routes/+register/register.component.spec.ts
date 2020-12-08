@@ -1,7 +1,6 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RegisterComponent } from './register.component';
 import { SearchbarComponent } from '@components/searchbar/searchbar.component';
-import { DataListComponent } from '@components/data-list/data-list.component';
 import { SvgComponent } from '@components/svg/svg.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@modules/shared.module';
@@ -20,7 +19,6 @@ describe('RegisterComponent', () => {
       declarations: [
         RegisterComponent,
         SearchbarComponent,
-        DataListComponent,
         SvgComponent
       ],
       imports: [

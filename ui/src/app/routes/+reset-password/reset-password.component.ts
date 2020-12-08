@@ -4,8 +4,7 @@ import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
-import { Subscription } from 'rxjs';
+import { FORM_ERRORS, NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { ConfirmPasswordValidator } from '@shared/validators/confirm-password.validator';
 
 @Component({
@@ -14,24 +13,12 @@ import { ConfirmPasswordValidator } from '@shared/validators/confirm-password.va
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-  submitError: boolean;
-  isLoading = false;
-  showPassword = false;
-  showConfirmPassword = false;
-  isRequestingPassword: boolean;
-  hasValidToken: boolean;
-
-  // TODO: Move to constants file
-  title = 'Reset Pasword';
-  formErrorEmail = 'Invalid email';
-  formErrorMinPassword = 'Password must be at least 6 characters';
-  formErrorMaxPassword = 'Password must be less than 15 characters';
-  formErrorMatch = 'Password does not match';
-
-  resetToken: string;
-
-  userSub: Subscription;
-  formSub: Subscription;
+  public readonly TITLE = 'Reset Pasword';
+  public readonly FORM_ERRORS = FORM_ERRORS;
+  public showPassword = false;
+  public showConfirmPassword = false;
+  public isRequestingPassword: boolean;
+  public hasValidToken: boolean;
 
   public resetPasswordForm = this.fb.group({
     email: new FormControl('', [Validators.required])
@@ -45,6 +32,8 @@ export class ResetPasswordComponent implements OnInit {
     { validator: ConfirmPasswordValidator.MatchPassword }
   );
 
+  private resetToken: string;
+
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -53,7 +42,7 @@ export class ResetPasswordComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.params.pipe(first()).subscribe((params) => {
       if (params.token !== null && params.token !== undefined) {
         this.isRequestingPassword = false;
@@ -65,30 +54,24 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  public onSubmitRequest() {
+  public onSubmitRequest(): void {
     if (!this.resetPasswordForm.valid) {
       return;
     }
 
     try {
-      this.submitError = false;
-      this.isLoading = true;
-
       this.authService
         .resetPassword({ email: this.resetPasswordForm.value.email })
         .pipe(first())
         .subscribe(
           (res: any) => {
             if (!!res) {
-              this.isLoading = false;
 
               this.snackBar.open(NOTIFICATIONS_MESSAGES.REQUEST_RESET_PASSWORD_SUCCESS, 'Dismiss', { duration: 5000 });
               this.router.navigate(['/login']);
             }
           },
           (err) => {
-            this.isLoading = false;
-            this.submitError = true;
             this.snackBar.open(NOTIFICATIONS_MESSAGES.REQUEST_RESET_PASSWORD_ERROR, 'Dismiss', { duration: 5000 });
           }
         );
@@ -97,10 +80,11 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
-  public onSubmitNewPassword() {
+  public onSubmitNewPassword(): void {
     if (!this.newPasswordForm.valid) {
       return;
     }
+
     const obj = {
       token: this.resetToken,
       password: this.newPasswordForm.value.password
@@ -122,7 +106,7 @@ export class ResetPasswordComponent implements OnInit {
       });
   }
 
-  private validateToken(token) {
+  private validateToken(token: string): void {
     this.authService
       .validateResetPasswordToken({ token: token })
       .pipe(first())
@@ -143,7 +127,7 @@ export class ResetPasswordComponent implements OnInit {
       );
   }
 
-  private goToPage(path) {
+  private goToPage(path: string): void {
     this.router.navigate([`/${path}`]);
   }
 }

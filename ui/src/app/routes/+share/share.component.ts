@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from '@services/users.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
+import { IUser } from '@interfaces/user.interface';
 
 @Component({
   selector: 'sc-share',
@@ -13,8 +14,8 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./share.component.scss']
 })
 
-export class ShareComponent implements OnInit, OnDestroy {
-  public user;
+export class ShareComponent implements OnInit {
+  public user: IUser;
   public userSub: Subscription;
   public isQRVisible = false;
   public linkEmail: SafeResourceUrl;
@@ -33,52 +34,23 @@ export class ShareComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
-    this.userSub = this.usersService.getUser(this.authService.currentAuthValue._id)
+  ngOnInit(): void {
+    this.usersService.getUser(this.authService.currentAuthValue._id)
       .pipe(first())
       .subscribe( data => {
-        console.log('DATA', data );
         this.user = data;
         this.configData();
     });
   }
 
-  configData() {
-    this.configQR();
-    this.configEmail();
-    this.configSMS();
-    this.configLink();
-  }
-
-  configQR() {
-    this.user.qr = this.user.qr ? this.sanitizeUrl(this.user.qr) : false;
-  }
-
-  configEmail() {
-    this.linkEmail =
-      `mailto:?Subject=SocialCard - ${ this.user.firstName + ' ' + this.user.lastName }` +
-      `&body=Check out my social card here:%20` +
-      `${this.config.baseUrl}contacts/${this.user._id }%0A%0A` +
-      `Want to get your own social card? Register here: ${this.config.baseUrl}register`;
-  }
-
-  configSMS() {
-    const link = `sms:%20&body=Check out my social card here: ${this.config.baseUrl}contacts/${this.user._id}`;
-    this.linkSMS = this.sanitizeUrl(link);
-  }
-
-  configLink() {
-    this.linkCopy = `${this.config.baseUrl}public/${this.user._id}`;
-  }
-
-  shareQR(): void {
+  public shareQR(): void {
     if ( this.isQRVisible ) {
       this.isQRVisible = false;
     }
     this.isQRVisible = true;
   }
 
-  shareLink() {
+  public shareLink(): void {
     const selBox = document.createElement('textarea');
     selBox.value = this.linkCopy;
     document.body.appendChild(selBox);
@@ -94,14 +66,40 @@ export class ShareComponent implements OnInit, OnDestroy {
 
   }
 
-  backToList() {
+  public backToList(): void {
     this.isQRVisible = false;
   }
 
-  sanitizeUrl(url: string) {
+  private configData(): void {
+    this.configQR();
+    this.configEmail();
+    this.configSMS();
+    this.configLink();
+  }
+
+  private configQR(): void {
+    this.user.qr = this.user.qr ? this.sanitizeUrl(this.user.qr) : false;
+  }
+
+  private configEmail(): void {
+    this.linkEmail =
+      `mailto:?Subject=SocialCard - ${ this.user.firstName + ' ' + this.user.lastName }` +
+      `&body=Check out my social card here:%20` +
+      `${this.linkCopy}%0A%0A` +
+      `Want to get your own social card? Register here: ${this.config.baseUrl}register`;
+  }
+
+  private configSMS(): void {
+    const link = `sms:%20&body=Check out my social card here: ${this.config.baseUrl}contacts/${this.user._id}`;
+    this.linkSMS = this.sanitizeUrl(link);
+  }
+
+  private configLink(): void {
+    this.linkCopy = `${this.config.baseUrl}public/${this.user._id}`;
+  }
+
+  private sanitizeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  ngOnDestroy() {
-  }
 }

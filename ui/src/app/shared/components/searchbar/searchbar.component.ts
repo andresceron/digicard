@@ -15,12 +15,12 @@ export class SearchbarComponent implements OnDestroy, OnInit {
   @Output() searchValue: EventEmitter<any> = new EventEmitter<any>();
 
   public query = new FormControl();
-  private subscription: Subscription;
+  private querySub: Subscription;
 
   constructor() { }
 
-  ngOnInit() {
-    this.subscription = this.query.valueChanges
+  ngOnInit(): void {
+    this.querySub = this.query.valueChanges
       .pipe(
         distinctUntilChanged(),
         debounceTime(500)
@@ -30,13 +30,13 @@ export class SearchbarComponent implements OnDestroy, OnInit {
       });
   }
 
-  resetValue() {
+  resetValue(): void {
     this.query.reset();
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+  ngOnDestroy(): void {
+    if (this.querySub) {
+      this.querySub.unsubscribe();
     }
   }
 

@@ -28,7 +28,6 @@ export class UsersService {
   }
 
   public getUser(userId: string) {
-    console.log('inside getUser ', userId);
     return this.apiService
       .get(`users/${userId}`)
       .pipe(
@@ -39,7 +38,7 @@ export class UsersService {
             this.currentUserSubject.next({...res.data});
             return res.data;
           }
-          return false;
+          return;
         })
       );
   }
