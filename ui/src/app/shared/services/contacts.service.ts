@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { debounce, first, map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class ContactsService {
         // TODO: Add Contact Interface
         map((res: any) => {
           console.log(res);
-          if (res && res.data) {
+          if (res?.data) {
             return res.data;
           }
           return false;
@@ -34,7 +34,7 @@ export class ContactsService {
         // TODO: Add Contact interface
         map((res: any) => {
           console.log(res);
-          if (res && res.data) {
+          if (res?.data) {
             return res.data;
           }
           return false;
@@ -51,7 +51,7 @@ export class ContactsService {
         // TODO: Add Contact Interface
         map((res: any) => {
           console.log(res);
-          if (res && res.data) {
+          if (res?.data) {
             return res.data;
           }
           return false;
@@ -67,7 +67,7 @@ export class ContactsService {
         // TODO: Add Contact Interface
         map((res: any) => {
           console.log(res);
-          if (res && res.data) {
+          if (res?.data) {
             return res.data;
           }
           return false;

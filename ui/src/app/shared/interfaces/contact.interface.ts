@@ -1,6 +1,7 @@
 import { ISocials } from './socials.interface';
 
 export interface IContact {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -11,6 +12,6 @@ export interface IContact {
   country?: string;
   countryName?: string;
   website?: string;
-  socials: any;
+  socials: ISocials[];
   image?: string;
 }

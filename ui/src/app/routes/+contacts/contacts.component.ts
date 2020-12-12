@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ApiService } from '@services/api.service';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { Ipost } from '@interfaces/post.interface';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSelectionList } from '@angular/material/list';
@@ -26,7 +24,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
   private currentAuthUser: any;
 
   constructor(
-    public apiService: ApiService,
     private contactsService: ContactsService,
     private authService: AuthService,
     private router: Router
@@ -58,7 +55,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
         });
   }
 
-  public goToDetail(contact: Ipost): void {
+  public goToDetail(contact: IContact): void {
     this.router.navigate([ `/contacts/${contact._id}/detail`]);
   }
 

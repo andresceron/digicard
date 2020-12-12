@@ -1,25 +1,21 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { ClientStorage } from '@services/client-storage.service';
+import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES, REG_EXP_PATTERNS } from '@constants/app-constants.constant';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { ContactsService } from '@services/contacts.service';
 import { IUser } from '@interfaces/user.interface';
-import { AuthService } from '@services/auth.service';
 import { ISocials } from '@interfaces/socials.interface';
+import { IContact } from '@interfaces/contact.interface';
 
 @Component({
   selector: 'sc-contact-details',
   templateUrl: './contact-details.component.html',
   styleUrls: ['./contact-details.component.scss']
 })
-export class ContactDetailsComponent implements OnInit, OnDestroy {
+export class ContactDetailsComponent implements OnInit {
   public contactData: IUser;
   private contactId: string;
-  private contactSubscription: Subscription;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -31,30 +27,38 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.contactId = this.route.snapshot.params.contactId;
     if (this.contactId) {
-      this.contactsService
-        .getContact(this.contactId)
-        .pipe(first())
-        .subscribe(
-          (contact: IUser) => {
-            this.contactData = contact;
-            this.configSocialUrls(contact.socials);
-          }
-        );
+      this.setContactSubscription();
     }
   }
 
   public deleteContact(): void {
-    this.contactSubscription = this.contactsService
+    this.contactsService
       .removeContact(this.contactId)
       .pipe(first())
       .subscribe(() => {
           this.showMessage(NOTIFICATIONS_MESSAGES.DELETED);
-          this.router.navigate(['/list']);
+          this.goToContacts();
         },
         (err) => {
           console.log(err);
         }
       );
+  }
+
+  public goToContacts(): void {
+    this.router.navigate(['/contacts']);
+  }
+
+  private setContactSubscription() {
+    this.contactsService
+    .getContact(this.contactId)
+    .pipe(first())
+    .subscribe(
+      (contact: IContact) => {
+        this.contactData = contact;
+        this.configSocialUrls(contact.socials);
+      }
+    );
   }
 
   private configSocialUrls(socials: ISocials[]): void {
@@ -75,13 +79,4 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onNavBack(): void {
-    this.router.navigate(['/contacts/']);
-  }
-
-  public ngOnDestroy() {
-    if (this.contactSubscription) {
-      this.contactSubscription.unsubscribe();
-    }
-  }
 }
