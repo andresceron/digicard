@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AuthServiceStub {
@@ -12,6 +13,10 @@ export class AuthServiceStub {
 
   currentAuth(): Observable<any> {
     return this.loadSubject;
+  }
+
+  login(obj: { email: string, password: string }) {
+    return of().pipe();
   }
 
   get currentAuthValue() {

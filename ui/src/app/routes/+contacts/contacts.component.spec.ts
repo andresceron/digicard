@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import { ContactsComponent } from './contacts.component';
 import { SearchbarComponent } from '@components/searchbar/searchbar.component';
 import { ReactiveFormsModule } from '@angular/forms';

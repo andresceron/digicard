@@ -23,31 +23,32 @@ export class AuthService {
 
   login(obj: object) {
     return this.apiService
-        .post('auth/login', obj)
-        .pipe(
-          first(),
-          map((res: ICustomResponse) => {
-            if (res?.data?.user && res?.data?.user?.token) {
-              this.token = res.data.user.token;
-              localStorage.setItem('currentAuth', JSON.stringify(res.data.user));
-              this.currentAuthSubject.next({...res.data.user});
-            }
-            return res.data.user;
-          })
-        );
+      .post('auth/login', obj)
+      .pipe(
+        first(),
+        map((res: ICustomResponse) => {
+          if (res?.data?.user && res?.data?.user?.token) {
+            this.token = res.data.user.token;
+            localStorage.setItem('currentAuth', JSON.stringify(res.data.user));
+            this.currentAuthSubject.next({...res.data.user});
+          }
+
+          return res?.data?.users;
+        })
+      );
   }
 
   register(obj: object) {
     return this.apiService
-        .post('auth/register', obj)
-        .pipe(
-          first(),
-          map((res: ICustomResponse) => {
-            if (res && res.data && res.data._id) {
-              return res.data;
-            }
-          })
-        );
+      .post('auth/register', obj)
+      .pipe(
+        first(),
+        map((res: ICustomResponse) => {
+          if (res && res.data && res.data._id) {
+            return res.data;
+          }
+        })
+      );
   }
 
   resetPassword(obj: object) {

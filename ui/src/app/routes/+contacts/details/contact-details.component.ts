@@ -40,6 +40,7 @@ export class ContactDetailsComponent implements OnInit {
           this.goToContacts();
         },
         (err) => {
+          // TODO: Add unit test for this and proper error handling?
           console.log(err);
         }
       );

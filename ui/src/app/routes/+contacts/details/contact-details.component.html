@@ -1,4 +1,4 @@
-<sc-title [name]="'Contact Detail'" [navBack]="true" (navBackEvent)="onNavBack()">
+<sc-title [name]="'Contact Detail'" [navBack]="true" (navBackEvent)="goToContacts()">
   <ng-template #actions>
     <button mat-icon-button (click)="deleteContact()" routerLinkActive="router-link-active">
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Remove Contact">delete</mat-icon>

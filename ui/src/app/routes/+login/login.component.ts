@@ -47,29 +47,35 @@ export class LoginComponent {
             (res: IAuthResponse) => {
               if (!!res) {
                 // Sucessful Login
-                this.snackBar.open(
-                  `Welcome back ${res.email}`,
-                  'Dismiss',
-                  { duration: 3000 }
-                );
-
-                this.router.navigate(['/contacts']);
+                this.showMessage(`Welcome back ${res.email}`);
+                this.goToPage('contacts');
+              } else {
+                this.loginError();
               }
             },
             (err) => {
-              this.loginFormGroup.controls.password.reset();
-              this.loginFormGroup.controls.password.setErrors(null);
-              this.snackBar.open(NOTIFICATIONS_MESSAGES.LOGIN_ERROR, 'Dismiss', {
-                duration: 3000
-              });
-          });
+              this.loginError();
+            }
+          );
     } catch (err) {
-      console.log(err);
+      this.loginError();
     }
 
   }
 
   public goToPage(path): void {
     this.router.navigate([`/${path}`]);
+  }
+
+  private loginError() {
+    this.loginFormGroup.controls.password.reset();
+    this.loginFormGroup.controls.password.setErrors(null);
+    this.showMessage(NOTIFICATIONS_MESSAGES.LOGIN_ERROR);
+  }
+
+  private showMessage(value: string): void {
+    this.snackBar.open(value, 'Dismiss', {
+      duration: 3000
+    });
   }
 }
