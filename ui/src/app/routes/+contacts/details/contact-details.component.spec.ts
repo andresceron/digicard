@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, tick, fakeAsync, flush } from '@angular/core/testing';
 import { ContactDetailsComponent } from './contact-details.component';
 import { SearchbarComponent } from '@components/searchbar/searchbar.component';
 import { SharedModule } from '@modules/shared.module';
@@ -9,7 +9,7 @@ import { ContactsService } from '@services/contacts.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 
@@ -58,8 +58,7 @@ describe('ContactDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ContactDetailsComponent,
-        SearchbarComponent
+        ContactDetailsComponent
       ],
       imports: [
         SharedModule,
@@ -158,10 +157,33 @@ describe('ContactDetailsComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith([`/contacts`]);
   });
 
-  function deleteContact() {
+  it('should call goToContacts and throw error', () => {
+    deleteContact(true);
+    expect(component.hasDeleteContactError).toBeTruthy();
+  });
+
+  it('should call goToContacts and hit catch and showDeleteContactError', fakeAsync(() => {
+    routeStub.setParamMap({ contactId: 'abc123' });
+    const removeContactSpy = spyOn(TestBed.inject(ContactsService), 'removeContact').and.returnValue('');
+    component.deleteContact();
+
+    expect(removeContactSpy).toHaveBeenCalled();
+    expect(component.hasDeleteContactError).toBeTruthy();
+    tick(3000);
+    expect(component.hasDeleteContactError).toBeFalsy();
+    flush();
+  }));
+
+  function deleteContact(hasError = false) {
     routeStub.setParamMap({ contactId: 'abc123' });
 
-    const removeContactSpy = spyOn(TestBed.inject(ContactsService), 'removeContact').and.returnValue(of(CONTACT_EMPTY_SOCIALS));
+    let removeContactSpy;
+    if (hasError) {
+      removeContactSpy = spyOn(TestBed.inject(ContactsService), 'removeContact').and.returnValue(throwError('ERROR'));
+    } else {
+      removeContactSpy = spyOn(TestBed.inject(ContactsService), 'removeContact').and.returnValue(of(CONTACT_EMPTY_SOCIALS));
+    }
+
     component.deleteContact();
     fixture.detectChanges();
     expect(removeContactSpy).toHaveBeenCalled();

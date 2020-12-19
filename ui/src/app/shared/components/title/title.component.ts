@@ -36,7 +36,7 @@ export class TitleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.currentAuth.subscribe(res => {
+    this.userSubscription = this.authService.currentAuth().subscribe(res => {
       this.currentUser = res;
       this.cdr.markForCheck();
     });

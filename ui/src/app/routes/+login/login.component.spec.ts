@@ -2,31 +2,26 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { SearchbarComponent } from '@components/searchbar/searchbar.component';
 import { SvgComponent } from '@components/svg/svg.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedModule } from '@modules/shared.module';
-import { ApiService } from '@services/api.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ClientStorage } from '@services/client-storage.service';
 import { AuthService } from '@services/auth.service';
 import { AuthServiceStub } from 'app/stubs';
 import { Router } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-
 
   const formBuilder: FormBuilder = new FormBuilder();
 
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -104,20 +99,24 @@ fdescribe('LoginComponent', () => {
     const loginValue = { email: 'user@test.com', token: 'token123', _id: 'id123' };
     loginGroupValues();
     login(loginValue, 'returnOf');
+    expect(mockRouter.navigate).toHaveBeenCalledWith([`/contacts`]);
   });
 
   it('should call onLogin and call authService.login and reject to catch', () => {
     loginGroupValues();
     login('', 'none');
+    expect(component.loginFormGroup.controls.password.value).toBe(null);
   });
 
   it('should call onLogin and call authService.login and go to else call loginError', () => {
     loginGroupValues();
     login('', 'returnOf');
+    expect(component.loginFormGroup.controls.password.value).toBe(null);
   });
   it('should call onLogin and call authService.login and catchError', () => {
     loginGroupValues();
     login('', 'returnCatchError');
+    expect(component.loginFormGroup.controls.password.value).toBe(null);
   });
 
   function loginGroupValues() {

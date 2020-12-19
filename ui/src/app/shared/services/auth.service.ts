@@ -3,14 +3,14 @@ import { ApiService } from './api.service';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
+import { IAuthResponse } from '@interfaces/auth-response.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private currentAuthSubject: BehaviorSubject<any> = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentAuth')));
-  currentAuth: Observable<any> = this.currentAuthSubject.asObservable();
-
+  // tslint:disable-next-line:max-line-length
+  private currentAuthSubject: BehaviorSubject<IAuthResponse> = new BehaviorSubject<IAuthResponse>(JSON.parse(localStorage.getItem('currentAuth')));
   private token: string;
 
   constructor(
@@ -21,7 +21,11 @@ export class AuthService {
     return this.currentAuthSubject.value;
   }
 
-  login(obj: object) {
+  public currentAuth(): Observable<IAuthResponse> {
+    return this.currentAuthSubject.asObservable();
+  }
+
+  public login(obj: object) {
     return this.apiService
       .post('auth/login', obj)
       .pipe(
@@ -33,12 +37,12 @@ export class AuthService {
             this.currentAuthSubject.next({...res.data.user});
           }
 
-          return res?.data?.users;
+          return res?.data?.user;
         })
       );
   }
 
-  register(obj: object) {
+  public register(obj: object) {
     return this.apiService
       .post('auth/register', obj)
       .pipe(
@@ -51,7 +55,7 @@ export class AuthService {
       );
   }
 
-  resetPassword(obj: object) {
+  public resetPassword(obj: object) {
     return this.apiService
         .post('auth/reset-password', obj)
         .pipe(
@@ -64,7 +68,7 @@ export class AuthService {
         );
   }
 
-  validateResetPasswordToken(obj: object) {
+  public validateResetPasswordToken(obj: object) {
     return this.apiService
         .post('auth/validate-password-token', obj)
         .pipe(
@@ -77,7 +81,7 @@ export class AuthService {
         );
   }
 
-  newPassword(obj: object) {
+  public newPassword(obj: object) {
     return this.apiService
         .post('auth/new-password', obj)
         .pipe(
@@ -90,22 +94,7 @@ export class AuthService {
         );
   }
 
-  social(target) {
-    console.log(target);
-    return this.apiService
-        .get('auth/google')
-        .pipe(
-          first(),
-          map((res: ICustomResponse) => {
-            if (res) {
-              console.log(res);
-              return res;
-            }
-          })
-        );
-  }
-
-  logout() {
+  public logout() {
     // remove user from local storage to log user out
     this.token = null;
     localStorage.removeItem('currentAuth');

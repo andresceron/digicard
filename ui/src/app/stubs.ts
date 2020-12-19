@@ -37,6 +37,11 @@ export class ContactsServiceStub {
   removeContact(userId: string) {
     return of().pipe();
   }
+
+  saveContact(userId: string) {
+    return of().pipe();
+  }
+
 }
 
 @Injectable()

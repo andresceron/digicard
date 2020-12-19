@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '@services/auth.service';
 import { ContactsService } from '@services/contacts.service';
 import { REG_EXP_PATTERNS } from '@constants/app-constants.constant';
 import { IUser } from '@interfaces/user.interface';
 import { first } from 'rxjs/operators';
+import { IAuthResponse } from '@interfaces/auth-response.interface';
 
 @Component({
   selector: 'sc-public',
@@ -13,11 +13,9 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./public.component.scss']
 })
 export class PublicComponent implements OnInit {
-  contactId: string;
-  contact: any;
-  isLoading = false;
-  imagePreview: SafeResourceUrl;
-  currentAuthUser: any;
+  public contact: IUser;
+  private currentAuthUser: IAuthResponse;
+  private contactId: string;
 
   constructor(
     private authService: AuthService,
@@ -28,32 +26,32 @@ export class PublicComponent implements OnInit {
 
   ngOnInit() {
     this.currentAuthUser = this.authService.currentAuthValue;
-
     this.contactId = this.route.snapshot.params.contactId;
     if (this.contactId) {
       this.initSubscriptions();
     }
   }
 
-  public saveContact() {
+  public saveContact(): void {
     if (!this.currentAuthUser) {
       this.router.navigate(['/login']);
+      return;
     }
 
     this.contactsService
-      .saveContact(this.contactId)
-      .pipe(first())
-      .subscribe(
-        (data: any) => {
-          this.router.navigate(['/contacts/']);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    .saveContact(this.contactId)
+    .pipe(first())
+    .subscribe(
+      (data: any) => {
+          this.router.navigate(['/contacts']);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
-  private initSubscriptions() {
+  private initSubscriptions(): void {
     this.contactsService
       .getContact(this.contactId)
       .pipe(first())
@@ -63,12 +61,13 @@ export class PublicComponent implements OnInit {
           this.configSocialUrls(this.contact.socials);
         },
         (err: any) => {
+          // TODO: Handle error better
           console.log(err);
         }
       );
   }
 
-  private configSocialUrls(socials) {
+  private configSocialUrls(socials): void {
     const socialReplacePattern = new RegExp(REG_EXP_PATTERNS.SOCIAL_REPLACE);
 
     socials.forEach((social) => {

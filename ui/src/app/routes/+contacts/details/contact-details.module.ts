@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { ContactDetailsRouterModule } from './contact-details-router.module';
 import { ComponentsModule } from '@modules/components.module';
 import { SharedModule } from '@modules/shared.module';

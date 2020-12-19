@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.userSubscription = this.authService.currentAuth.subscribe(res => {
+    this.userSubscription = this.authService.currentAuth().subscribe(res => {
       this.currentUser = res;
       this.cdr.markForCheck();
     });
