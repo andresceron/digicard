@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
@@ -14,7 +14,7 @@ import { NOTIFICATIONS_MESSAGES, FORM_ERRORS } from '@constants/app-constants.co
 
 export class RegisterComponent implements OnInit {
   public readonly FORM_ERRORS = FORM_ERRORS;
-  public registerError: boolean;
+  public hasRegisterError: boolean;
   public showPassword = false;
   public registerFormGroup: FormGroup;
 
@@ -30,12 +30,12 @@ export class RegisterComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.registerFormGroup.valid) {
+    if (!this.registerFormGroup.valid) {
       return;
     }
 
     try {
-    this.registerError = false;
+    this.hasRegisterError = false;
 
     const obj = {
       firstName: this.registerFormGroup.value.firstName,
@@ -49,32 +49,18 @@ export class RegisterComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (res: any) => {
-            if (!!res && res._id) {
-              console.log(res);
-
-              this.snackBar.open(
-                `Thank you for registering: ${res.email}`,
-                'Dismiss',
-                { duration: 3000 }
-              );
-
-              setTimeout(() => {
-                this.router.navigate(['/login']);
-              }, 2000);
+            if (res?._id) {
+              this.showMessage(`Thank you for registering: ${res.email}`);
+              this.goToLogin();
+            } else {
+              this.registerError();
             }
           },
           (err) => {
-            this.registerFormGroup.get('password').reset();
-            this.registerFormGroup.get('password').setErrors(null);
-            this.registerError = true;
-            this.snackBar.open(NOTIFICATIONS_MESSAGES.REGISTER_ERROR, 'Dismiss', {
-              duration: 3000
-            });
+            this.registerError();
         });
     } catch (err) {
-      this.snackBar.open(NOTIFICATIONS_MESSAGES.REGISTER_ERROR, 'Dismiss', {
-        duration: 3000
-      });
+      this.registerError();
     }
   }
 
@@ -82,12 +68,25 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  private registerError() {
+    this.registerFormGroup.get('password').reset();
+    this.registerFormGroup.get('password').setErrors(null);
+    this.hasRegisterError = true;
+    this.showMessage(NOTIFICATIONS_MESSAGES.REGISTER_ERROR);
+  }
+
+  private showMessage(value: string): void {
+    this.snackBar.open(value, 'Dismiss', {
+      duration: 3000
+    });
+  }
+
   private configForm(): void {
     this.registerFormGroup = this.fb.group({
-      firstName: new FormControl( '', [ Validators.required ]),
-      lastName: new FormControl('', [ Validators.required ]),
-      email: new FormControl('', [ Validators.required, , Validators.email ]),
-      password: new FormControl('', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 15 ) ])
+      firstName: new FormControl( '', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)])
     });
   }
 

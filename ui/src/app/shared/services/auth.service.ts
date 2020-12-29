@@ -31,7 +31,7 @@ export class AuthService {
       .pipe(
         first(),
         map((res: ICustomResponse) => {
-          if (res?.data?.user && res?.data?.user?.token) {
+          if (res?.data?.user?.token) {
             this.token = res.data.user.token;
             localStorage.setItem('currentAuth', JSON.stringify(res.data.user));
             this.currentAuthSubject.next({...res.data.user});
@@ -48,7 +48,7 @@ export class AuthService {
       .pipe(
         first(),
         map((res: ICustomResponse) => {
-          if (res && res.data && res.data._id) {
+          if (res?.data?._id) {
             return res.data;
           }
         })

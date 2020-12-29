@@ -28,7 +28,7 @@
     </mat-form-field>
 
     <div class="form-element">
-      <mat-error class="m-b-15" *ngIf="registerError">{{FORM_ERRORS.REGISTER}}</mat-error>
+      <mat-error class="m-b-15" *ngIf="hasRegisterError">{{FORM_ERRORS.REGISTER}}</mat-error>
       <button mat-raised-button class="button" color="primary" [disabled]="!registerFormGroup.valid">Register</button>
     </div>
   </form>

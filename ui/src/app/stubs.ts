@@ -19,6 +19,10 @@ export class AuthServiceStub {
     return of().pipe();
   }
 
+  register(obj: { firstName: string, lastName: string, email: string, password: string }) {
+    return of().pipe();
+  }
+
   get currentAuthValue() {
     return this.loadSubject.value;
   }
