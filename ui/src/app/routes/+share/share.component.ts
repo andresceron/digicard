@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { IUser } from '@interfaces/user.interface';
+import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 
 @Component({
   selector: 'sc-share',
@@ -35,7 +36,7 @@ export class ShareComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usersService.getUser(this.authService.currentAuthValue._id)
+    this.usersService.getUser(this.authService.currentAuthValue?._id)
       .pipe(first())
       .subscribe( data => {
         this.user = data;
@@ -46,8 +47,9 @@ export class ShareComponent implements OnInit {
   public shareQR(): void {
     if ( this.isQRVisible ) {
       this.isQRVisible = false;
+    } else {
+      this.isQRVisible = true;
     }
-    this.isQRVisible = true;
   }
 
   public shareLink(): void {
@@ -57,13 +59,9 @@ export class ShareComponent implements OnInit {
     selBox.focus();
     selBox.select();
     document.execCommand('copy');
-    document.body.removeChild( selBox );
+    document.body.removeChild(selBox);
 
-    // add confirmation message
-    this.snackBar.open('Link Copied Successfully', 'Dismiss', {
-      duration: 3000
-    });
-
+    this.showMessage(NOTIFICATIONS_MESSAGES.LINK_COPIED_SUCCESS);
   }
 
   public backToList(): void {
@@ -96,6 +94,12 @@ export class ShareComponent implements OnInit {
 
   private configLink(): void {
     this.linkCopy = `${this.config.baseUrl}public/${this.user._id}`;
+  }
+
+  private showMessage(value: string): void {
+    this.snackBar.open(value, 'Dismiss', {
+      duration: 3000
+    });
   }
 
   private sanitizeUrl(url: string) {

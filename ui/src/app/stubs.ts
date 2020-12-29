@@ -45,6 +45,14 @@ export class ContactsServiceStub {
 }
 
 @Injectable()
+export class UsersServiceStub {
+  getUser(userId: string) {
+    return of().pipe();
+  }
+
+}
+
+@Injectable()
 export class ClientStorageStub {
 }
 

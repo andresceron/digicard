@@ -22,7 +22,8 @@ export const NOTIFICATIONS_MESSAGES = {
   NEW_PASSWORD_ERROR: 'Attempt to set new password failed. Please try again later',
   VALIDATE_TOKEN_ERROR: 'Invalid token! Please try again',
   PROFILE_UPDATE_SUCCESS: 'Profile updated!',
-  PROFILE_UPDATE_ERROR: 'Attempt to update profile failed. Please try again later'
+  PROFILE_UPDATE_ERROR: 'Attempt to update profile failed. Please try again later',
+  LINK_COPIED_SUCCESS: 'Link Copied Successfully'
 };
 
 export const FORM_ERRORS = {

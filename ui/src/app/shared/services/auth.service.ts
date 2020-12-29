@@ -17,7 +17,7 @@ export class AuthService {
     private apiService: ApiService
   ) { }
 
-  public get currentAuthValue() {
+  public get currentAuthValue(): IAuthResponse {
     return this.currentAuthSubject.value;
   }
 
