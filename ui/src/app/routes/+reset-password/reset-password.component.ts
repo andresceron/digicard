@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
@@ -6,19 +6,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FORM_ERRORS, NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
 import { ConfirmPasswordValidator } from '@shared/validators/confirm-password.validator';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sc-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
   public readonly TITLE = 'Reset Pasword';
   public readonly FORM_ERRORS = FORM_ERRORS;
   public showPassword = false;
   public showConfirmPassword = false;
   public isRequestingPassword: boolean;
   public hasValidToken: boolean;
+  private routeSub: Subscription;
 
   public resetPasswordForm = this.fb.group({
     email: new FormControl('', [Validators.required])
@@ -27,7 +29,7 @@ export class ResetPasswordComponent implements OnInit {
   public newPasswordForm = this.fb.group(
     {
       password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]),
-      confirmPassword: new FormControl('', [Validators.required])
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)])
     },
     { validator: ConfirmPasswordValidator.MatchPassword }
   );
@@ -43,10 +45,12 @@ export class ResetPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(first()).subscribe((params) => {
-      if (params.token !== null && params.token !== undefined) {
+    this.routeSub = this.route.paramMap.subscribe((params) => {
+      const token = params.get('token');
+
+      if (token !== null && token !== undefined) {
         this.isRequestingPassword = false;
-        this.resetToken = params.token;
+        this.resetToken = token;
         this.validateToken(this.resetToken);
       } else {
         this.isRequestingPassword = true;
@@ -66,17 +70,16 @@ export class ResetPasswordComponent implements OnInit {
         .subscribe(
           (res: any) => {
             if (!!res) {
-
-              this.snackBar.open(NOTIFICATIONS_MESSAGES.REQUEST_RESET_PASSWORD_SUCCESS, 'Dismiss', { duration: 5000 });
+              this.showMessage(NOTIFICATIONS_MESSAGES.REQUEST_RESET_PASSWORD_SUCCESS);
               this.router.navigate(['/login']);
             }
           },
           (err) => {
-            this.snackBar.open(NOTIFICATIONS_MESSAGES.REQUEST_RESET_PASSWORD_ERROR, 'Dismiss', { duration: 5000 });
+            this.showMessage(NOTIFICATIONS_MESSAGES.REQUEST_RESET_PASSWORD_ERROR);
           }
         );
     } catch (err) {
-      this.snackBar.open(NOTIFICATIONS_MESSAGES.ERROR, 'Dismiss', { duration: 5000 });
+      this.showMessage(NOTIFICATIONS_MESSAGES.ERROR);
     }
   }
 
@@ -95,13 +98,13 @@ export class ResetPasswordComponent implements OnInit {
       .pipe(first())
       .subscribe((res) => {
         if (!res) {
-          this.snackBar.open(NOTIFICATIONS_MESSAGES.NEW_PASSWORD_ERROR, 'Dismiss', { duration: 5000 });
+          this.showMessage(NOTIFICATIONS_MESSAGES.NEW_PASSWORD_ERROR);
           return;
         }
 
         this.isRequestingPassword = false;
         this.hasValidToken = true;
-        this.snackBar.open(NOTIFICATIONS_MESSAGES.NEW_PASSWORD_SUCCESS, 'Dismiss', { duration: 5000 });
+        this.showMessage(NOTIFICATIONS_MESSAGES.NEW_PASSWORD_SUCCESS);
         this.goToPage('login');
       });
   }
@@ -121,7 +124,7 @@ export class ResetPasswordComponent implements OnInit {
         },
         (err) => {
           this.hasValidToken = false;
-          this.snackBar.open(NOTIFICATIONS_MESSAGES.VALIDATE_TOKEN_ERROR, 'Dismiss', { duration: 5000 });
+          this.showMessage(NOTIFICATIONS_MESSAGES.VALIDATE_TOKEN_ERROR);
           this.goToPage('login');
         }
       );
@@ -129,5 +132,17 @@ export class ResetPasswordComponent implements OnInit {
 
   private goToPage(path: string): void {
     this.router.navigate([`/${path}`]);
+  }
+
+  private showMessage(value: string): void {
+    this.snackBar.open(value, 'Dismiss', {
+      duration: 3000
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 }

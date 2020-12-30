@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
-import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, Params } from '@angular/router';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class AuthServiceStub {
@@ -20,6 +19,18 @@ export class AuthServiceStub {
   }
 
   register(obj: { firstName: string, lastName: string, email: string, password: string }) {
+    return of().pipe();
+  }
+
+  validateResetPasswordToken(token: string) {
+    return of().pipe();
+  }
+
+  resetPassword(email: string) {
+    return of().pipe();
+  }
+
+  newPassword(obj: { token: string, password: string }) {
     return of().pipe();
   }
 
@@ -67,22 +78,13 @@ export class ApiServiceStub {
   }
 }
 
-@Injectable()
-export class ActivatedRouteStubOld {
-    subject = new Subject<any>();
-    params = {};
-    queryParams = {};
-    data = this.subject;
-    snapshot = {
-        params: {}
-    };
-}
-
 export class ActivatedRouteStub implements Partial<ActivatedRoute> {
   private _params: {};
-  private subject = new ReplaySubject<any>();
+  private paramMapSubject = new ReplaySubject<ParamMap>();
+  private subject = new ReplaySubject<Params>();
 
-  paramMap = this.subject.asObservable();
+  readonly paramsData = this.subject.asObservable();
+
   get snapshot(): ActivatedRouteSnapshot {
     const snapshot: Partial<ActivatedRouteSnapshot> = {
       params: this._params,
@@ -91,12 +93,17 @@ export class ActivatedRouteStub implements Partial<ActivatedRoute> {
     return snapshot as ActivatedRouteSnapshot;
   }
 
+  get paramMap(): Observable<ParamMap> {
+    return this.paramMapSubject.asObservable();
+  }
+
   constructor(initialParams?: Params) {
     this.setParamMap(initialParams);
   }
 
   setParamMap(params?: Params) {
     this._params = params;
+    this.paramMapSubject.next(convertToParamMap(params));
     this.subject.next(params);
   }
 }

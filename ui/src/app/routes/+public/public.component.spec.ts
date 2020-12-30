@@ -109,7 +109,6 @@ describe('PublicComponent', () => {
     fixture.detectChanges();
 
     expect(contactsServiceSpy).not.toHaveBeenCalled();
-
   });
 
   it('should initiate ngOnInit and set contactId and initSubscriptions with contact', () => {
@@ -120,7 +119,6 @@ describe('PublicComponent', () => {
 
     expect(contactsServiceSpy).toHaveBeenCalled();
     expect(component.contact).toBe(CONTACT_EMPTY_SOCIALS);
-
   });
 
   it('should initiate ngOnInit and set contactId and initSubscriptions and configSocialUrls', () => {

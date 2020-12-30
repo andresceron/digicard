@@ -1,6 +1,5 @@
 import { TestBed, async, ComponentFixture, tick, fakeAsync, flush } from '@angular/core/testing';
 import { ContactDetailsComponent } from './contact-details.component';
-import { SearchbarComponent } from '@components/searchbar/searchbar.component';
 import { SharedModule } from '@modules/shared.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
