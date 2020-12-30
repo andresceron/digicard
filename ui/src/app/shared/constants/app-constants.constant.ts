@@ -1,6 +1,6 @@
 import { IAppConstants } from '@interfaces/app.interface';
 
-export const AppPrefix = 'SocialCard';
+export const AppPrefix = 'Socialar';
 export const AppConstants: IAppConstants = {
   prefix: AppPrefix,
   appState: `${AppPrefix}.appState`

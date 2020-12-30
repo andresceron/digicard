@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture, fakeAsync, tick, flush } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { ResetPasswordComponent } from './reset-password.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedModule } from '@modules/shared.module';
@@ -11,9 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
-import { ConfirmPasswordValidator } from '@shared/validators/confirm-password.validator';
 
-fdescribe('ResetPasswordComponent', () => {
+describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
 
@@ -60,7 +59,6 @@ fdescribe('ResetPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
   });
 
   afterEach(() => {

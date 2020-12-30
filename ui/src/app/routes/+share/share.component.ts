@@ -81,7 +81,7 @@ export class ShareComponent implements OnInit {
 
   private configEmail(): void {
     this.linkEmail =
-      `mailto:?Subject=SocialCard - ${ this.user.firstName + ' ' + this.user.lastName }` +
+      `mailto:?Subject=Socialar - ${ this.user.firstName + ' ' + this.user.lastName }` +
       `&body=Check out my social card here:%20` +
       `${this.linkCopy}%0A%0A` +
       `Want to get your own social card? Register here: ${this.config.baseUrl}register`;
