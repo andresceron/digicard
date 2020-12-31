@@ -18,7 +18,6 @@ export class ContactsService {
         first(),
         // TODO: Add Contact Interface
         map((res: any) => {
-          console.log(res);
           if (res?.data) {
             return res.data;
           }
@@ -33,7 +32,6 @@ export class ContactsService {
       .pipe(
         // TODO: Add Contact interface
         map((res: any) => {
-          console.log(res);
           if (res?.data) {
             return res.data;
           }
@@ -50,7 +48,6 @@ export class ContactsService {
         first(),
         // TODO: Add Contact Interface
         map((res: any) => {
-          console.log(res);
           if (res?.data) {
             return res.data;
           }
@@ -66,7 +63,6 @@ export class ContactsService {
         first(),
         // TODO: Add Contact Interface
         map((res: any) => {
-          console.log(res);
           if (res?.data) {
             return res.data;
           }

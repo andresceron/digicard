@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { ComponentsModule } from '@modules/components.module';
 import { SharedModule } from '@modules/shared.module';
 import { AppBootstrapModule } from '@shared/bootstrap/app.bootstrap.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from '@interceptors/auth.interceptor';
 
 // Cookies Module
@@ -57,8 +56,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     AppRouterModule,
     SharedModule,
     HttpClientModule,
-    ComponentsModule,
-    BrowserAnimationsModule
+    ComponentsModule
   ],
   providers: [
     AppBootstrapModule,
