@@ -27,7 +27,7 @@
       <mat-error *ngIf="registerFormGroup.controls.password.errors?.maxlength">{{FORM_ERRORS.MAX_PASSWORD}}</mat-error>
     </mat-form-field>
 
-    <p class="terms">By signing up, you agree to <b>Socialar's</b> <a routerLink="['/legal/terms-conditions']"> Terms &amp; Conditions</a> and <a [routerLink]="['/legal/privacy-policy']">Privacy Policy</a></p>
+    <p class="terms">By signing up, you agree to <b>Socialar's</b> <a [routerLink]="['/legal/terms-conditions']" target="_blank"> Terms &amp; Conditions</a> and <a [routerLink]="['/legal/privacy-policy']" target="_blank">Privacy Policy</a></p>
 
     <div class="form-element">
       <mat-error class="m-b-15" *ngIf="hasRegisterError">{{FORM_ERRORS.REGISTER}}</mat-error>
