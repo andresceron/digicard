@@ -19,8 +19,10 @@ import {
   SocialLoginModule,
   AuthServiceConfig,
   GoogleLoginProvider,
-  FacebookLoginProvider
 } from 'angularx-social-login';
+
+// GA & GTM
+import { environment } from 'environments/environment';
 
 const config = new AuthServiceConfig([
   {
@@ -61,6 +63,10 @@ export function provideConfig() {
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
+    },
+    {
+      provide: 'googleTagManagerId',
+      useValue: environment.googleTagManagerId
     }
   ],
   bootstrap: [AppComponent]
