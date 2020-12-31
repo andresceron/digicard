@@ -11,7 +11,7 @@
     "test:headless": "npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": ""
+    "postinstall": "ng build --prod"
   },
   "engines": {
     "node": "14.1.0",
