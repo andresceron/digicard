@@ -46,7 +46,16 @@ export default ({ app }: { app: express.Application }) => {
         frameAncestors: ["'self'"],
         imgSrc: ["'self'", 'https://pngimage.net/', 'https://angularnode2.s3.eu-west-1.amazonaws.com/', 'data:'],
         objectSrc: ["'none'"],
-        scriptSrc: ["'self'", 'localhost:', 'https://apis.google.com/', "'unsafe-inline'", 'https://www.googletagmanager.com/', 'https://cdnjs.cloudflare.com/', 'blob:', 'https://cdnjs.cloudflare.com/'],
+        scriptSrc: [
+          "'self'",
+          'localhost:',
+          'https://apis.google.com/',
+          "'unsafe-inline'",
+          'https://www.googletagmanager.com/',
+          'https://cdnjs.cloudflare.com/',
+          'blob:',
+          'https://cdnjs.cloudflare.com/'
+        ],
         scriptSrcAttr: ["'none'"],
         styleSrc: ["'self'", 'https:', 'blob:', "'unsafe-inline'"],
         workerSrc: ["'self'", 'blob:', "'unsafe-inline'"],
