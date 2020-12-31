@@ -28,14 +28,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/cookieconsent/build/cookieconsent.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/bootstrap/scss/"
               ]
             },
-            "scripts": []
+            "scripts": [
+              "node_modules/cookieconsent/build/cookieconsent.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -97,14 +100,17 @@
             "codeCoverage": true,
             "codeCoverageExclude": ["src/app/stubs.ts"],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/cookieconsent/build/cookieconsent.min.css"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/bootstrap/scss/"
               ]
             },
+            "scripts": [
+              "node_modules/cookieconsent/build/cookieconsent.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

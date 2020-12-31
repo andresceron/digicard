@@ -41,6 +41,10 @@ export const routes: Routes = [
     loadChildren: () => import('./routes/+public/public.module').then(m => m.PublicModule)
   },
   {
+    path: 'legal',
+    loadChildren: () => import('./routes/+legal/legal.module').then(m => m.LegalModule)
+  },
+  {
     path: '**',
     redirectTo: 'contacts'
   }

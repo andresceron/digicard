@@ -53,7 +53,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event.url) {
         this.activeRoute = event.url.replace('/', '');
-        console.log(this.activeRoute);
         this.cdr.markForCheck();
       }
     });

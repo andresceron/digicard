@@ -11,7 +11,7 @@
     "test:headless": "npm run test -- --watch=false --progress=false --browsers=ChromeNoSandbox",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --prod"
+    "postinstall": ""
   },
   "engines": {
     "node": "14.1.0",
@@ -36,8 +36,11 @@
     "angular-google-tag-manager": "1.2.0",
     "angularx-social-login": "2.3.1",
     "bootstrap": "4.5.3",
+    "cookieconsent": "3.1.1",
     "core-js": "2.6.5",
     "country-codes-list": "1.6.3",
+    "ng2-pdf-viewer": "6.3.2",
+    "ngx-cookieconsent": "2.2.3",
     "ngx-virtual-scroller": "^1.0.16",
     "node-sass": "4.14.1",
     "rxjs": "6.5.5",

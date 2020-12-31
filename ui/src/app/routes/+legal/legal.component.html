@@ -1,0 +1,38 @@
+<sc-title [name]="'Legal Section'" [navBack]="section" (navBackEvent)="goToPage('')">
+</sc-title>
+
+<div class="container" *ngIf="!section">
+  <a mat-raised-button class="button button__section" (click)="goToPage('terms-conditions')">
+    <span class="m-l-5 uppercase">Terms & Conditions</span>
+  </a>
+  <a mat-raised-button class="button button__section" (click)="goToPage('privacy-policy')">
+    <span class="m-l-5 uppercase">Privacy Policy</span>
+  </a>
+  <a mat-raised-button class="button button__section" (click)="goToPage('cookie-policy')">
+    <span class="m-l-5 uppercase">Cookie Policy</span>
+  </a>
+</div>
+
+<div *ngIf="section" [ngSwitch]="section">
+  <ng-container *ngSwitchCase="'terms-conditions'">
+    <pdf-viewer
+      [src]="pdfSource"
+      [fit-to-page]="true"
+      [autoresize]="true"
+      [render-text]="true"></pdf-viewer>
+  </ng-container>
+  <ng-container *ngSwitchCase="'cookie-policy'">
+    <pdf-viewer
+      [src]="pdfSource"
+      [fit-to-page]="true"
+      [autoresize]="true"
+      [render-text]="true"></pdf-viewer>
+  </ng-container>
+  <ng-container *ngSwitchCase="'privacy-policy'">
+    <pdf-viewer
+      [src]="pdfSource"
+      [fit-to-page]="true"
+      [autoresize]="true"
+      [render-text]="true"></pdf-viewer>
+  </ng-container>
+</div>

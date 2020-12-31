@@ -14,44 +14,51 @@ import { AppBootstrapModule } from '@shared/bootstrap/app.bootstrap.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from '@interceptors/auth.interceptor';
 
-// Social Login
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-} from 'angularx-social-login';
+// Cookies Module
+import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
 // GA & GTM
 import { environment } from 'environments/environment';
 
-const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('374138893031-b8m61et7aih54ao8t4c17v1b2arbd5vf.apps.googleusercontent.com')
+const cookieConfig: NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'www.socialar.app'
+  },
+  position: 'bottom',
+  theme: 'edgeless',
+  palette: {
+    popup: {
+      background: '#264d7d',
+      text: '#ffffff',
+      link: '#ffffff'
+    },
+    button: {
+      background: '#ffffff',
+      text: '#000000',
+      border: 'transparent'
+    }
+  },
+  type: 'info',
+  content: {
+    message: 'This website uses cookies to ensure you get the best experience on our website.',
+    dismiss: 'Got it!',
+    link: 'Learn more',
+    href: '/legal',
+    policy: 'Cookie Policy'
   }
-  // {
-  //   id: FacebookLoginProvider.PROVIDER_ID,
-  //   provider: new FacebookLoginProvider("Facebook-App-Id")
-  // }
-]);
-
-export function provideConfig() {
-  return config;
-}
+};
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    NgcCookieConsentModule.forRoot(cookieConfig),
     BrowserModule,
     CoreModule,
     AppRouterModule,
     SharedModule,
     HttpClientModule,
     ComponentsModule,
-    BrowserAnimationsModule,
-
-    // Social Login
-    SocialLoginModule
+    BrowserAnimationsModule
   ],
   providers: [
     AppBootstrapModule,
@@ -59,10 +66,6 @@ export function provideConfig() {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    },
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
     },
     {
       provide: 'googleTagManagerId',

@@ -115,7 +115,6 @@ userSchema.methods.generateJWT = function (): string {
 };
 
 userSchema.methods.validatePassword = function (password: string): boolean {
-  console.log('validatePassword', password);
   const hash = crypto.pbkdf2Sync(password, this.salt, 128, 128, 'sha512').toString('hex');
   return this.hash === hash;
 };

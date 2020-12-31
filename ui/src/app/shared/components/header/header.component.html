@@ -30,7 +30,7 @@
         <a mat-raised-button
           color="warn"
           routerLinkActive="router-link-active"
-          *ngIf="activeRoute === ROUTES.REGISTER"
+          *ngIf="activeRoute === ROUTES.REGISTER || activeRoute === ROUTES.RESET_PASSWORD"
           (click)="goToPage('login')">Login</a>
       </ng-container>
 

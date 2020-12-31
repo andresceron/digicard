@@ -39,7 +39,8 @@ export const FORM_ERRORS = {
 
 export const ROUTES = {
   LOGIN: 'login',
-  REGISTER: 'register'
+  REGISTER: 'register',
+  RESET_PASSWORD: 'reset-password'
 };
 
 export const REG_EXP_PATTERNS = {

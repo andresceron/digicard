@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { NgcCookieConsentService } from 'ngx-cookieconsent';
 
 declare let gtag: Function;
 @Component({
@@ -10,7 +11,8 @@ declare let gtag: Function;
 export class AppComponent {
 
   constructor(
-    public router: Router
+    public router: Router,
+    public ngccService: NgcCookieConsentService
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

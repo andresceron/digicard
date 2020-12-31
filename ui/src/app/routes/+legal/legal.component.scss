@@ -1,0 +1,19 @@
+@import './src/scss/_exports';
+
+h3 {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+.button {
+  width: 100%;
+  background-color: setColor(primary, base);
+  color: setColor(white, base);
+  &__section {
+    padding: 20px 40px;
+    font-size: 18px;
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}

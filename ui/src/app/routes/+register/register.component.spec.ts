@@ -34,7 +34,6 @@ describe('RegisterComponent', () => {
         ReactiveFormsModule,
         SharedModule,
         HttpClientTestingModule,
-        RouterTestingModule,
         BrowserAnimationsModule
       ],
       providers: [
