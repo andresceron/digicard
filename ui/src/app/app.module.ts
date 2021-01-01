@@ -18,6 +18,7 @@ import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsen
 
 // GA & GTM
 import { environment } from 'environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -51,7 +52,7 @@ const cookieConfig: NgcCookieConsentConfig = {
   declarations: [AppComponent],
   imports: [
     NgcCookieConsentModule.forRoot(cookieConfig),
-    BrowserModule,
+    BrowserAnimationsModule,
     CoreModule,
     AppRouterModule,
     SharedModule,
