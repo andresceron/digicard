@@ -69,25 +69,8 @@ jobs:
           channel: circleci
           event: fail
           template: basic_fail_1
-          me  ntions: "@andresceron"
-      - slack/notify:
-          channel: circleci
-          event: pass
-          template: success_tagged_deploy_1
-
-  slack_notify_fail:
-    executor: node/default
-    steps:
-       - slack/notify:
-          channel: circleci
-          event: fail
-          template: basic_fail_1
           mentions: "@andresceron"
-
-  slack_notify_success:
-    executor: node/default
-    steps:
-       - slack/notify:
+      - slack/notify:
           channel: circleci
           event: pass
           template: success_tagged_deploy_1
