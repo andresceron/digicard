@@ -44,7 +44,7 @@ export default ({ app }: { app: express.Application }) => {
         blockAllMixedContent: [],
         fontSrc: ["'self'", 'https:', 'data:'],
         frameAncestors: ["'self'"],
-        imgSrc: ["'self'", 'https://pngimage.net/', 'https://angularnode2.s3.eu-west-1.amazonaws.com/', 'data:'],
+        imgSrc: ["'self'", 'https://pngimage.net/', 'https://angularnode2.s3.eu-west-1.amazonaws.com/', 'https://socialar-profile-test.s3.eu-west-1.amazonaws.com/', 'https://socialar-profile-prod.s3.eu-west-1.amazonaws.com/', 'data:'],
         objectSrc: ["'none'"],
         scriptSrc: [
           "'self'",

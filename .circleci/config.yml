@@ -77,6 +77,11 @@ workflows:
           requires: # test2 is dependent on the success of job `test1`
             - server_lint_test_build
             - ui_lint_test_build
+          filters:
+            branches:
+              only:
+                - main
+                - /DIG-.*/
 
 
 # orbs:

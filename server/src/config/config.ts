@@ -19,8 +19,8 @@ const envVarsSchema = Joi.object({
     otherwise: Joi.boolean().default(false)
   }),
   JWT_SECRET: Joi.string().required().description('JWT Secret required to sign'),
-  MONGO_HOST: Joi.string().required().description('Mongo DB host url'),
-  MONGO_PORT: Joi.number().default(27017),
+  MONGODB_URI: Joi.string().required().description('Mongo DB URI'),
+  MONGODB_PORT: Joi.number().default(27017),
   AWS_ID: Joi.string(),
   AWS_SECRET: Joi.string(),
   AWS_REGION: Joi.string(), // .default('eu-west-1'),
@@ -44,8 +44,8 @@ const config = {
   mongooseDebug: envVars.MONGOOSE_DEBUG,
   jwtSecret: envVars.JWT_SECRET,
   mongo: {
-    host: envVars.MONGODB_URI || envVars.MONGO_HOST,
-    port: envVars.MONGO_PORT
+    uri: envVars.MONGODB_URI,
+    port: envVars.MONGODB_PORT
   },
   aws: {
     id: envVars.AWS_ID,

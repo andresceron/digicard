@@ -18,6 +18,19 @@ mat-toolbar {
   }
 }
 
+.container {
+  &__spinner {
+    margin-bottom: 15px;
+    mat-spinner {
+      margin: 0 auto;
+    }
+  }
+
+  &__save-btn {
+    margin-bottom: 20px;
+  }
+}
+
 
 // Contact Preview Card
 // ---------------------------------------------------------------------
@@ -35,11 +48,6 @@ mat-toolbar {
   }
 }
 
-.save-btn--container {
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 20px;
-}
 
 .button {
   width: 100%;

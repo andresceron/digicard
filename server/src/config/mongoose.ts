@@ -15,7 +15,7 @@ export default () => {
 
   // connect to mongo db
   mongoose.connect(
-    config.mongo.host,
+    config.mongo.uri,
     {
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -28,8 +28,8 @@ export default () => {
   );
 
   mongoose.connection.on('error', () => {
-    Logger.error(`unable to connect to database: ${config.mongo.host}`);
-    throw new Error(`unable to connect to database: ${config.mongo.host}`);
+    Logger.error(`unable to connect to database: ${config.mongo.uri}`);
+    throw new Error(`unable to connect to database: ${config.mongo.uri}`);
   });
 
   // print mongoose logs in dev env

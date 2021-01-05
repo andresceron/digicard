@@ -16,8 +16,8 @@
       <span class="m-l-5 uppercase">link</span>
     </a>
   </div>
-  <div *ngIf="isQRVisible">
-    <h3 class="text-center uppercase">Scan this QR codeSCAN THIS QR CODE</h3>
+  <div class="container__qr" *ngIf="isQRVisible">
+    <h3 class="text-center uppercase">Scan this QR code</h3>
     <img [src]="user.qr">
   </div>
 </div>

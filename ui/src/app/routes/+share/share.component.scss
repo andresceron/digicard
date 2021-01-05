@@ -1,5 +1,14 @@
 @import './src/scss/_exports';
 
+.container {
+  &__qr {
+    text-align: center;
+    img {
+      max-width: 300px;
+    }
+  }
+}
+
 h3 {
   margin-top: 30px;
   margin-bottom: 0;
