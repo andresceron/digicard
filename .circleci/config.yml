@@ -31,6 +31,15 @@ jobs:
       - run:
           name: server build
           command: cd ./server;
+      - slack/notify:
+          channel: circleci
+          event: fail
+          template: basic_fail_1
+          mentions: "@andresceron"
+      - slack/notify:
+          channel: circleci
+          event: pass
+          template: success_tagged_deploy_1
 
   ui_lint_test_build:
     working_directory: ~/digicard
@@ -58,6 +67,15 @@ jobs:
       - run:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
+      - slack/notify:
+          channel: circleci
+          event: fail
+          template: basic_fail_1
+          mentions: "@andresceron"
+      - slack/notify:
+          channel: circleci
+          event: pass
+          template: success_tagged_deploy_1
 
   deploy_heroku:
     executor: heroku/default
@@ -82,6 +100,7 @@ workflows:
       - ui_lint_test_build: # your custom job; runs test suite 1
           requires: # test1 will not run until the `build` job is completed.
             - server_lint_test_build
+          context: slack-secrets
       - deploy_heroku: # another custom job; runs test suite 2,
           requires: # test2 is dependent on the success of job `test1`
             - server_lint_test_build
