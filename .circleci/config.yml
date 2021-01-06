@@ -41,7 +41,8 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_JOB_NUM})"
+                    "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_JOB_NUM})",
+                    "emoji": true
                   }
                 },
                 {
