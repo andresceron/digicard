@@ -1,5 +1,62 @@
 version: 2.1
 
+slack-fail-post-step: &slack-fail-post-step
+  post-steps:
+  - slack/notify:
+      custom: |
+        {
+          "text": "",
+          "blocks": [
+            {
+              "type": "header",
+              "text": {
+                "type": "plain_text",
+                "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_BUILD_NUM})",
+                "emoji": true
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Author*: $CIRCLE_USERNAME \\n"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Job*: ${CIRCLE_JOB} \\n"
+                }
+              ]
+            },
+            {
+              "type": "actions",
+              "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "View Job"
+                  },
+                  "url": ${CIRCLE_BUILD_URL}
+                }
+              ]
+            }
+          ]
+        }
+      event: fail
+
 orbs:
   heroku: circleci/heroku@1.2.3
   slack: circleci/slack@4.1.2
@@ -33,7 +90,6 @@ jobs:
           command: cd ./server;
       - slack/notify:
           channel: circleci
-          event: fail
           custom: |
             {
                 "blocks": [
@@ -41,7 +97,7 @@ jobs:
                         "type": "header",
                         "text": {
                             "type": "plain_text",
-                            "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_JOB_NUM})",
+                            "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_BUILD_NUM})",
                             "emoji": true
                         }
                     },
@@ -85,6 +141,7 @@ jobs:
                     }
                 ]
             }
+          event: fail
 
   ui_lint_test_build:
     working_directory: ~/digicard
@@ -112,60 +169,6 @@ jobs:
       - run:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
-      - slack/notify:
-          channel: circleci
-          event: fail
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "SOCIALAR: FAILED :red_circle:",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author*: $CIRCLE_USERNAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Job*: ${CIRCLE_JOB} \\n"
-                    }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Job"
-                      },
-                      "url": ${CIRCLE_BUILD_URL}
-                    }
-                  ]
-                }
-              ]
-            }
 
   deploy_heroku:
     executor: heroku/default
@@ -173,128 +176,76 @@ jobs:
       - checkout
       - heroku/install
       - heroku/deploy-via-git
-      - slack/notify:
-          channel: circleci
-          event: fail
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "SOCIALAR: FAILED :red_circle:",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author*: $CIRCLE_USERNAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Job*: ${CIRCLE_JOB} \\n"
-                    }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Job"
-                      },
-                      "url": ${CIRCLE_BUILD_URL}
-                    }
-                  ]
-                }
-              ]
-            }
-      - slack/notify:
-          channel: circleci
-          event: pass
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "SOCIALAR: SUCCESSFUL :red_circle:",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author*: $CIRCLE_USERNAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Job*: ${CIRCLE_JOB} \\n"
-                    }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Job"
-                      },
-                      "url": ${CIRCLE_BUILD_URL}
-                    }
-                  ]
-                }
-              ]
-            }
 
 workflows:
   default:
     jobs:
-      - server_lint_test_build # your custom job from your config, that builds your code
+      - server_lint_test_build:
+         context: slack-secrets
+         <<: *slack-fail-post-step
       - ui_lint_test_build: # your custom job; runs test suite 1
           requires: # test1 will not run until the `build` job is completed.
             - server_lint_test_build
           context: slack-secrets
+          <<: *slack-fail-post-step
       - deploy_heroku: # another custom job; runs test suite 2,
+          context: [slack-secrets]
           requires: # test2 is dependent on the success of job `test1`
             - server_lint_test_build
             - ui_lint_test_build
-          context: slack-secrets
+          post-steps:
+            - slack/notify:
+                custom: |
+                  {
+                    "blocks": [
+                      {
+                        "type": "header",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "SOCIALAR: SUCCESSFUL :red_circle:",
+                          "emoji": true
+                        }
+                      },
+                      {
+                        "type": "section",
+                        "fields": [
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Author*: $CIRCLE_USERNAME \\n"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Job*: ${CIRCLE_JOB} \\n"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "actions",
+                        "elements": [
+                          {
+                            "type": "button",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "View Job"
+                            },
+                            "url": ${CIRCLE_BUILD_URL}
+                          }
+                        ]
+                      }
+                    ]
+                  }
           filters:
             branches:
               only:
