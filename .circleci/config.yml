@@ -40,9 +40,8 @@ jobs:
                 {
                   "type": "header",
                   "text": {
-                    "type": "plain_text",
-                    "text": "SOCIALAR: FAILED :red_circle:",
-                    "emoji": true
+                    "type": "mrkdwn",
+                    "text": "SOCIALAR: FAILED :red_circle: (${CIRCLE_JOB_NUM})"
                   }
                 },
                 {
