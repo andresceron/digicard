@@ -50,7 +50,7 @@ slack-fail-post-step: &slack-fail-post-step
                     "type": "plain_text",
                     "text": "View Job"
                   },
-                  "url": ${CIRCLE_BUILD_URL}
+                  "url": "${CIRCLE_BUILD_URL}"
                 }
               ]
             }
