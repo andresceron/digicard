@@ -3,6 +3,7 @@ version: 2.1
 slack-fail-post-step: &slack-fail-post-step
   post-steps:
   - slack/notify:
+      event: fail
       custom: |
         {
           "text": "",
@@ -55,7 +56,6 @@ slack-fail-post-step: &slack-fail-post-step
             }
           ]
         }
-      event: fail
 
 orbs:
   heroku: circleci/heroku@1.2.3
@@ -195,6 +195,7 @@ workflows:
             - ui_lint_test_build
           post-steps:
             - slack/notify:
+                event: always
                 custom: |
                   {
                     "blocks": [
