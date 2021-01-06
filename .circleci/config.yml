@@ -21,23 +21,23 @@ slack-fail-post-step: &slack-fail-post-step
               "fields": [
                 {
                   "type": "mrkdwn",
-                  "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                  "text": "*Project*: $CIRCLE_PROJECT_REPONAME \n"
                 },
                 {
                   "type": "mrkdwn",
-                  "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                  "text": "*Branch*: $CIRCLE_BRANCH \n"
                 },
                 {
                   "type": "mrkdwn",
-                  "text": "*Author*: $CIRCLE_USERNAME \\n"
+                  "text": "*Author*: $CIRCLE_USERNAME \n"
                 },
                 {
                   "type": "mrkdwn",
-                  "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                  "text": "*Mentions*: $SLACK_PARAM_MENTIONS \n"
                 },
                 {
                   "type": "mrkdwn",
-                  "text": "*Job*: ${CIRCLE_JOB} \\n"
+                  "text": "*Job*: ${CIRCLE_JOB} \n"
                 }
               ]
             },
@@ -106,23 +106,23 @@ jobs:
                         "fields": [
                             {
                                 "type": "mrkdwn",
-                                "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                                "text": "*Project*: $CIRCLE_PROJECT_REPONAME \n"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                                "text": "*Branch*: $CIRCLE_BRANCH \n"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*Author*: $CIRCLE_USERNAME \\n"
+                                "text": "*Author*: $CIRCLE_USERNAME \n"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                                "text": "*Mentions*: $SLACK_PARAM_MENTIONS \n"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": "*Job*: ${CIRCLE_JOB} \\n"
+                                "text": "*Job*: ${CIRCLE_JOB} \n"
                             }
                         ]
                     },
@@ -212,23 +212,23 @@ workflows:
                         "fields": [
                           {
                             "type": "mrkdwn",
-                            "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                            "text": "*Project*: $CIRCLE_PROJECT_REPONAME \n"
                           },
                           {
                             "type": "mrkdwn",
-                            "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                            "text": "*Branch*: $CIRCLE_BRANCH \n"
                           },
                           {
                             "type": "mrkdwn",
-                            "text": "*Author*: $CIRCLE_USERNAME \\n"
+                            "text": "*Author*: $CIRCLE_USERNAME \n"
                           },
                           {
                             "type": "mrkdwn",
-                            "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                            "text": "*Mentions*: $SLACK_PARAM_MENTIONS \n"
                           },
                           {
                             "type": "mrkdwn",
-                            "text": "*Job*: ${CIRCLE_JOB} \\n"
+                            "text": "*Job*: ${CIRCLE_JOB} \n"
                           }
                         ]
                       },
