@@ -34,12 +34,57 @@ jobs:
       - slack/notify:
           channel: circleci
           event: fail
-          template: basic_fail_1
-          mentions: "@andresceron"
-      - slack/notify:
-          channel: circleci
-          event: pass
-          template: success_tagged_deploy_1
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "SOCIALAR: FAILED :red_circle:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*: $CIRCLE_USERNAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*: ${CIRCLE_JOB} \\n"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": ${CIRCLE_BUILD_URL}
+                    }
+                  ]
+                }
+              ]
+            }
 
   ui_lint_test_build:
     working_directory: ~/digicard
@@ -70,12 +115,57 @@ jobs:
       - slack/notify:
           channel: circleci
           event: fail
-          template: basic_fail_1
-          mentions: "@andresceron"
-      - slack/notify:
-          channel: circleci
-          event: pass
-          template: success_tagged_deploy_1
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "SOCIALAR: FAILED :red_circle:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*: $CIRCLE_USERNAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*: ${CIRCLE_JOB} \\n"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": ${CIRCLE_BUILD_URL}
+                    }
+                  ]
+                }
+              ]
+            }
 
   deploy_heroku:
     executor: heroku/default
@@ -86,12 +176,111 @@ jobs:
       - slack/notify:
           channel: circleci
           event: fail
-          template: basic_fail_1
-          mentions: "@andresceron"
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "SOCIALAR: FAILED :red_circle:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*: $CIRCLE_USERNAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*: ${CIRCLE_JOB} \\n"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": ${CIRCLE_BUILD_URL}
+                    }
+                  ]
+                }
+              ]
+            }
       - slack/notify:
           channel: circleci
           event: pass
-          template: success_tagged_deploy_1
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "SOCIALAR: SUCCESSFUL :red_circle:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*: $CIRCLE_USERNAME \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*: ${CIRCLE_JOB} \\n"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": ${CIRCLE_BUILD_URL}
+                    }
+                  ]
+                }
+              ]
+            }
 
 workflows:
   default:
