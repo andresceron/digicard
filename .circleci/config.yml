@@ -36,54 +36,54 @@ jobs:
           event: fail
           custom: |
             {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_JOB_NUM})",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
+                "blocks": [
                     {
-                      "type": "mrkdwn",
-                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                        "type": "header",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "SOCIALAR - FAILED :red_circle: (${CIRCLE_JOB_NUM})",
+                            "emoji": true
+                        }
                     },
                     {
-                      "type": "mrkdwn",
-                      "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                        "type": "section",
+                        "fields": [
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Project*: $CIRCLE_PROJECT_REPONAME \\n"
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Branch*: $CIRCLE_BRANCH \\n"
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Author*: $CIRCLE_USERNAME \\n"
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": "*Job*: ${CIRCLE_JOB} \\n"
+                            }
+                        ]
                     },
                     {
-                      "type": "mrkdwn",
-                      "text": "*Author*: $CIRCLE_USERNAME \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS \\n"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Job*: ${CIRCLE_JOB} \\n"
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "View Job"
+                                },
+                                "url": ${CIRCLE_BUILD_URL}
+                            }
+                        ]
                     }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Job"
-                      },
-                      "url": ${CIRCLE_BUILD_URL}
-                    }
-                  ]
-                }
-              ]
+                ]
             }
 
   ui_lint_test_build:
