@@ -33,7 +33,7 @@ slack-fail-post-step: &slack-fail-post-step
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Branch*: `${CIRCLE_BRANCH}` $CIRCLE_PROJECT_REPONAME"
+                      "text": "*Branch*: `${CIRCLE_BRANCH}`"
                     }
                   ]
                 },
