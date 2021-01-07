@@ -187,7 +187,14 @@ jobs:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
 
-  deploy_heroku:
+  deploy_heroku_prod:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git
+
+  deploy_heroku_test:
     executor: heroku/default
     steps:
       - checkout
@@ -205,7 +212,19 @@ workflows:
             - server_lint_test_build
           context: slack-secrets
           <<: *slack-fail-post-step
-      - deploy_heroku: # another custom job; runs test suite 2,
+      - deploy_heroku_prod: # another custom job; runs test suite 2,
+          context: [slack-secrets]
+          requires: # test2 is dependent on the success of job `test1`
+            - server_lint_test_build
+            - ui_lint_test_build
+          <<: *slack-fail-post-step
+          <<: *slack-pass-post-step
+          filters:
+            branches:
+              only:
+                - main
+                - /DIG-.*/
+      - deploy_heroku_test: # another custom job; runs test suite 2,
           context: [slack-secrets]
           requires: # test2 is dependent on the success of job `test1`
             - server_lint_test_build
