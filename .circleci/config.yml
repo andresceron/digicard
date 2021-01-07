@@ -148,7 +148,7 @@ workflows:
             - ui_lint_test_build
           post-steps:
             - slack/notify:
-                event: always
+                event: pass
                 custom: |
                   {
                     "attachments": [
