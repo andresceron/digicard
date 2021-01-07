@@ -127,6 +127,68 @@ slack-pass-post-step: &slack-pass-post-step
             }
           ]
         }
+  - slack/notify:
+      event: fail
+      custom: |
+        {
+          "attachments": [
+            {
+              "color": "#e73538",
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "❌ *SOCIALAR*: #${CIRCLE_BUILD_NUM}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: `${CIRCLE_PROJECT_REPONAME}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: `${CIRCLE_BRANCH}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*: `${CIRCLE_JOB}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+
 
 orbs:
   heroku: circleci/heroku@1.2.3
@@ -204,36 +266,30 @@ jobs:
 workflows:
   default:
     jobs:
-      - server_lint_test_build:
-         context: slack-secrets
-         <<: *slack-fail-post-step
-      - ui_lint_test_build: # your custom job; runs test suite 1
-          requires: # test1 will not run until the `build` job is completed.
-            - server_lint_test_build
-          context: slack-secrets
-          <<: *slack-fail-post-step
-      - deploy_heroku_prod: # another custom job; runs test suite 2,
+      # - server_lint_test_build:
+      #    context: slack-secrets
+      #    <<: *slack-fail-post-step
+      # - ui_lint_test_build:
+      #     requires:
+      #       - server_lint_test_build
+      #     context: slack-secrets
+      #     <<: *slack-fail-post-step
+      # - deploy_heroku_prod:
+      #     context: [slack-secrets]
+      #     requires:
+      #       - server_lint_test_build
+      #       - ui_lint_test_build
+      #     <<: [
+      #       *slack-fail-post-step,
+      #       *slack-pass-post-step
+      #     ]
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      - deploy_heroku_test:
           context: [slack-secrets]
-          requires: # test2 is dependent on the success of job `test1`
-            - server_lint_test_build
-            - ui_lint_test_build
-          <<: [
-            *slack-fail-post-step,
-            *slack-pass-post-step
-          ]
-          filters:
-            branches:
-              only:
-                - main
-      - deploy_heroku_prod: # another custom job; runs test suite 2,
-          context: [slack-secrets]
-          requires: # test2 is dependent on the success of job `test1`
-            - server_lint_test_build
-            - ui_lint_test_build
-          <<: [
-            *slack-fail-post-step,
-            *slack-pass-post-step
-          ]
+          <<: *slack-pass-post-step
           filters:
             branches:
               only:
