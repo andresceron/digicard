@@ -64,6 +64,70 @@ slack-fail-post-step: &slack-fail-post-step
           ]
         }
 
+slack-pass-post-step: &slack-pass-post-step
+  post-steps:
+  - slack/notify:
+      event: pass
+      custom: |
+        {
+          "attachments": [
+            {
+              "color": "#0fb471",
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "✅ *SOCIALAR*: #${CIRCLE_BUILD_NUM}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: `${CIRCLE_PROJECT_REPONAME}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: `${CIRCLE_BRANCH}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*: `${CIRCLE_JOB}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": "http://www.google.com"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+
 orbs:
   heroku: circleci/heroku@1.2.3
   slack: circleci/slack@4.1.3
@@ -146,68 +210,8 @@ workflows:
           requires: # test2 is dependent on the success of job `test1`
             - server_lint_test_build
             - ui_lint_test_build
-          post-steps:
-            - slack/notify:
-                event: pass
-                custom: |
-                  {
-                    "attachments": [
-                      {
-                        "color": "#0fb471",
-                        "blocks": [
-                          {
-                            "type": "section",
-                            "fields": [
-                              {
-                                "type": "mrkdwn",
-                                "text": "✅ *SOCIALAR*: #${CIRCLE_BUILD_NUM}"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "section",
-                            "fields": [
-                              {
-                                "type": "mrkdwn",
-                                "text": "*Project*: `${CIRCLE_PROJECT_REPONAME}`"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "section",
-                            "fields": [
-                              {
-                                "type": "mrkdwn",
-                                "text": "*Branch*: `${CIRCLE_BRANCH}`"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "section",
-                            "fields": [
-                              {
-                                "type": "mrkdwn",
-                                "text": "*Job*: `${CIRCLE_JOB}`"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "actions",
-                            "elements": [
-                              {
-                                "type": "button",
-                                "text": {
-                                  "type": "plain_text",
-                                  "text": "View Job"
-                                },
-                                "url": "http://www.google.com"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
+          <<: *slack-fail-post-step
+          <<: *slack-pass-post-step
           filters:
             branches:
               only:
