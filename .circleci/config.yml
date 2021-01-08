@@ -266,27 +266,27 @@ jobs:
 workflows:
   default:
     jobs:
-      # - server_lint_test_build:
-      #    context: slack-secrets
-      #    <<: *slack-fail-post-step
-      # - ui_lint_test_build:
-      #     requires:
-      #       - server_lint_test_build
-      #     context: slack-secrets
-      #     <<: *slack-fail-post-step
-      # - deploy_heroku_prod:
-      #     context: [slack-secrets]
-      #     requires:
-      #       - server_lint_test_build
-      #       - ui_lint_test_build
-      #     <<: [
-      #       *slack-fail-post-step,
-      #       *slack-pass-post-step
-      #     ]
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
+      - server_lint_test_build:
+         context: slack-secrets
+         <<: *slack-fail-post-step
+      - ui_lint_test_build:
+          requires:
+            - server_lint_test_build
+          context: slack-secrets
+          <<: *slack-fail-post-step
+      - deploy_heroku_prod:
+          context: [slack-secrets]
+          requires:
+            - server_lint_test_build
+            - ui_lint_test_build
+          <<: [
+            *slack-fail-post-step,
+            *slack-pass-post-step
+          ]
+          filters:
+            branches:
+              only:
+                - main
       - deploy_heroku_test:
           context: [slack-secrets]
           <<: *slack-pass-post-step
@@ -294,4 +294,3 @@ workflows:
             branches:
               only:
                 - /DIG-.*/
-                - test
