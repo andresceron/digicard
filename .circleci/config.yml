@@ -249,12 +249,12 @@ jobs:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
 
-  deploy_heroku_prod:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - heroku/deploy-via-git
+  # deploy_heroku_prod:
+  #   executor: heroku/default
+  #   steps:
+  #     - checkout
+  #     - heroku/install
+  #     - heroku/deploy-via-git
 
   deploy_ionos:
     working_directory: ~/digicard
@@ -285,19 +285,19 @@ workflows:
             - server_lint_test_build
           context: slack-secrets
           <<: *slack-fail-post-step
-      - deploy_heroku_prod:
-          context: [slack-secrets]
-          requires:
-            - server_lint_test_build
-            - ui_lint_test_build
-          <<: [
-            *slack-fail-post-step,
-            *slack-pass-post-step
-          ]
-          filters:
-            branches:
-              only:
-                - main
+      # - deploy_heroku_prod:
+      #     context: [slack-secrets]
+      #     requires:
+      #       - server_lint_test_build
+      #       - ui_lint_test_build
+      #     <<: [
+      #       *slack-fail-post-step,
+      #       *slack-pass-post-step
+      #     ]
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
       - deploy_ionos:
           contect: [slack-secrets]
           <<: *slack-pass-post-step
