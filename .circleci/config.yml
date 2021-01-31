@@ -200,7 +200,7 @@ jobs:
     docker:
       - image: circleci/node:10-browsers
     steps:
-      - run: cd ./server
+      - run: cd server
       - checkout
       - restore_cache:
           keys:
@@ -208,20 +208,20 @@ jobs:
             - v1-server-dependencies-
       - run:
           name: server npm install
-          command: cd ./server && npm install;
+          command: cd server && npm install;
       - save_cache:
           key: v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
           name: server lint
-          command: cd ./server; xvfb-run -a npm run lint
+          command: cd server; xvfb-run -a npm run lint
       - run:
           name: server test
-          command: cd ./server; xvfb-run -a npm run test
+          command: cd server; xvfb-run -a npm run test
       - run:
           name: server build
-          command: cd ./server;
+          command: cd server;
 
   ui_lint_test_build:
     working_directory: ~/digicard
