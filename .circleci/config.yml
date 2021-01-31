@@ -201,6 +201,7 @@ jobs:
       - image: circleci/node:10-browsers
     steps:
       - checkout
+      - run: cd ./server
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
@@ -228,6 +229,7 @@ jobs:
       - image: circleci/node:10-browsers
     steps:
       - checkout
+      - run: cd ./ui
       - restore_cache:
           keys:
             - v1-ui-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
@@ -259,8 +261,22 @@ jobs:
   deploy_ionos:
     working_directory: ~/digicard
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/php:7.3-stretch-node-browsers
     steps:
+      - run: sudo apt update && sudo apt install git -y && git --version
+
+      # Update environment
+      - run: sudo apt update
+
+      # Install rsync. It will be used to upload our code to server
+      - run: sudo apt-get install rsync
+
+      # Sync the SSH keys
+      - add_ssh_keys
+
+      # Check out the code in the project directory
+      - checkout
+
       # Add the server to known hosts
       - run: ssh-keyscan -H 82.223.121.127 >> ~/.ssh/known_hosts
 
