@@ -200,15 +200,15 @@ jobs:
     docker:
       - image: circleci/node:10-browsers
     steps:
-      - checkout
       - run: cd ./server
+      - checkout
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
             - v1-server-dependencies-
       - run:
           name: server npm install
-          command: npm install;
+          command: cd ./server && npm install;
       - save_cache:
           key: v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -228,8 +228,8 @@ jobs:
     docker:
       - image: circleci/node:10-browsers
     steps:
-      - checkout
       - run: cd ./ui
+      - checkout
       - restore_cache:
           keys:
             - v1-ui-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
