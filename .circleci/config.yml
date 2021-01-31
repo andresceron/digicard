@@ -315,6 +315,9 @@ workflows:
       #           - main
       - deploy_ionos:
           context: [slack-secrets]
+          requires:
+            - server_lint_test_build
+            - ui_lint_test_build
           <<: *slack-pass-post-step
           filters:
             branches:
