@@ -259,7 +259,6 @@ jobs:
   #     - heroku/deploy-via-git
 
   deploy_ionos:
-    working_directory: ~/digicard
     docker:
       - image: circleci/php:7.3-stretch-node-browsers
     steps:
@@ -283,12 +282,12 @@ jobs:
       # Finally, upload your files to server.
       - run: rsync -avce ssh --delete ./dist/ root@82.223.121.127:/
 
-  deploy_heroku_test:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - heroku/deploy-via-git
+  # deploy_heroku_test:
+    # executor: heroku/default
+    # steps:
+      # - checkout
+      # - heroku/install
+      # - heroku/deploy-via-git
 
 workflows:
   default:
@@ -315,7 +314,7 @@ workflows:
       #         only:
       #           - main
       - deploy_ionos:
-          contect: [slack-secrets]
+          context: [slack-secrets]
           <<: *slack-pass-post-step
           filters:
             branches:
