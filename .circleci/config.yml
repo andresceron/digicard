@@ -257,22 +257,34 @@ jobs:
   #     - heroku/deploy-via-git
 
   deploy_ionos:
-    working_directory: ~/digicard
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/php:7.3-stretch-node-browsers
     steps:
+      - run: sudo apt update && sudo apt install git -y && git --version
+
+      # Update environment
+      - run: sudo apt update
+
+      # Install rsync. It will be used to upload our code to server
+      - run: sudo apt-get install rsync
+
+      # Sync the SSH keys 
+      - add_ssh_keys
+
+      # Check out the code in the project directory
+      - checkout
       # Add the server to known hosts
       - run: ssh-keyscan -H 82.223.121.127 >> ~/.ssh/known_hosts
 
       # Finally, upload your files to server.
       - run: rsync -avce ssh --delete ./dist/ root@82.223.121.127:/
 
-  deploy_heroku_test:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - heroku/deploy-via-git
+  # deploy_heroku_test:
+    # executor: heroku/default
+    # steps:
+      # - checkout
+      # - heroku/install
+      # - heroku/deploy-via-git
 
 workflows:
   default:
@@ -299,7 +311,7 @@ workflows:
       #         only:
       #           - main
       - deploy_ionos:
-          contect: [slack-secrets]
+          context: [slack-secrets]
           <<: *slack-pass-post-step
           filters:
             branches:
