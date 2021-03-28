@@ -1,7 +1,7 @@
 {
     "/api/*": {
-        "target": "https://socialcarddev.herokuapp.com",
-        "secure": false,
+        "target": "https://api.socialar.app",
+        "secure": true,
         "pathRewrite": {
             "^/api": ""
         }

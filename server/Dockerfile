@@ -1,22 +1,23 @@
+# FROM node:14 AS build
 FROM node:14
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+RUN npm install pm2 -g
+RUN npm install typescript -g
+
 COPY package*.json ./
+COPY tsconfig.json ./
+COPY process.json ./
+COPY .env ./.env
+COPY ./src ./src
+RUN mkdir -p ./logs
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+RUN npm ci
+RUN npm run build
 
-# Bundle app source
-COPY . .
-
-# Exposing the port
 EXPOSE 3000
 
-# Run the command
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "pm2:prod"]

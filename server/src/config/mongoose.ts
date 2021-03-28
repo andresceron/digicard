@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import util from 'util';
 import config from './config';
 
-const debug = require('debug')('express-mongoose-es6-rest-api:index');
+const debug = require('debug')('socialar-server:index');
 
 // make bluebird default Promise
 import Promise from 'bluebird'; // eslint-disable-line no-global-assign

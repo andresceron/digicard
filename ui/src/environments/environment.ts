@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://dev.zeroweb.local.com:3000/api/',
-  baseUrl: 'http://dev.zeroweb.local.com:4200/',
+  serverUrl: 'https://socialar.local:3000/v1/',
+  baseUrl: 'http://socialar.local:4000/',
   googleTagManagerId: 'GTM-59N96CL'
 };
 

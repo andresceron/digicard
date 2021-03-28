@@ -11,6 +11,8 @@
 
 # env files
 .env
+.env.server
+.env.ui
 /server/.env
 
 /docs/*

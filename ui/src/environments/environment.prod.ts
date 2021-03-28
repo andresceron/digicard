@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://socialcarddev.herokuapp.com/api/',
-  baseUrl: 'https://socialcarddev.herokuapp.com/',
+  serverUrl: 'https://api.socialar.app/v1/',
+  baseUrl: 'https://socialar.app/',
   googleTagManagerId: 'GTM-59N96CL'
 };

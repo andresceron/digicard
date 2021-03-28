@@ -122,7 +122,7 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
     text:
       'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
       'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-      'http://dev.zeroweb.local.com:4200/reset-password/' +
+      'https://socialar.app/reset-password/' +
       resetToken.resetToken +
       '\n\n' +
       'If you did not request this, please ignore this email and your password will remain unchanged.\n'

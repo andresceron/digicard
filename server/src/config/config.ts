@@ -55,8 +55,8 @@ const config = {
   },
   baseUrl:
     envVars.NODE_ENV === NODE_ENV.PROD
-      ? 'https://socialcarddev.herokuapp.com/'
-      : 'http://dev.zeroweb.local.com/' + (envVars.PORT || 80)
+      ? 'https://socialar.app/'
+      : 'http://socialar.local/' + (envVars.PORT || 80)
 };
 
 export default config;

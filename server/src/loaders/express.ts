@@ -73,7 +73,8 @@ export default ({ app }: { app: express.Application }) => {
   );
 
   /** Enable CORS - Cross Origin Resource Sharing */
-  app.use(cors());
+  app.use(cors({ origin: '*' }));
+  app.options('*', cors());
 
   /** Passport configuration */
   app.use(passport.initialize());
@@ -81,15 +82,8 @@ export default ({ app }: { app: express.Application }) => {
   require('../config/passport-service');
 
   // /** Mount all routes on /api path */
-  app.use('/api', routes);
+  app.use('/v1', routes);
 
-  // // Serve UI dist
-  // const distDir = path.join(__dirname, '../../../ui/dist/angularnode/');
-  // app.use(express.static(distDir));
-
-  // app.get('/*', (req, res) => {
-  //   res.sendFile(distDir);
-  // });
 
   /** catch 404 and forward to error handler */
   app.use((req: Request, res: Response, next: NextFunction) => {
