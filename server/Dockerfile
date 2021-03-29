@@ -8,17 +8,16 @@ WORKDIR /usr/src/app
 RUN npm install pm2 -g
 RUN npm install typescript -g
 
-#COPY package*.json ./
-#COPY tsconfig.json ./
-#COPY process.json ./
-#COPY .env ./
-#COPY src ./src
-COPY . .
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY process.json ./
+COPY .env ./
+COPY src ./src
 RUN mkdir -p ./logs
 
-#RUN npm ci
-#RUN npm run build
+RUN npm ci
+RUN npm run build
 
-#EXPOSE 3000
+EXPOSE 3000
 
 CMD [ "npm", "run", "pm2:prod"]
