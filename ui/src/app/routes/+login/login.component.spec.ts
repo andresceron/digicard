@@ -17,7 +17,7 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  const formBuilder: FormBuilder = new FormBuilder();
+  const fb: FormBuilder = new FormBuilder();
 
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
@@ -48,7 +48,7 @@ describe('LoginComponent', () => {
         },
         {
           provide: FormBuilder,
-          useValue: formBuilder
+          useValue: fb
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -69,7 +69,7 @@ describe('LoginComponent', () => {
   });
 
   it('should create loginFormGroup with default values', () => {
-    component.loginFormGroup = formBuilder.group({
+    component.loginFormGroup = fb.group({
       email:  ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
@@ -81,7 +81,7 @@ describe('LoginComponent', () => {
   });
 
   it('should not have valid loginFormGroup', () => {
-    component.loginFormGroup = formBuilder.group({
+    component.loginFormGroup = fb.group({
       email:  ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
@@ -120,7 +120,7 @@ describe('LoginComponent', () => {
   });
 
   function loginGroupValues() {
-    component.loginFormGroup = formBuilder.group({
+    component.loginFormGroup = fb.group({
       email:  ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });

@@ -1,27 +1,26 @@
 {
   "name": "zeroweb-socialcard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": " ",
   "author": "Andres Ceron",
-  "main": "./server/dist/app.js",
+  "main": "./dist/app.js",
   "engines": {
     "node": "14.1.0",
     "npm": "6.14.4"
   },
   "scripts": {
-    "start": "node -r ts-node/register server/src/app.ts",
-    "start:watch": "nodemon --config nodemon.json server/src/app.ts",
-    "start:dist": "node ./server/dist/app.js",
+    "start:watch": "nodemon --config nodemon.json src/app.ts",
+    "start:dist": "node ./dist/app.js",
+    "build": "tsc -b",
     "pm2": "pm2",
-    "pm2:dev": "pm2 start process.json --deep-monitoring --attach",
-    "pm2:start": "pm2 start process.json --env production --deep-monitoring --attach",
+    "pm2:dev": "pm2 start process.json --deep-monitoring",
+    "pm2:start": "pm2 start process.json --env production --deep-monitoring",
+    "pm2:prod": "pm2-runtime start process.json --env production --deep-monitoring",
     "pm2:watch": "pm2 start process.json --watch",
     "pm2:stop": "pm2 stop socialcard",
     "pm2:restart": "pm2 restart socialcard",
-    "test": "mocha -r ts-node/register './server/**/*.spec.ts'",
-    "lint": "cd ./server && eslint '*/**/*.{js,ts,tsx}' --quiet",
-    "postinstall": "cd ./server && tsc",
-    "heroku-postbuild": "cd ui && npm install"
+    "test": "mocha -r ts-node/register './**/*.spec.ts'",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet"
   },
   "dependencies": {
     "@hapi/joi": "17.1.1",
@@ -55,6 +54,7 @@
     "qrcode": "1.4.4",
     "reflect-metadata": "0.1.13",
     "typedi": "0.8.0",
+    "typescript": "3.8.3",
     "winston": "3.3.3"
   },
   "devDependencies": {
@@ -100,13 +100,12 @@
     "prettier": "2.1.1",
     "supertest": "5.0.0",
     "ts-loader": "8.0.2",
-    "ts-node": "8.10.2",
-    "typescript": "3.8.3"
+    "ts-node": "8.10.2"
   },
   "license": "MIT",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && lint-staged && cd ./ui && npm run lint && npm run test:headless"
+      "pre-commit": "npm run test && lint-staged"
     }
   },
   "lint-staged": {

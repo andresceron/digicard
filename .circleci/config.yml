@@ -191,7 +191,7 @@ slack-pass-post-step: &slack-pass-post-step
 
 
 orbs:
-  heroku: circleci/heroku@1.2.3
+  # heroku: circleci/heroku@1.2.3
   slack: circleci/slack@4.1.3
 
 jobs:
@@ -200,6 +200,7 @@ jobs:
     docker:
       - image: circleci/node:10-browsers
     steps:
+      - run: cd server
       - checkout
       - restore_cache:
           keys:
@@ -207,26 +208,27 @@ jobs:
             - v1-server-dependencies-
       - run:
           name: server npm install
-          command: npm install;
+          command: cd server && npm install;
       - save_cache:
           key: v1-server-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
           name: server lint
-          command: cd ./server; xvfb-run -a npm run lint
+          command: cd server; xvfb-run -a npm run lint
       - run:
           name: server test
-          command: cd ./server; xvfb-run -a npm run test
+          command: cd server; xvfb-run -a npm run test
       - run:
           name: server build
-          command: cd ./server;
+          command: cd server;
 
   ui_lint_test_build:
     working_directory: ~/digicard
     docker:
       - image: circleci/node:10-browsers
     steps:
+      - run: cd ./ui
       - checkout
       - restore_cache:
           keys:
@@ -249,19 +251,43 @@ jobs:
           name: ui build
           command: cd ./ui; xvfb-run -a npm run build
 
-  deploy_heroku_prod:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - heroku/deploy-via-git
+  # deploy_heroku_prod:
+  #   executor: heroku/default
+  #   steps:
+  #     - checkout
+  #     - heroku/install
+  #     - heroku/deploy-via-git
 
-  deploy_heroku_test:
-    executor: heroku/default
+  deploy_ionos:
+    docker:
+      - image: circleci/php:7.3-stretch-node-browsers
     steps:
+      - run: sudo apt update && sudo apt install git -y && git --version
+
+      # Update environment
+      - run: sudo apt update
+
+      # Install rsync. It will be used to upload our code to server
+      - run: sudo apt-get install rsync
+
+      # Sync the SSH keys
+      - add_ssh_keys
+
+      # Check out the code in the project directory
       - checkout
-      - heroku/install
-      - heroku/deploy-via-git
+
+      # Add the server to known hosts
+      - run: ssh-keyscan -H 82.223.121.127 >> ~/.ssh/known_hosts
+
+      # Finally, upload your files to server.
+      - run: rsync -avce ssh --delete ./dist/ root@82.223.121.127:/
+
+  # deploy_heroku_test:
+    # executor: heroku/default
+    # steps:
+      # - checkout
+      # - heroku/install
+      # - heroku/deploy-via-git
 
 workflows:
   default:
@@ -274,23 +300,33 @@ workflows:
             - server_lint_test_build
           context: slack-secrets
           <<: *slack-fail-post-step
-      - deploy_heroku_prod:
+      # - deploy_heroku_prod:
+      #     context: [slack-secrets]
+      #     requires:
+      #       - server_lint_test_build
+      #       - ui_lint_test_build
+      #     <<: [
+      #       *slack-fail-post-step,
+      #       *slack-pass-post-step
+      #     ]
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      - deploy_ionos:
           context: [slack-secrets]
           requires:
             - server_lint_test_build
             - ui_lint_test_build
-          <<: [
-            *slack-fail-post-step,
-            *slack-pass-post-step
-          ]
-          filters:
-            branches:
-              only:
-                - main
-      - deploy_heroku_test:
-          context: [slack-secrets]
           <<: *slack-pass-post-step
           filters:
             branches:
               only:
                 - /DIG-.*/
+      # - deploy_heroku_test:
+      #     context: [slack-secrets]
+      #     <<: *slack-pass-post-step
+      #     filters:
+      #       branches:
+      #         only:
+      #           - /DIG-.*/

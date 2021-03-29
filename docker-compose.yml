@@ -1,0 +1,74 @@
+version: "3"
+
+services:
+  ui:
+    # build: ui
+    image: andresceron/socialar-ui
+    container_name: socialar-ui
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.socialar-ui-secure.entrypoints=websecure"
+      - "traefik.http.routers.socialar-ui-secure.rule=Host(`www.socialar.app`) || Host(`socialar.app`)"
+      - "traefik.http.middlewares.socialar-ui-redirectregex.redirectregex.regex=^https://www.socialar.app/(.*)"
+      - "traefik.http.middlewares.socialar-ui-redirectregex.redirectregex.replacement=https://socialar.app/$${1}"
+      - "traefik.http.middlewares.socialar-ui-redirectregex.redirectregex.permanent=true"
+    networks:
+      - proxy
+      - default
+  server:
+    # build: server
+    image: andresceron/socialar-server
+    container_name: socialar-server
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.socialar-server-secure.entrypoints=websecure"
+      - "traefik.http.routers.socialar-server-secure.rule=Host(`socialar.app`) && PrefixPath(`/api`)"
+      - "traefik.http.middlewares.socialar-server.headers.accesscontrolallowmethods=GET,OPTIONS,PUT,POST,DELETE,PATCH"
+      - "traefik.http.middlewares.socialar-server.headers.accesscontrolalloworiginlist=socialar.app, https://socialar.app, https://www.socialar.app"
+      - "traefik.http.middlewares.socialar-server.headers.accesscontrolmaxage=100"
+      - "traefik.http.middlewares.socialar-server.headers.addvaryheader=true"
+    networks:
+      - proxy
+      - mean-app
+    depends_on:
+      - database
+    links:
+      - database
+  database:
+    image: mongo:3.6.19-xenial
+    container_name: socialar-database
+    restart: always
+    networks:
+      - mean-app
+    volumes:
+      - mongo-data:/data/db
+    labels:
+      - "traefik.ports=27017,27017"
+      - "traefik.enable=true"
+      - "traefik.docker.network=mean-app"
+      - "traefik.http.routers.socialar-database-secure.entrypoints=websecure"
+      - "traefik.http.routers.socialar-database-secure.rule=Host(`database.socialar.app`)"
+      - "traefik.http.routers.socialar-database-secure.service=socialar-database"
+      - "traefik.http.services.socialar-database.loadbalancer.server.port=27017"
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: on-failure
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - $HOME/.docker/config.json:/config.json
+    command: --interval 120
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.watchtower.tls=true"
+volumes:
+  mongo-data:
+    driver: local
+networks:
+  mean-app:
+    driver: bridge
+  proxy:
+    external: true
