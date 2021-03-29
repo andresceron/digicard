@@ -8,11 +8,11 @@ WORKDIR /usr/src/app
 RUN npm install pm2 -g
 RUN npm install typescript -g
 
-COPY ./package*.json ./
-COPY ./tsconfig.json ./
-COPY ./process.json ./
-COPY ./.env ./
-COPY ./src ./
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY process.json ./
+COPY .env ./
+COPY src ./src
 RUN mkdir -p ./logs
 
 RUN npm ci
