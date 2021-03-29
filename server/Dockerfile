@@ -12,6 +12,7 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY process.json ./
 COPY .env ./.env
+RUN ls -la
 COPY ./src ./src
 RUN mkdir -p ./logs
 
