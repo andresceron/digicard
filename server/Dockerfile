@@ -16,9 +16,9 @@ RUN npm install typescript -g
 COPY . .
 RUN mkdir -p ./logs
 
-RUN npm ci
-RUN npm run build
+#RUN npm ci
+#RUN npm run build
 
-EXPOSE 3000
+#EXPOSE 3000
 
 CMD [ "npm", "run", "pm2:prod"]
