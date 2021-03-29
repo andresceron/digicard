@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        name: Checkout code
+        uses: actions/checkout@v2
       -
        name: Setup Docker Buildx
        uses: docker/setup-buildx-action@v1
@@ -30,8 +30,9 @@ jobs:
        with:
          context: .
          file: ./server/Dockerfile
+         pull: true
          push: true
-         tags: andresceron/socialar-server
+         tags: andresceron/socialar-server:latest
 
 #  build-deploy-ui:
 #    name: Build and deploy UI
