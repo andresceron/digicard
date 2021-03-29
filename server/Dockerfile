@@ -11,7 +11,7 @@ RUN npm install typescript -g
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY process.json ./
-COPY .env ./
+# COPY .env ./
 COPY src ./src
 RUN mkdir -p ./logs
 
