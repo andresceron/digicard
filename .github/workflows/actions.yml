@@ -49,6 +49,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./ui/Dockerfile
-          tags: socialar-ui:latest
+          file: ui/Dockerfile
+          tags: andresceron/socialar-ui:latest
           push: true
