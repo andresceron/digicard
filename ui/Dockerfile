@@ -10,7 +10,7 @@ COPY ./ui/nginx.conf /nginx.conf
 
 RUN npm ci
 
-COPY . .
+COPY ./ui .
 
 # Run the command to build application
 RUN npm run build
