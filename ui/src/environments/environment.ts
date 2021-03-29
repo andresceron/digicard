@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'https://socialar.local:3000/v1/',
-  baseUrl: 'http://socialar.local:4000/',
+  serverUrl: 'http://socialar.local:3000/v1/',
+  baseUrl: 'http://socialar.local:4200/',
   googleTagManagerId: 'GTM-59N96CL'
 };
 

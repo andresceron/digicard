@@ -19,10 +19,11 @@ import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsen
 // GA & GTM
 import { environment } from 'environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
-    domain: 'www.socialar.app'
+    domain: 'socialar.app'
   },
   position: 'bottom',
   theme: 'edgeless',
@@ -57,7 +58,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     AppRouterModule,
     SharedModule,
     HttpClientModule,
-    ComponentsModule
+    ComponentsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     AppBootstrapModule,

@@ -24,7 +24,7 @@ describe('AppComponent', () => {
 
   const cookieConfig: NgcCookieConsentConfig = {
     cookie: {
-      domain: 'www.socialar.app'
+      domain: 'socialar.app'
     },
     position: 'bottom',
     theme: 'edgeless',
