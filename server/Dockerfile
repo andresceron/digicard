@@ -13,7 +13,7 @@ COPY tsconfig.json ./
 COPY process.json ./
 COPY .env ./.env
 RUN ls -la
-COPY ./src ./src
+COPY src ./src
 RUN mkdir -p ./logs
 
 RUN npm ci
