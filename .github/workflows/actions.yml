@@ -31,7 +31,7 @@ jobs:
          context: .
          file: ./server/Dockerfile
          push: true
-         tags: andresceron/socialar-server:latest
+         tags: andresceron/socialar-server
 
 #  build-deploy-ui:
 #    name: Build and deploy UI
