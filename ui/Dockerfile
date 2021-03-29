@@ -4,9 +4,9 @@ FROM node:14-alpine AS build
 # Create app directory
 WORKDIR /builddir
 
-COPY package*.json ./
+COPY ./ui/package*.json ./
 
-COPY ./nginx.conf /nginx.conf
+COPY ./ui/nginx.conf /nginx.conf
 
 RUN npm ci
 
