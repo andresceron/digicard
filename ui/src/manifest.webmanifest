@@ -1,11 +1,11 @@
 {
   "name": "angularnode",
   "short_name": "angularnode",
-  "theme_color": "#1976d2",
+  "theme_color": "#264D7D",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "https://socialar.app/",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
