@@ -33,6 +33,7 @@
     "@angular/platform-browser": "9.1.9",
     "@angular/platform-browser-dynamic": "9.1.9",
     "@angular/router": "9.1.9",
+    "@angular/service-worker": "9.1.9",
     "angular-google-tag-manager": "1.2.0",
     "angularx-social-login": "2.3.1",
     "bootstrap": "4.5.3",
