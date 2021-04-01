@@ -50,7 +50,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
         .pipe(
           distinctUntilChanged()
         )
-        .subscribe(res => {
+      .subscribe(res => {
           this.contacts = res;
         });
   }
