@@ -146,7 +146,7 @@ export class ProfileComponent implements OnInit {
 
   private initSubscriptions(): void {
     this.usersService
-      .getUser(this.currentAuthUser._id)
+      .getUserData()
       .pipe(first())
       .subscribe(
         (res: IUser) => {

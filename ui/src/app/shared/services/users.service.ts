@@ -10,6 +10,7 @@ import { IUser } from '@interfaces/user.interface';
 })
 export class UsersService {
   private currentUserSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private user: IUser;
 
   constructor(
     private apiService: ApiService
@@ -20,14 +21,19 @@ export class UsersService {
     return this.currentUserSubject.asObservable();
   }
 
+  public get hasUser() {
+    return !!this.user?._id
+  }
+
   public setUser(userId: string) {
-    return this.apiService
+    this.apiService
     .get(`users/${userId}`)
     .pipe(
       first()
     ).subscribe((res: IUserResponse) => {
       if (res && res.data) {
         this.currentUserSubject.next(res.data);
+        this.user = res.data;
       }
     });
   }

@@ -2,22 +2,28 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { IAuthResponse } from '@interfaces/auth-response.interface';
 import { UsersService } from './users.service';
+import { ClientStorage } from './client-storage.service';
+import { AppConstants } from '@constants/app-constants.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   // tslint:disable-next-line:max-line-length
-  private currentAuthSubject: BehaviorSubject<IAuthResponse> = new BehaviorSubject<IAuthResponse>(JSON.parse(localStorage.getItem('currentAuth')));
+  private currentAuthSubject: BehaviorSubject<IAuthResponse> = new BehaviorSubject<IAuthResponse>(undefined);
   private token: string;
 
   constructor(
     private apiService: ApiService,
     private usersService: UsersService,
+    private cs: ClientStorage
   ) {
+    this.cs.logger$.subscribe(data => {
+      this.currentAuthSubject.next(data.storage[AppConstants.authState]);
+    });
   }
 
   public get currentAuthValue(): IAuthResponse {
@@ -35,7 +41,7 @@ export class AuthService {
         first(),
         map((res: ICustomResponse) => {
           if (res?.data?.user?._id && res?.data?.user?.token) {
-            this.currentAuthSubject.next(res.data.user);
+            this.cs.setItem(AppConstants.authState, res.data.user);
             this.token = res.data.user.token;
             this.usersService.setUser(res.data.user._id);
           }
@@ -100,7 +106,7 @@ export class AuthService {
   public logout() {
     // remove user from local storage to log user out
     this.token = null;
-    localStorage.removeItem('currentAuth');
+    this.cs.removeItem(AppConstants.authState);
     this.currentAuthSubject.next(null);
   }
 

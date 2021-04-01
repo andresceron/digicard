@@ -3,7 +3,8 @@ import { IAppConstants } from '@interfaces/app.interface';
 export const AppPrefix = 'Socialar';
 export const AppConstants: IAppConstants = {
   prefix: AppPrefix,
-  appState: `${AppPrefix}.appState`
+  appState: `${AppPrefix}.appState`,
+  authState: `${AppPrefix}.authState`
 };
 
 export const NOTIFICATIONS_MESSAGES = {

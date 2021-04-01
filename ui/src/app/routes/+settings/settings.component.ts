@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usersService.getUser(this.authService.currentAuthValue?._id)
+    this.usersService.getUserData()
       .pipe(first())
       .subscribe( data => {
         this.user = data;
