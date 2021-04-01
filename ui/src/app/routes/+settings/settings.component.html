@@ -1,0 +1,23 @@
+<sc-title [name]="'Settings'">
+</sc-title>
+
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Delete Account
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Do you want to delete your account?</p>
+      <p>Just a reminder that this action is irreversible</p>
+      <div class="m-b-30 text-center">
+        <a mat-raised-button color="warn" class="button button__delete">
+          <mat-icon aria-hidden="false" aria-label="Delete avatar">delete</mat-icon>
+          <span class="m-l-5">Delete Account</span>
+        </a>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>

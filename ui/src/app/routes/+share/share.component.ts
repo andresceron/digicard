@@ -8,6 +8,7 @@ import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
 import { IUser } from '@interfaces/user.interface';
 import { NOTIFICATIONS_MESSAGES } from '@constants/app-constants.constant';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'sc-share',
@@ -31,25 +32,24 @@ export class ShareComponent implements OnInit {
     private authService: AuthService,
     private usersService: UsersService,
     private sanitizer: DomSanitizer,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.usersService.getUser(this.authService.currentAuthValue?._id)
-      .pipe(first())
-      .subscribe( data => {
-        this.user = data;
+    this.usersService.getUserData()
+      .pipe(
+        first()
+      )
+      .subscribe(user => {
+        this.user = user;
         this.configData();
     });
   }
 
   public shareQR(): void {
-    if ( this.isQRVisible ) {
-      this.isQRVisible = false;
-    } else {
-      this.isQRVisible = true;
-    }
+    this.router.navigate([`/share/qr`]);
   }
 
   public shareLink(): void {
@@ -64,42 +64,37 @@ export class ShareComponent implements OnInit {
     this.showMessage(NOTIFICATIONS_MESSAGES.LINK_COPIED_SUCCESS);
   }
 
-  public backToList(): void {
-    this.isQRVisible = false;
-  }
-
   private configData(): void {
-    this.configQR();
+    this.configCopyLink();
     this.configEmail();
     this.configSMS();
-    this.configLink();
-  }
-
-  private configQR(): void {
-    this.user.qr = this.user.qr ? this.sanitizeUrl(this.user.qr) : false;
   }
 
   private configEmail(): void {
     this.linkEmail =
-      `mailto:?Subject=Socialar - ${ this.user.firstName + ' ' + this.user.lastName }` +
+      `mailto:?Subject=Socialar - ${ this.user?.firstName + ' ' + this.user?.lastName }` +
       `&body=Check out my social card here:%20` +
       `${this.linkCopy}%0A%0A` +
       `Want to get your own social card? Register here: ${this.config.baseUrl}register`;
   }
 
   private configSMS(): void {
-    const link = `sms:%20&body=Check out my social card here: ${this.config.baseUrl}contacts/${this.user._id}`;
+    const link = `sms:%20&body=Check out my social card here: ${this.publicLink}`;
     this.linkSMS = this.sanitizeUrl(link);
   }
 
-  private configLink(): void {
-    this.linkCopy = `${this.config.baseUrl}public/${this.user._id}`;
+  private configCopyLink(): void {
+    this.linkCopy = this.publicLink;
   }
 
   private showMessage(value: string): void {
     this.snackBar.open(value, 'Dismiss', {
       duration: 3000
     });
+  }
+
+  private get publicLink(): string {
+    return `${this.config.baseUrl}public/${this.user?._id}`;
   }
 
   private sanitizeUrl(url: string) {

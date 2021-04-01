@@ -9,16 +9,24 @@
         <button routerLink="list" routerLinkActive="active" (click)="goToPage('contacts')" mat-icon-button>
             <mat-icon class="header__icon">list_alt</mat-icon>
         </button>
-        <button mat-icon-button (click)="goToPage('profile')">
-            <mat-icon class="header__icon">perm_identity</mat-icon>
+        <button mat-icon-button (click)="goToPage('share/qr')">
+            <mat-icon class="header__icon">qr_code_2</mat-icon>
         </button>
         <button class="header__icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="goToPage('profile')">
+              <mat-icon>perm_identity</mat-icon>
+              <span>Profile</span>
+          </button>
           <button mat-menu-item (click)="goToPage('share')">
               <mat-icon>share</mat-icon>
               <span>Share</span>
+          </button>
+          <button mat-menu-item (click)="goToPage('settings')">
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
           </button>
           <button mat-menu-item (click)="onLogout()">
               <mat-icon>power_settings_new</mat-icon>

@@ -4,6 +4,7 @@ import { ICustomResponse } from '@interfaces/custom-response.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { IAuthResponse } from '@interfaces/auth-response.interface';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,10 @@ export class AuthService {
   private token: string;
 
   constructor(
-    private apiService: ApiService
-  ) { }
+    private apiService: ApiService,
+    private usersService: UsersService,
+  ) {
+  }
 
   public get currentAuthValue(): IAuthResponse {
     return this.currentAuthSubject.value;
@@ -34,6 +37,7 @@ export class AuthService {
           if (res?.data?.user?.token) {
             this.token = res.data.user.token;
             localStorage.setItem('currentAuth', JSON.stringify(res.data.user));
+            this.usersService.setUser(res.data.user._id);
             this.currentAuthSubject.next({...res.data.user});
           }
 

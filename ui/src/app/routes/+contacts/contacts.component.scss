@@ -50,13 +50,16 @@
   margin: 60px auto;
 }
 
-.align-center-item {
-  max-width: 50%;
-}
 
 .icon--contacts-empty {
   height: auto;
   width: auto;
   font-size: 3.5em;
+  margin-bottom: 15px;
+}
+
+.empty-list-divider {
+  width: 70%;
+  margin: 0 auto;
   margin-bottom: 15px;
 }

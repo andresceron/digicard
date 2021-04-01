@@ -1,7 +1,7 @@
 <sc-title [name]="'Contacts'">
   <ng-template #actions>
     <button mat-icon-button (click)="toggleSearchbar()" routerLinkActive="router-link-active">
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Search contact">{{ isSearchbarVisible ? 'search_off' : 'person_search' }}</mat-icon>
+      <mat-icon>{{ isSearchbarVisible ? 'search_off' : 'person_search' }}</mat-icon>
     </button>
   </ng-template>
 </sc-title>
@@ -42,6 +42,10 @@
     <div class="align-center-item">
       <mat-icon class="icon--contacts-empty" aria-hidden="false" aria-label="No Contacts">contacts</mat-icon>
       <p>NO CONTACTS FOUND</p>
+      <mat-divider class="empty-list-divider"></mat-divider>
+      <p>To get contacts you need to scan some QR's with your smartphone and save them in the app.</p>
+      <p>Go and hunt some contacts</p>
+      <mat-icon>camera_alt</mat-icon><mat-icon>qr_code_2</mat-icon>
     </div>
   </div>
 </ng-template>

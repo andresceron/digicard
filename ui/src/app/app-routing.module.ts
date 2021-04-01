@@ -37,6 +37,11 @@ export const routes: Routes = [
     loadChildren: () => import('./routes/+contacts/contacts.module').then(m => m.ContactsModule)
   },
   {
+    path: 'settings',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./routes/+settings/settings.module').then(m => m.SettingsModule)
+  },
+  {
     path: 'public',
     loadChildren: () => import('./routes/+public/public.module').then(m => m.PublicModule)
   },

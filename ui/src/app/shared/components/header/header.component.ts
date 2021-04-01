@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public activeRoute: string;
 
   private userSubscription: Subscription;
+  private routerSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -50,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private configSubscriptions() {
-    this.router.events.subscribe((event: RouterEvent) => {
+    this.routerSubscription = this.router.events.subscribe((event: RouterEvent) => {
       if (event.url) {
         this.activeRoute = event.url.replace('/', '');
         this.cdr.markForCheck();
@@ -61,6 +62,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+    }
+
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
     }
   }
 

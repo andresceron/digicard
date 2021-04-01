@@ -65,6 +65,10 @@ export class UsersServiceStub {
     return of().pipe();
   }
 
+  getUserData(userId: string) {
+    return of().pipe();
+  }
+
 }
 
 @Injectable()

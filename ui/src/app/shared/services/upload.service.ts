@@ -22,7 +22,6 @@ export class UploadService {
   ) {}
 
   upload( path: string, file: any ) {
-    console.log( 'assss', path, file );
     const options = {
       reportProgress: true,
       observe: 'events'

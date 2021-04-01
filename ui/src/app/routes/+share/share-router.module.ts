@@ -6,7 +6,11 @@ import { ShareComponent } from './share.component';
 const routes: Routes = [
   {
     path: '',
-    component: ShareComponent
+    component: ShareComponent,
+  },
+  {
+    path: 'qr',
+    loadChildren: () => import('./qr/share-qr.module').then(m => m.ShareQrModule)
   }
 ];
 

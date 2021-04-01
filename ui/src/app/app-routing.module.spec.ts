@@ -20,6 +20,6 @@ describe('app-router.module', () => {
   });
 
   it('should have ** as path', () => {
-    expect(routes[9].path).toBe('**');
+    expect(routes[10].path).toBe('**');
   });
 });

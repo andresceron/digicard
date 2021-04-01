@@ -1,30 +1,35 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { ICustomResponse } from '@interfaces/custom-response.interface';
-import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { IUserResponse } from '@interfaces/user-response.interface';
 import { IUser } from '@interfaces/user.interface';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>( undefined );
+  private currentUserSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
-    private apiService: ApiService,
-    private authService: AuthService
+    private apiService: ApiService
   ) {
   }
 
-  public currentAuthValue(): Observable<any> {
+  public getUserData(): Observable<any> {
     return this.currentUserSubject.asObservable();
   }
 
-  public get getUserData(): string {
-    return this.currentUserSubject.getValue();
+  public setUser(userId: string) {
+    return this.apiService
+    .get(`users/${userId}`)
+    .pipe(
+      first()
+    ).subscribe((res: IUserResponse) => {
+      if (res && res.data) {
+        this.currentUserSubject.next(res.data);
+      }
+    });
   }
 
   public getUser(userId: string) {
@@ -33,7 +38,6 @@ export class UsersService {
       .pipe(
         first(),
         map((res: IUserResponse) => {
-          console.log(res);
           if (res && res.data) {
             this.currentUserSubject.next({...res.data});
             return res.data;
@@ -49,7 +53,6 @@ export class UsersService {
       .pipe(
         first(),
         map((res: IUserResponse) => {
-          console.log(res);
           if (res && res.data) {
             return res.data;
           }
@@ -65,7 +68,6 @@ export class UsersService {
         first(),
         // TODO: Add Contact Interface
         map((res: any) => {
-          console.log(res);
           if (res && res.data) {
             return res.data;
           }
