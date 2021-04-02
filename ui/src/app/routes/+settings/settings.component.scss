@@ -1,1 +1,7 @@
 @import './src/scss/_exports';
+
+.delete {
+  &__warning {
+      color: setColor(red, dark);
+  }
+}

@@ -67,13 +67,12 @@ export class UsersService {
       );
   }
 
-  public saveContact(userId: string, contactId: string) {
+  public deleteUser(userId: string) {
     return this.apiService
-      .patch(`users/${userId}`, contactId)
+      .delete( `users/${userId}`)
       .pipe(
         first(),
-        // TODO: Add Contact Interface
-        map((res: any) => {
+        map((res: IUserResponse) => {
           if (res && res.data) {
             return res.data;
           }

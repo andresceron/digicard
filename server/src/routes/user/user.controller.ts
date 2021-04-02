@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { NextFunction, Request, Response } from 'express';
-import fs = require('fs');
 import User from '../../models/user.model';
 import DataForm from '../../helpers/data-form';
-import { ConflictError, InternalServerError, NotFoundError, UnauthorizedError } from '../../helpers/api-error';
-import Logger from '../../loaders/logger';
+import { InternalServerError, UnauthorizedError } from '../../helpers/api-error';
 
 /**
  * Load user and append to req.

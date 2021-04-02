@@ -6,15 +6,22 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Delete Account
+          <b>Delete Account</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <p>Do you want to delete your account?</p>
-      <p>Just a reminder that this action is irreversible</p>
-      <div class="m-b-30 text-center">
-        <a mat-raised-button color="warn" class="button button__delete">
-          <mat-icon aria-hidden="false" aria-label="Delete avatar">delete</mat-icon>
-          <span class="m-l-5">Delete Account</span>
+      <p>{{preDeleteMessage}}</p>
+      <div class="m-t-15 m-b-15 text-center">
+        <a mat-raised-button color="warn" class="button button__delete" (click)="confirmDeleteAction()" *ngIf="!confirmDelete">
+          <span>Delete Account</span>
+        </a>
+      </div>
+      <div class="m-t-15 m-b-15 text-center" *ngIf="confirmDelete">
+        <p class="delete__warning"><b>This action is irreversible</b></p>
+        <a mat-raised-button color="warn" class="button button__delete m-r-10" (click)="deleteUser()">
+          <span>Confirm</span>
+        </a>
+        <a mat-raised-button color="warn" class="button button__delete" (click)="confirmDeleteAction()">
+          <span>Cancel</span>
         </a>
       </div>
     </mat-expansion-panel>
