@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   public get hasUser() {
-    return !!this.user?._id
+    return !!this.user?._id;
   }
 
   public setUser(userId: string) {

@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class SvgComponent {
-  @Input() name: String;
+  @Input() name: string;
 
   constructor() {}
 

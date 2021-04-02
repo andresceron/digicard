@@ -103,16 +103,6 @@
     "ts-node": "8.10.2"
   },
   "license": "MIT",
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test && lint-staged"
-    }
-  },
-  "lint-staged": {
-    "server/*.{js,ts,tsx}": [
-      "eslint --fix"
-    ]
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
