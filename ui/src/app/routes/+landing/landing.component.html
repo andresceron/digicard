@@ -18,16 +18,16 @@
 
                             <ul class="navbar-nav ml-auto align-items-baseline">
                               <li class="nav-item page-scroll" [ngClass]="{ 'active': pageId == 'home' }">
-                                <a class="" (click)="clickedMenu('home')" href="#home">Home</a>
+                                <a (click)="clickedMenu('home')" href="#home">Home</a>
                               </li>
                               <li class="nav-item page-scroll" [ngClass]="{ 'active': pageId == 'why' }">
-                                <a class="" (click)="clickedMenu('why')" href="#why">Why</a>
+                                <a (click)="clickedMenu('why')" href="#why">Why</a>
                               </li>
                               <li class="nav-item page-scroll" [ngClass]="{ 'active': pageId == 'features' }">
-                                <a class="" (click)="clickedMenu('features')" href="#features">Features</a>
+                                <a (click)="clickedMenu('features')" href="#features">Features</a>
                               </li>
                               <li class="nav-item access__app">
-                                <a href="">Go To App</a>
+                                <a [routerLink]="[/login]">Go To App</a>
                               </li>
                             </ul>
 
