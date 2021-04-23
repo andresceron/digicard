@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
 
@@ -9,11 +9,12 @@ declare let gtag: Function;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public isRoot: boolean = false;
+  public hideHeader: boolean = false;
 
   constructor(
-    public router: Router,
-    public ngccService: NgcCookieConsentService
+    public ngccService: NgcCookieConsentService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -21,10 +22,12 @@ export class AppComponent implements OnInit {
           'page_path': event.urlAfterRedirects
         });
       }
+
+      this.hideHeader = this.router.url === '/' || this.router.url === '/login';
     });
   }
 
   public ngOnInit() {
-    this.isRoot = this.router.url === '/';
+    this.hideHeader = this.router.url === '/' || this.router.url === '/login';
   }
 }
