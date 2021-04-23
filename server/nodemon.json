@@ -8,7 +8,7 @@
     "src/**/*.spec.ts"
   ],
   "watch": [
-    "server/src",
+    "src",
     ".env"
   ],
   "execMap": {

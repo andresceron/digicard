@@ -12,10 +12,11 @@
     "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
     "MONGODB_URI": "mongodb+srv://dbReadWrite:j2ILjK0RgMMeaSuB@cluster0-fdnhd.mongodb.net/node-angular?retryWrites=true&w=majority",
     "MONGODB_PORT": 27017,
-    "AWS_ID": "AKIAJMEGTTQSGCMV575A",
-    "AWS_SECRET": "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",
+    "AWS_ID": "AKIAZ4SYXYXXQDI3CNVI",
+    "AWS_SECRET": "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",
     "AWS_REGION": "eu-west-1",
-    "AWS_BUCKET_NAME": "socialar-profile-test"
+    "AWS_BUCKET_NAME": "socialar-avatar-test",
+    "SENDGRID_API_KEY": "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"
   },
   "env_production": {
     "NODE_ENV": "production",
@@ -23,9 +24,10 @@
     "JWT_SECRET": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
     "MONGODB_URI": "mongodb://database:27017/socialar",
     "MONGODB_PORT": 27017,
-    "AWS_ID": "AKIAJMEGTTQSGCMV575A",
-    "AWS_SECRET": "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",
+    "AWS_ID": "AKIAZ4SYXYXXQDI3CNVI",
+    "AWS_SECRET": "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",
     "AWS_REGION": "eu-west-1",
-    "AWS_BUCKET_NAME": "socialar-profile-prod"
+    "AWS_BUCKET_NAME": "socialar-avatar-prod",
+    "SENDGRID_API_KEY": "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"
   }
 }

@@ -184,7 +184,7 @@ export class ProfileComponent implements OnInit {
         return;
       }
 
-      social.fullUrl = social.baseUrl.replace(this.socialReplacePattern, social.value);
+      social.fullUrl = social.baseUrl?.replace(this.socialReplacePattern, social?.value);
     });
   }
 

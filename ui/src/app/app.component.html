@@ -1,7 +1,7 @@
 <!-- <sc-hero></sc-hero> -->
 <div class="sc-root">
-  <sc-header></sc-header>
+  <sc-header *ngIf="!isRoot"></sc-header>
   <router-outlet></router-outlet>
   <!-- <sc-footer></sc-footer> -->
-  <sc-svg-defs></sc-svg-defs>
+  <!-- <sc-svg-defs></sc-svg-defs> -->
 </div>

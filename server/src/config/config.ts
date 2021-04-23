@@ -24,7 +24,8 @@ const envVarsSchema = Joi.object({
   AWS_ID: Joi.string(),
   AWS_SECRET: Joi.string(),
   AWS_REGION: Joi.string(), // .default('eu-west-1'),
-  AWS_BUCKET_NAME: Joi.string() //.default('angularnode2')
+  AWS_BUCKET_NAME: Joi.string(), //.default('angularnode2'),
+  SENDGRID_API_KEY: Joi.string()
 })
   .unknown()
   .required();
@@ -52,6 +53,9 @@ const config = {
     secret: envVars.AWS_SECRET,
     region: envVars.AWS_REGION,
     bucket_name: envVars.AWS_BUCKET_NAME
+  },
+  sendgrid: {
+    api: envVars.SENDGRID_API_KEY
   },
   baseUrl:
     envVars.NODE_ENV === NODE_ENV.PROD

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
 
@@ -8,7 +8,8 @@ declare let gtag: Function;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  public isRoot: boolean = false;
 
   constructor(
     public router: Router,
@@ -21,5 +22,9 @@ export class AppComponent {
         });
       }
     });
+  }
+
+  public ngOnInit() {
+    this.isRoot = this.router.url === '/';
   }
 }

@@ -1,0 +1,233 @@
+<div>
+  <header class="header-area">
+      <div [ngClass]="{'sticky' : isSticky, navbar__background: toggleMenu && this.innerWidth}" class="navbar-area">
+          <div class="container" [ngClass]="{'navbar__background': toggleMenu && this.innerWidth }">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <nav class="navbar navbar-expand-lg">
+                          <a class="navbar-brand" [routerLink]="['/']">
+                              <img src="assets/images/landing/logo-dark.svg" alt="Logo">
+                          </a>
+
+                          <button class="navbar-toggler second-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent23" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleMenu = !toggleMenu">
+                            <div class="animated-icon2" [ngClass]="{'open': toggleMenu}"><span></span><span></span><span></span><span></span></div>
+                          </button>
+
+                          <div class="collapse navbar-collapse" [ngClass]="{'navbar__transition' : toggleMenu}" id="navbarSupportedContent">
+
+                            <ul class="navbar-nav ml-auto align-items-baseline">
+                              <li class="nav-item page-scroll" [ngClass]="{ 'active': pageId == 'home' }">
+                                <a class="" (click)="clickedMenu('home')" href="#home">Home</a>
+                              </li>
+                              <li class="nav-item page-scroll" [ngClass]="{ 'active': pageId == 'why' }">
+                                <a class="" (click)="clickedMenu('why')" href="#why">Why</a>
+                              </li>
+                              <li class="nav-item page-scroll" [ngClass]="{ 'active': pageId == 'features' }">
+                                <a class="" (click)="clickedMenu('features')" href="#features">Features</a>
+                              </li>
+                              <li class="nav-item access__app">
+                                <a href="">Go To App</a>
+                              </li>
+                            </ul>
+
+                          </div>
+
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div id="home" #home class="header-hero bg_cover d-lg-flex align-items-center">
+
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
+          <div class="shape shape-5"></div>
+          <div class="shape shape-6"></div>
+
+          <div class="container">
+              <div class="row align-items-center justify-content-center justify-content-lg-between">
+                  <div class="col-lg-6 col-md-10">
+                      <div class="header-hero-content">
+                          <h3 class="header-title wow animate__animated animate__fadeInLeftBig animate__delay-1 animate__duration--3">Welcome to <span>Socialar</span></h3>
+                          <p class="text wow animate__animated animate__fadeInLeftBig animate__delay-3 animate__duration--3">The digital visitcard that holds all your social names and shareable with your personal QR.</p>
+                          <ul class="d-flex">
+                              <li><a [routerLink]="['/register']" rel="nofollow" class="main-btn wow animate__animated animate__fadeInLeftBig animate__delay-4 animate__duration--3">Register Now</a></li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-10">
+                      <div class="header-image">
+                          <img src="assets/images/landing/screen-header.png" alt="app" class="image wow animate__animated animate__fadeInRightBig animate__duration--3">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="header-shape-1"></div>
+          <div class="header-shape-2">
+              <img src="assets/images/landing/header-shape-2.svg" alt="shape">
+          </div>
+      </div>
+  </header>
+
+  <section id="why" #why class="services-area p-t-100 p-b-100">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-lg-7">
+                  <div class="section-title text-center p-b-25">
+                      <h3 class="title">Why use Socialar? </h3>
+                      <!-- <p class="text">The top 4 features on why you should use Socialar.</p> -->
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-3 col-sm-6">
+                  <div class="single-services services-color-1 text-center m-t-30 wow animate__animated animate__fadeInUpBig animate__delay-1 animate__duration--3">
+                      <div class="services-icon d-flex align-items-center justify-content-center">
+                        <img src="assets/images/landing/layers.svg" />
+                      </div>
+                      <div class="services-content">
+                          <h4 class="services-title"><a href="javascript:void(0)">Digital Visitcard</a></h4>
+                          <p class="text">No need to have visitcards in paperform any more. Digital all the way!</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6">
+                  <div class="single-services services-color-2 text-center m-t-30 wow animate__animated animate__fadeInUpBig animate__delay-2 animate__duration--3">
+                      <div class="services-icon d-flex align-items-center justify-content-center">
+                        <img src="assets/images/landing/layout.svg" />
+                      </div>
+                      <div class="services-content">
+                          <h4 class="services-title"><a href="javascript:void(0)">Social Profile</a></h4>
+                          <p class="text">You can customize your profile with your social accounts.</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6">
+                  <div class="single-services services-color-3 text-center m-t-30 wow animate__animated animate__fadeInUpBig animate__delay-3 animate__duration--3">
+                      <div class="services-icon d-flex align-items-center justify-content-center">
+                        <img src="assets/images/landing/users.svg" />
+                      </div>
+                      <div class="services-content">
+                          <h4 class="services-title"><a href="javascript:void(0)">Easy contacts</a></h4>
+                          <p class="text">Scan a persons QR, save it and you will see it stored in your account</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6">
+                  <div class="single-services services-color-4 text-center m-t-30 wow animate__animated animate__fadeInUpBig animate__delay-4 animate__duration--3">
+                      <div class="services-icon d-flex align-items-center justify-content-center">
+                        <img src="assets/images/landing/frame-expand.svg" />
+                      </div>
+                      <div class="services-content">
+                          <h4 class="services-title"><a href="javascript:void(0)">Personal QR</a></h4>
+                          <p class="text">Share your contact with just 1 click showing your personal QR</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section id="features" #features class="about-area p-t-75 p-b-100">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-6">
+                  <div class="about-image m-t-50 wow animate__animated animate__fadeInLeftBig animate__delay-2 animate__duration--3">
+                      <div class="about-shape"></div>
+                      <img class="app" src="assets/images/landing/screen-01.png" alt="app">
+                  </div>
+              </div>
+              <div class="col-lg-6">
+                  <div class="about-content m-t-50 wow animate__animated animate__fadeInRightBig animate__delay-2 animate__duration--3">
+                      <div class="section-title">
+                          <h3 class="title light">Your own customizable profile with social accounts to share</h3>
+                          <p class="text light">Customize your profile with your social accounts you want to share and let other follow you! Any update will be reflected instantly to all your network</p>
+                      </div>
+                      <a [routerLink]="['/login']" rel="nofollow" class="main-btn">Go to App</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="download-area p-t-75 p-b-40">
+      <div class="container">
+          <div class="row justify-content-center align-items-center">
+              <div class="col-lg-6 col-md-9">
+                  <div class="download-image m-t-50 wow animate__animated animate__fadeInRightBig animate__duration--3 animate__delay-1">
+                      <img class="image" src="assets/images/landing/screen-02.png" alt="download">
+
+                      <div class="download-shape-1"></div>
+                      <div class="download-shape-2">
+                          <img class="svg" src="assets/images/landing/download-shape.svg" alt="shape">
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-6">
+                  <div class="download-content m-t-45 wow animate__animated animate__fadeInLeftBig animate__duration--3 animate__delay-2">
+                      <h3 class="download-title">Expand your network</h3>
+                      <p class="text m-b-40">Scan some QR's and save their contact in your account and have it accessible directly! Any update they make to their profile will be reflected in your account</p>
+                      <a [routerLink]="['/login']" rel="nofollow" class="main-btn">Go to App</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <footer id="footer" class="footer-area">
+
+      <div class="footer-shape shape-1"></div>
+      <div class="footer-shape shape-2"></div>
+      <div class="footer-shape shape-3"></div>
+      <div class="footer-shape shape-4"></div>
+      <div class="footer-shape shape-5"></div>
+      <div class="footer-shape shape-6"></div>
+      <div class="footer-shape shape-7"></div>
+
+      <div class="footer-widget p-t-30 p-b-30">
+          <div class="container">
+              <div class="row align-items-baseline">
+                  <div class="col-lg-6 col-md-6">
+                      <div class="footer-about m-t-50 wow animate__animated animate__fadeIn animate__duration--3 animate__delay-1">
+                          <a class="logo"  [routerLink]="['/']">
+                              <img src="assets/images/landing/logo-dark.svg" alt="Logo">
+                          </a>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 text-right">
+                      <div class="footer-link d-flex flex-column flex-md-row justify-content-md-end">
+                          <div class="footer-link-wrapper m-t-45 p-r-20 wow animate__animated animate__fadeIn animate__duration--3 animate__delay-2">
+                              <div class="footer-title">
+                                  <div class="info-content media-body">
+                                    <p class="text"><a href="mailto:info@socialar.app"><sc-svg name="icon-envelope"></sc-svg> info@socialar.app</a></p>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="footer-copyright">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="copyright d-sm-flex justify-content-center">
+                          <div class="copyright-text text-center">
+                              <p class="text">Copyright &copy; 2021 | <a rel="nofollow" href="https://zeroncode.com">ZeronCode</a></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="lni lni-chevron-up"></i></a>
+
+</div>

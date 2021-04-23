@@ -1,7 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { INTERCEPTORS } from '@interceptors/providers';
 import { SERVICES } from '@services/providers';
 import { COMPONENTS_PROVIDERS } from '@components/providers';
@@ -22,7 +21,8 @@ import { PRE_HOOKS_PROVIDERS } from '@hooks/providers';
     SERVICES,
     INTERCEPTORS,
     COMPONENTS_PROVIDERS,
-  ]
+  ],
+  declarations: []
 })
 
 export class CoreModule {
