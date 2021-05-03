@@ -7,7 +7,7 @@
 @function em($pixels, $context: $main-font-size) {
   @return #{$pixels / $context}em;
 }
-  
+
 // Function to enter two levels MAP format
 // ----------------------------------------------------------------------------
 @function map-fetch($map, $keys) {
@@ -20,12 +20,12 @@
       $rest: append($rest, nth($keys, $i));
     }
     @return map-fetch($value, $rest);
-  } 
+  }
   @else {
     @return $value;
   }
 }
-  
+
 // Function to set color taked from Color MAP. Must to indicate Color and Tone
 // ----------------------------------------------------------------------------
 @function setColor($color, $tone: 'base') {
@@ -39,7 +39,7 @@
  * @param $size - the value in pixel you want to convert
  *
  * e.g. p {@include fontSize(12px);}
- * 
+ *
  */
 
 @function calculateRem($size) {
@@ -56,7 +56,7 @@ $sides: (top, bottom, left, right); // Leave this variable alone
     .m-#{str-slice($side, 0, 1)}-#{$space} {
       margin-#{$side}: #{$space}px !important;
     }
-  
+
     .p-#{str-slice($side, 0, 1)}-#{$space} {
       padding-#{$side}: #{$space}px !important;
     }
